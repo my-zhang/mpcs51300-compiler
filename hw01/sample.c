@@ -1,5 +1,5 @@
 // External function extern 
-int foo2(int x); 
+extern int foo2(int x); 
 
 /* Function 
  * a foo func
