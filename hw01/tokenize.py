@@ -1,14 +1,25 @@
 import sys
 import lex
 
+reserved = {
+   'if' : 'IF',
+   'else' : 'ELSE',
+   'while' : 'WHILE',
+   'for' : 'FOR',
+   'do' : 'DO',
+   'int' : 'INT',
+   'string' : 'STRING',
+   'extern' : 'EXTERN',
+   'return' : 'RETURN'
+}
+
 tokens = ['ADD', 'SUB', 'MUL', 'DIV', 'MOD', 'NUMBER', 'FLOAT',
           'EQ', 'NE', 'NOT', 'LT', 'GT', 'LE', 'GE', 'ASSIGN',
           'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LSHIFT', 'RSHIFT',
-          'SEMICOLON', 'RETURN', 'IF', 'ELSE', 'FOR', 'WHILE', 'DO',
-          'INT', 'STRING', 'EXTERN', 'NAME',
-          'ADD_ASSIGN', 'SUB_ASSIGN', 'MUL_ASSIGN', 'DIV_ASSIGN', 'MOD_ASSIGN']
+          'SEMICOLON', 'ID', 'ADD_ASSIGN', 'SUB_ASSIGN', 'MUL_ASSIGN', 
+          'DIV_ASSIGN', 'MOD_ASSIGN']+ list(reserved.values())
 
-t_ignore = ' \t\n'
+t_ignore = ' \t'
 
 t_ADD = r'\+'
 t_SUB = r'-'
@@ -41,41 +52,12 @@ t_RBRACE = r'}'
 
 t_SEMICOLON = r';'
 
-def t_FOR(t):
-    r'for'
-    return t
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
-def t_WHILE(t):
-    r'while'
-    return t
-
-def t_DO(t):
-    r'do'
-    return t
-
-def t_INT(t):
-    r'int'
-    return t
-
-def t_STRING(t):
-    r'string'
-    return t
-
-def t_EXTERN(t):
-    r'extern'
-    return t
-
-def t_IF(t):
-    r'if'
-    return t
-
-def t_ELSE(t):
-    r'else'
-    return t
-
-def t_RETURN(t):
-    r'return'
-    return t
+def t_error(t):
+    raise SyntaxError("syntax error on line %d near '%s'\n" % (t.lineno, t.value))
 
 def t_FLOAT(t):
     r'\d+\.\d+'
@@ -87,8 +69,10 @@ def t_NUMBER(t):
     t.value = float(t.value)
     return t
 
-def t_NAME(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'ID')   
+    #t.value = (t.value, symbol_lookup(t.value))
     return t
 
 if __name__ == '__main__':
@@ -98,5 +82,5 @@ if __name__ == '__main__':
         t = lex.token()
         if not t:
             break
-        print t
+        print t.value,':',t.type
 
