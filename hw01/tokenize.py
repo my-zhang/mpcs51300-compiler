@@ -72,7 +72,7 @@ def t_NUMBER(t):
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')   
-    #t.value = (t.value, symbol_lookup(t.value))
+    # t.value = (t.value, symbol_lookup(t.value))
     return t
 
 if __name__ == '__main__':
@@ -82,5 +82,5 @@ if __name__ == '__main__':
         t = lex.token()
         if not t:
             break
-        print t.value,':',t.type
+        print t.value, '\t:\t', t.type
 
