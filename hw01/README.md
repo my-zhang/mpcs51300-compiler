@@ -3,6 +3,7 @@ Compiler Design Part I – Parsing
 ================================
 
 Mengyu Zhang mengyuzhang@uchicago.edu
+
 Xiang Li lix1@uchicago.edu
 
 - `sample.c` sample C source code;
