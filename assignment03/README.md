@@ -46,6 +46,17 @@ Implement this grammar using the library of your choice and calculate the follow
 
 - 3*(1+2)/(1);
 
+Implemention in `calc.py`
+
+```
+$ echo "3;2/3*(1-3);5+3*2;" | python calc.py
+[3, 0, 11]
+$ 
+$ echo "3*(1+2)/(1);" | python calc.py
+[9]
+```
+
+
 Exercise 2
 ----------
 
