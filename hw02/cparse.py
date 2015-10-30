@@ -705,56 +705,31 @@ def p_additive_expression_3(t):
 # multiplicative-expression
 
 def p_multiplicative_expression_1(t):
-    'multiplicative_expression : cast_expression'
+    'multiplicative_expression : unary_expression'
     pass
 
 def p_multiplicative_expression_2(t):
-    'multiplicative_expression : multiplicative_expression TIMES cast_expression'
+    'multiplicative_expression : multiplicative_expression TIMES unary_expression'
     pass
 
 def p_multiplicative_expression_3(t):
-    'multiplicative_expression : multiplicative_expression DIVIDE cast_expression'
+    'multiplicative_expression : multiplicative_expression DIVIDE unary_expression'
     pass
 
 def p_multiplicative_expression_4(t):
-    'multiplicative_expression : multiplicative_expression MOD cast_expression'
+    'multiplicative_expression : multiplicative_expression MOD unary_expression'
     pass
 
-# cast-expression:
-
-def p_cast_expression_1(t):
-    'cast_expression : unary_expression'
-    pass
-
-def p_cast_expression_2(t):
-    'cast_expression : LPAREN type_name RPAREN cast_expression'
-    pass
 
 # unary-expression:
 def p_unary_expression_1(t):
     'unary_expression : postfix_expression'
-    pass
+    t[0] = t[1]
 
 def p_unary_expression_2(t):
-    'unary_expression : PLUSPLUS unary_expression'
-    pass
+    'unary_expression : unary_operator unary_expression'
+    t[0] = t[1], t[2]
 
-def p_unary_expression_3(t):
-    'unary_expression : MINUSMINUS unary_expression'
-    pass
-
-def p_unary_expression_4(t):
-    'unary_expression : unary_operator cast_expression'
-    pass
-
-def p_unary_expression_5(t):
-    'unary_expression : SIZEOF unary_expression'
-    pass
-
-def p_unary_expression_6(t):
-    'unary_expression : SIZEOF LPAREN type_name RPAREN'
-    pass
-    
 #unary-operator
 def p_unary_operator(t):
     '''unary_operator : AND
@@ -799,12 +774,15 @@ def p_postfix_expression_8(t):
     pass
 
 # primary-expression:
-def p_primary_expression(t):
-    '''primary_expression :  ID
-                        |  constant
-                        |  SCONST
-                        |  LPAREN expression RPAREN'''
-    pass
+def p_primary_expression_1(t):
+    '''primary_expression : ID
+                          | constant
+                          | SCONST'''
+    t[0] = t[1]
+
+def p_primary_expression_2(t):
+    '''primary_expression : LPAREN expression RPAREN'''
+    t[0] = t[2]
 
 # argument-expression-list:
 def p_argument_expression_list(t):
@@ -817,18 +795,16 @@ def p_constant(t):
    '''constant : ICONST
               | FCONST
               | CCONST'''
-   pass
+   t[0] = t[1]
 
 
 def p_empty(t):
     'empty : '
-    pass
+    t[0] = None
 
 def p_error(t):
     print "Whoa. We're hosed"
 
-import profile
-# Build the grammar
 
 parser = yacc.yacc(method='LALR')
 
@@ -836,4 +812,3 @@ if __name__ == '__main__':
     s = sys.stdin.read()
     parser.parse(s)
 
-#profile.run("yacc.yacc(method='LALR')")
