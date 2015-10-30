@@ -5,95 +5,97 @@
 # -----------------------------------------------------------------------------
 
 import sys
+import pprint
+
 import clex
 import ply.yacc as yacc
 
+pp = pprint.PrettyPrinter(indent=4)
+
 # Get the token map
 tokens = clex.tokens
+
+# Symbol Table
+ST = {}
 
 # translation-unit:
 
 def p_translation_unit_1(t):
     'translation_unit : external_declaration'
-    pass
+    t[0] = [t[1]]
+    pp.pprint(t[0])
 
 def p_translation_unit_2(t):
     'translation_unit : translation_unit external_declaration'
-    pass
+    t[0] = t[1] + [t[2]]
+    pp.pprint(t[0])
 
 # external-declaration:
 
 def p_external_declaration_1(t):
     'external_declaration : function_definition'
-    print 'e'
-    pass
+    t[0] = 'FUNC_DEF', t[1]
 
 def p_external_declaration_2(t):
     'external_declaration : declaration'
-    pass
+    t[0] = 'VARS_DEC', t[1]
 
 # function-definition:
 
 def p_function_definition_1(t):
     'function_definition : declaration_specifiers declarator declaration_list compound_statement'
-    pass
+    t[0] = 'FUNC_DEF_1', t[1], t[2], t[3], t[4]
 
 def p_function_definition_2(t):
     'function_definition : declarator declaration_list compound_statement'
-    pass
+    t[0] = 'FUNC_DEF_2', t[1], t[2], t[3]
 
 def p_function_definition_3(t):
     'function_definition : declarator compound_statement'
-    pass
+    t[0] = 'FUNC_DEF_3', t[1], t[2]
 
 def p_function_definition_4(t):
     'function_definition : declaration_specifiers declarator compound_statement'
-    pass
+    t[0] = 'FUNC_DEF_4', t[1], t[2], t[3]
 
 # declaration:
 
 def p_declaration_1(t):
     'declaration : declaration_specifiers init_declarator_list SEMI'
-    pass
+    t[0] = 'VAR_DEC', t[0], t[2]
 
 def p_declaration_2(t):
     'declaration : declaration_specifiers SEMI'
-    pass
+    t[0] = t[1]
 
 # declaration-list:
 
 def p_declaration_list_1(t):
     'declaration_list : declaration'
-    pass
+    t[0] = [t[1]]
 
 def p_declaration_list_2(t):
     'declaration_list : declaration_list declaration '
-    pass
+    t[0] = t[1] + [t[2]]
 
 # declaration-specifiers
 def p_declaration_specifiers_1(t):
     'declaration_specifiers : storage_class_specifier declaration_specifiers'
-    pass
+    t[0] = t[1], t[2]
 
 def p_declaration_specifiers_2(t):
     'declaration_specifiers : type_specifier declaration_specifiers'
-    pass
+    t[0] = t[1], t[2]
+
 
 def p_declaration_specifiers_3(t):
-    'declaration_specifiers : type_qualifier declaration_specifiers'
-    pass
+    'declaration_specifiers : storage_class_specifier'
+    t[0] = t[1]
 
 def p_declaration_specifiers_4(t):
-    'declaration_specifiers : storage_class_specifier'
-    pass
-
-def p_declaration_specifiers_5(t):
     'declaration_specifiers : type_specifier'
-    pass
+    t[0] = t[1]
 
-def p_declaration_specifiers_6(t):
-    'declaration_specifiers : type_qualifier'
-    pass
 
 # storage-class-specifier
 def p_storage_class_specifier(t):
@@ -120,13 +122,8 @@ def p_type_specifier(t):
                       | enum_specifier
                       | TYPEID
                       '''
-    pass
+    t[0] = t[1]
 
-# type-qualifier:
-def p_type_qualifier(t):
-    '''type_qualifier : CONST
-                      | VOLATILE'''
-    pass
 
 # struct-or-union-specifier
 
@@ -163,21 +160,21 @@ def p_struct_declaration_list_2(t):
 
 def p_init_declarator_list_1(t):
     'init_declarator_list : init_declarator'
-    pass
+    t[0] = [t[1]]
 
 def p_init_declarator_list_2(t):
     'init_declarator_list : init_declarator_list COMMA init_declarator'
-    pass
+    t[0] = t[1] + [t[3]]
 
 # init-declarator
 
 def p_init_declarator_1(t):
     'init_declarator : declarator'
-    pass
+    t[0] = 'INIT_DEC_1', t[1]
 
 def p_init_declarator_2(t):
     'init_declarator : declarator EQUALS initializer'
-    pass
+    t[0] = 'INIT_DEC_2', t[1], t[3]
 
 # struct-declaration:
 
@@ -195,13 +192,6 @@ def p_specifier_qualifier_list_2(t):
     'specifier_qualifier_list : type_specifier'
     pass
 
-def p_specifier_qualifier_list_3(t):
-    'specifier_qualifier_list : type_qualifier specifier_qualifier_list'
-    pass
-
-def p_specifier_qualifier_list_4(t):
-    'specifier_qualifier_list : type_qualifier'
-    pass
 
 # struct-declarator-list:
 
@@ -267,13 +257,14 @@ def p_declarator_1(t):
 
 def p_declarator_2(t):
     'declarator : direct_declarator'
-    pass
+    t[0] = t[1]
+    # print t[0]
 
 # direct-declarator:
 
 def p_direct_declarator_1(t):
     'direct_declarator : ID'
-    pass
+    t[0] = t[1]
 
 def p_direct_declarator_2(t):
     'direct_declarator : LPAREN declarator RPAREN'
@@ -285,67 +276,51 @@ def p_direct_declarator_3(t):
 
 def p_direct_declarator_4(t):
     'direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN '
-    pass
+    t[0] = (t[1], t[3])
 
 def p_direct_declarator_5(t):
     'direct_declarator : direct_declarator LPAREN identifier_list RPAREN '
-    pass
+    t[0] = t[1]
 
 def p_direct_declarator_6(t):
     'direct_declarator : direct_declarator LPAREN RPAREN '
     pass
 
 # pointer:
-def p_pointer_1(t):
-    'pointer : TIMES type_qualifier_list'
-    pass
 
-def p_pointer_2(t):
+def p_pointer_1(t):
     'pointer : TIMES'
     pass
 
-def p_pointer_3(t):
-    'pointer : TIMES type_qualifier_list pointer'
-    pass
-
-def p_pointer_4(t):
+def p_pointer_2(t):
     'pointer : TIMES pointer'
     pass
 
-# type-qualifier-list:
-
-def p_type_qualifier_list_1(t):
-    'type_qualifier_list : type_qualifier'
-    pass
-
-def p_type_qualifier_list_2(t):
-    'type_qualifier_list : type_qualifier_list type_qualifier'
-    pass
 
 # parameter-type-list:
 
 def p_parameter_type_list_1(t):
     'parameter_type_list : parameter_list'
-    pass
+    t[0] = t[1]
 
-def p_parameter_type_list_2(t):
-    'parameter_type_list : parameter_list COMMA ELLIPSIS'
-    pass
+# def p_parameter_type_list_2(t):
+#     'parameter_type_list : parameter_list COMMA ELLIPSIS'
+#     pass
 
 # parameter-list:
 
 def p_parameter_list_1(t):
     'parameter_list : parameter_declaration'
-    pass
+    t[0] = [t[1]]
 
 def p_parameter_list_2(t):
     'parameter_list : parameter_list COMMA parameter_declaration'
-    pass
+    t[0] = t[1] + [t[3]]
 
 # parameter-declaration:
 def p_parameter_declaration_1(t):
     'parameter_declaration : declaration_specifiers declarator'
-    pass
+    t[0] = t[1], t[2]
 
 def p_parameter_declaration_2(t):
     'parameter_declaration : declaration_specifiers abstract_declarator_opt'
@@ -460,7 +435,7 @@ def p_statement(t):
               | iteration_statement
               | jump_statement
               '''
-    pass
+    t[0] = 'STAT', t[1]
 
 # labeled-statement:
 
@@ -485,29 +460,29 @@ def p_expression_statement(t):
 
 def p_compound_statement_1(t):
     'compound_statement : LBRACE declaration_list statement_list RBRACE'
-    pass
+    t[0] = 'COMP_STATS_1', t[2] + t[3]
 
 def p_compound_statement_2(t):
     'compound_statement : LBRACE statement_list RBRACE'
-    pass
+    t[0] = 'COMP_STATS_2', t[2]
 
 def p_compound_statement_3(t):
     'compound_statement : LBRACE declaration_list RBRACE'
-    pass
+    t[0] = 'COMP_STATS_3', t[2] 
 
 def p_compound_statement_4(t):
     'compound_statement : LBRACE RBRACE'
-    pass
+    t[0] = 'COMP_STATS_4', []
 
 # statement-list:
 
 def p_statement_list_1(t):
     'statement_list : statement'
-    pass
+    t[0] = [t[1]]
 
 def p_statement_list_2(t):
     'statement_list : statement_list statement'
-    pass
+    t[0] = t[1] + [t[2]]
 
 # selection-statement
 
