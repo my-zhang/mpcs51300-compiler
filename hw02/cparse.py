@@ -532,29 +532,25 @@ def p_jump_statement_4(t):
 
 def p_expression_opt_1(t):
     'expression_opt : empty'
-    pass
+    t[0] = t[1]
 
 def p_expression_opt_2(t):
     'expression_opt : expression'
-    pass
+    t[0] = t[1]
 
 # expression:
-def p_expression_1(t):
+def p_expression(t):
     'expression : assignment_expression'
-    pass
-
-def p_expression_2(t):
-    'expression : expression COMMA assignment_expression'
-    pass
+    t[0] = t[1]
 
 # assigment_expression:
 def p_assignment_expression_1(t):
     'assignment_expression : conditional_expression'
-    pass
+    t[0] = t[1]
 
 def p_assignment_expression_2(t):
     'assignment_expression : unary_expression assignment_operator assignment_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 # assignment_operator:
 def p_assignment_operator(t):
@@ -571,7 +567,7 @@ def p_assignment_operator(t):
                         | OREQUAL
                         | XOREQUAL
                         '''
-    pass
+    t[0] = t[1]
 
 # conditional-expression
 def p_conditional_expression_1(t):
@@ -591,21 +587,21 @@ def p_constant_expression(t):
 # logical-or-expression
 
 def p_logical_or_expression_1(t):
-    'logical_or_expression : logical_and_expression'
+    'logical_or_expression : logical_equality_expression'
     pass
 
 def p_logical_or_expression_2(t):
-    'logical_or_expression : logical_or_expression LOR logical_and_expression'
+    'logical_or_expression : logical_or_expression LOR logical_equality_expression'
     pass
 
 # logical-and-expression
 
-def p_logical_and_expression_1(t):
-    'logical_and_expression : inclusive_or_expression'
+def p_logical_equality_expression_1(t):
+    'logical_equality_expression : inclusive_or_expression'
     pass
 
-def p_logical_and_expression_2(t):
-    'logical_and_expression : logical_and_expression LAND inclusive_or_expression'
+def p_logical_equality_expression_2(t):
+    'logical_equality_expression : logical_equality_expression LAND inclusive_or_expression'
     pass
 
 # inclusive-or-expression:
@@ -621,21 +617,11 @@ def p_inclusive_or_expression_2(t):
 # exclusive-or-expression:
 
 def p_exclusive_or_expression_1(t):
-    'exclusive_or_expression :  and_expression'
+    'exclusive_or_expression :  equality_expression'
     pass
 
 def p_exclusive_or_expression_2(t):
-    'exclusive_or_expression :  exclusive_or_expression XOR and_expression'
-    pass
-
-# AND-expression
-
-def p_and_expression_1(t):
-    'and_expression : equality_expression'
-    pass
-
-def p_and_expression_2(t):
-    'and_expression : and_expression AND equality_expression'
+    'exclusive_or_expression :  exclusive_or_expression XOR equality_expression'
     pass
 
 
