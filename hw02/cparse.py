@@ -655,38 +655,25 @@ def p_equality_expression_3(t):
 
 # relational-expression:
 def p_relational_expression_1(t):
-    'relational_expression : shift_expression'
+    'relational_expression : additive_expression'
     pass
 
 def p_relational_expression_2(t):
-    'relational_expression : relational_expression LT shift_expression'
+    'relational_expression : relational_expression LT additive_expression'
     pass
 
 def p_relational_expression_3(t):
-    'relational_expression : relational_expression GT shift_expression'
+    'relational_expression : relational_expression GT additive_expression'
     pass
 
 def p_relational_expression_4(t):
-    'relational_expression : relational_expression LE shift_expression'
+    'relational_expression : relational_expression LE additive_expression'
     pass
 
 def p_relational_expression_5(t):
-    'relational_expression : relational_expression GE shift_expression'
+    'relational_expression : relational_expression GE additive_expression'
     pass
 
-# shift-expression
-
-def p_shift_expression_1(t):
-    'shift_expression : additive_expression'
-    pass
-
-def p_shift_expression_2(t):
-    'shift_expression : shift_expression LSHIFT additive_expression'
-    pass
-
-def p_shift_expression_3(t):
-    'shift_expression : shift_expression RSHIFT additive_expression'
-    pass
 
 # additive-expression
 
@@ -738,7 +725,7 @@ def p_unary_operator(t):
                     | MINUS
                     | NOT
                     | LNOT '''
-    pass
+    t[0] = t[1]
 
 # postfix-expression:
 def p_postfix_expression_1(t):
