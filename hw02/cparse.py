@@ -506,7 +506,7 @@ def p_iteration_statement_1(t):
 
 def p_iteration_statement_2(t):
     'iteration_statement : FOR LPAREN expression_opt SEMI expression_opt SEMI expression_opt RPAREN statement '
-    pass
+    t[0] = 'ITER_STAT_2', t[3], t[5], t[7], t[9]
 
 def p_iteration_statement_3(t):
     'iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI'
@@ -730,7 +730,7 @@ def p_unary_operator(t):
 # postfix-expression:
 def p_postfix_expression_1(t):
     'postfix_expression : primary_expression'
-    pass
+    t[0] = t[1]
 
 def p_postfix_expression_2(t):
     'postfix_expression : postfix_expression LBRACKET expression RBRACKET'
@@ -745,18 +745,10 @@ def p_postfix_expression_4(t):
     pass
 
 def p_postfix_expression_5(t):
-    'postfix_expression : postfix_expression PERIOD ID'
-    pass
+    'postfix_expression : postfix_expression PLUSPLUS'
+    t[0] = t[1], t[2]
 
 def p_postfix_expression_6(t):
-    'postfix_expression : postfix_expression ARROW ID'
-    pass
-
-def p_postfix_expression_7(t):
-    'postfix_expression : postfix_expression PLUSPLUS'
-    pass
-
-def p_postfix_expression_8(t):
     'postfix_expression : postfix_expression MINUSMINUS'
     pass
 
