@@ -26,28 +26,29 @@ def p_translation_unit_2(t):
 def p_external_declaration_1(t):
     'external_declaration : function_definition'
     print 'e'
+    pass
 
 def p_external_declaration_2(t):
     'external_declaration : declaration'
-    print 'a'
+    pass
 
 # function-definition:
 
 def p_function_definition_1(t):
     'function_definition : declaration_specifiers declarator declaration_list compound_statement'
-    print 'haha'
+    pass
 
 def p_function_definition_2(t):
     'function_definition : declarator declaration_list compound_statement'
-    print 'haha'
+    pass
 
 def p_function_definition_3(t):
     'function_definition : declarator compound_statement'
-    print 'ahah'
+    pass
 
 def p_function_definition_4(t):
     'function_definition : declaration_specifiers declarator compound_statement'
-    print 'haha'
+    pass
 
 # declaration:
 
@@ -854,5 +855,10 @@ def p_error(t):
 import profile
 # Build the grammar
 
-yacc.yacc(method='LALR')
+parser = yacc.yacc(method='LALR')
 
+if __name__ == '__main__':
+    s = sys.stdin.read()
+    parser.parse(s)
+
+#profile.run("yacc.yacc(method='LALR')")
