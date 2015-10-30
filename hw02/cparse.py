@@ -571,11 +571,11 @@ def p_assignment_operator(t):
 
 # conditional-expression
 def p_conditional_expression_1(t):
-    'conditional_expression : logical_or_expression'
+    'conditional_expression : equality_expression'
     pass
 
 def p_conditional_expression_2(t):
-    'conditional_expression : logical_or_expression CONDOP expression COLON conditional_expression '
+    'conditional_expression : equality_expression CONDOP expression COLON conditional_expression '
     pass
 
 # constant-expression
@@ -584,48 +584,8 @@ def p_constant_expression(t):
     'constant_expression : conditional_expression'
     pass
 
-# logical-or-expression
-
-def p_logical_or_expression_1(t):
-    'logical_or_expression : logical_equality_expression'
-    pass
-
-def p_logical_or_expression_2(t):
-    'logical_or_expression : logical_or_expression LOR logical_equality_expression'
-    pass
-
-# logical-and-expression
-
-def p_logical_equality_expression_1(t):
-    'logical_equality_expression : inclusive_or_expression'
-    pass
-
-def p_logical_equality_expression_2(t):
-    'logical_equality_expression : logical_equality_expression LAND inclusive_or_expression'
-    pass
-
-# inclusive-or-expression:
-
-def p_inclusive_or_expression_1(t):
-    'inclusive_or_expression : exclusive_or_expression'
-    pass
-
-def p_inclusive_or_expression_2(t):
-    'inclusive_or_expression : inclusive_or_expression OR exclusive_or_expression'
-    pass
-
-# exclusive-or-expression:
-
-def p_exclusive_or_expression_1(t):
-    'exclusive_or_expression :  equality_expression'
-    pass
-
-def p_exclusive_or_expression_2(t):
-    'exclusive_or_expression :  exclusive_or_expression XOR equality_expression'
-    pass
-
-
 # equality-expression:
+
 def p_equality_expression_1(t):
     'equality_expression : relational_expression'
     pass
