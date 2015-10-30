@@ -338,7 +338,7 @@ def p_identifier_list_2(t):
 # initializer:
 
 def p_initializer_1(t):
-    'initializer : assignment_expression'
+    'initializer : expression'
     pass
 
 def p_initializer_2(t):
@@ -539,17 +539,13 @@ def p_expression_opt_2(t):
     t[0] = t[1]
 
 # expression:
-def p_expression(t):
-    'expression : assignment_expression'
+
+def p_expression_1(t):
+    'expression : equality_expression'
     t[0] = t[1]
 
-# assigment_expression:
-def p_assignment_expression_1(t):
-    'assignment_expression : conditional_expression'
-    t[0] = t[1]
-
-def p_assignment_expression_2(t):
-    'assignment_expression : unary_expression assignment_operator assignment_expression'
+def p_expression_2(t):
+    'expression : unary_expression assignment_operator expression'
     t[0] = t[1], t[2], t[3]
 
 # assignment_operator:
@@ -561,31 +557,16 @@ def p_assignment_operator(t):
                         | MODEQUAL
                         | PLUSEQUAL
                         | MINUSEQUAL
-                        | LSHIFTEQUAL
-                        | RSHIFTEQUAL
-                        | ANDEQUAL
-                        | OREQUAL
-                        | XOREQUAL
                         '''
     t[0] = t[1]
 
-# conditional-expression
-def p_conditional_expression_1(t):
-    'conditional_expression : equality_expression'
-    pass
-
-def p_conditional_expression_2(t):
-    'conditional_expression : equality_expression CONDOP expression COLON conditional_expression '
-    pass
 
 # constant-expression
-
 def p_constant_expression(t):
-    'constant_expression : conditional_expression'
+    'constant_expression : equality_expression'
     pass
 
 # equality-expression:
-
 def p_equality_expression_1(t):
     'equality_expression : relational_expression'
     pass
@@ -711,8 +692,8 @@ def p_primary_expression_2(t):
 
 # argument-expression-list:
 def p_argument_expression_list(t):
-    '''argument_expression_list :  assignment_expression
-                              |  argument_expression_list COMMA assignment_expression'''
+    '''argument_expression_list :  expression
+                              |  argument_expression_list COMMA expression'''
     pass
 
 # constant:
