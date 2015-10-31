@@ -367,14 +367,13 @@ def p_statement_list_2(t):
 
 def p_selection_statement_1(t):
     'selection_statement : IF LPAREN expression RPAREN statement'
-    t[0] = 'BRANCH_1', t[3], t[5]
+    t[0] = 'IF', t[3], t[5]
 
 def p_selection_statement_2(t):
     'selection_statement : IF LPAREN expression RPAREN statement ELSE statement '
-    t[0] = 'BRANCH_2', t[3], t[5], t[7]
+    t[0] = 'IF_ELSE', t[3], t[5], t[7]
 
 # iteration_statement:
-
 def p_iteration_statement_1(t):
     'iteration_statement : WHILE LPAREN expression RPAREN statement'
     pass
@@ -388,22 +387,9 @@ def p_iteration_statement_3(t):
     pass
 
 # jump_statement:
-
-def p_jump_statement_1(t):
-    'jump_statement : GOTO ID SEMI'
-    pass
-
-def p_jump_statement_2(t):
-    'jump_statement : CONTINUE SEMI'
-    pass
-
-def p_jump_statement_3(t):
-    'jump_statement : BREAK SEMI'
-    pass
-
-def p_jump_statement_4(t):
+def p_jump_statement(t):
     'jump_statement : RETURN expression_opt SEMI'
-    pass
+    t[0] = 'RET', t[2]
 
 def p_expression_opt_1(t):
     'expression_opt : empty'
@@ -585,8 +571,8 @@ def p_argument_expression_list_2(t):
 # constant:
 def p_constant(t): 
    '''constant : ICONST
-              | FCONST
-              | CCONST'''
+               | FCONST
+               | CCONST'''
    t[0] = t[1]
 
 
