@@ -442,19 +442,8 @@ def p_unary_expression_1(t):
     t[0] = t[1]
 
 def p_unary_expression_2(t):
-    'unary_expression : unary_operator unary_expression'
-    t[0] = t[1], t[2]
-
-#unary-operator
-def p_unary_operator(t):
-    '''unary_operator : AND
-                      | TIMES
-                      | PLUS 
-                      | MINUS
-                      | NOT
-                      | LNOT '''
-    t[0] = t[1]
-
+    'unary_expression : MINUS unary_expression'
+    t[0] = 'NEG', t[2]
 
 # postfix-expression:
 
