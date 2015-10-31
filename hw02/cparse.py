@@ -125,35 +125,21 @@ def p_struct_declarator_3(t):
 
 # declarator:
 
-def p_declarator(t):
-    'declarator : direct_declarator'
-    t[0] = t[1]
-
-# direct-declarator:
-
-def p_direct_declarator_1(t):
-    'direct_declarator : ID'
+def p_declarator_1(t):
+    'declarator : ID'
     t[0] = 'ID', t[1]
 
-def p_direct_declarator_2(t):
-    'direct_declarator : LPAREN declarator RPAREN'
-    pass
+def p_declarator_2(t):
+    'declarator : ID LPAREN parameter_type_list RPAREN '
+    t[0] = t[1], t[3]
 
-def p_direct_declarator_3(t):
-    'direct_declarator : direct_declarator LBRACKET constant_expression_opt RBRACKET'
-    pass
-
-def p_direct_declarator_4(t):
-    'direct_declarator : direct_declarator LPAREN parameter_type_list RPAREN '
-    t[0] = (t[1], t[3])
-
-def p_direct_declarator_5(t):
-    'direct_declarator : direct_declarator LPAREN identifier_list RPAREN '
+def p_declarator_3(t):
+    'declarator : ID LPAREN identifier_list RPAREN '
     t[0] = t[1]
 
-def p_direct_declarator_6(t):
-    'direct_declarator : direct_declarator LPAREN RPAREN '
-    pass
+def p_declarator_4(t):
+    'declarator : ID LPAREN RPAREN '
+    t[0] = t[1]
 
 # pointer:
 
