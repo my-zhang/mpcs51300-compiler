@@ -132,13 +132,9 @@ def p_parameter_list_2(t):
     t[0] = t[1] + [t[3]]
 
 # parameter-declaration:
-def p_parameter_declaration_1(t):
+def p_parameter_declaration(t):
     'parameter_declaration : type_specifier declarator'
     t[0] = t[1], t[2]
-
-def p_parameter_declaration_2(t):
-    'parameter_declaration : type_specifier abstract_declarator_opt'
-    pass
 
 # identifier-list:
 def p_identifier_list_1(t):
@@ -149,67 +145,6 @@ def p_identifier_list_2(t):
     'identifier_list : identifier_list COMMA ID'
     pass
 
-def p_abstract_declarator_opt_1(t):
-    'abstract_declarator_opt : empty'
-    pass
-
-def p_abstract_declarator_opt_2(t):
-    'abstract_declarator_opt : abstract_declarator'
-    pass
-
-# abstract-declarator:
-
-def p_abstract_declarator_1(t):
-    'abstract_declarator : pointer '
-    pass
-
-def p_abstract_declarator_2(t):
-    'abstract_declarator : pointer direct_abstract_declarator'
-    pass
-
-def p_abstract_declarator_3(t):
-    'abstract_declarator : direct_abstract_declarator'
-    pass
-
-# direct-abstract-declarator:
-
-def p_direct_abstract_declarator_1(t):
-    'direct_abstract_declarator : LPAREN abstract_declarator RPAREN'
-    pass
-
-def p_direct_abstract_declarator_2(t):
-    'direct_abstract_declarator : direct_abstract_declarator LBRACKET constant_expression_opt RBRACKET'
-    pass
-
-def p_direct_abstract_declarator_3(t):
-    'direct_abstract_declarator : LBRACKET constant_expression_opt RBRACKET'
-    pass
-
-def p_direct_abstract_declarator_4(t):
-    'direct_abstract_declarator : direct_abstract_declarator LPAREN parameter_type_list_opt RPAREN'
-    pass
-
-def p_direct_abstract_declarator_5(t):
-    'direct_abstract_declarator : LPAREN parameter_type_list_opt RPAREN'
-    pass
-
-# Optional fields in abstract declarators
-
-def p_constant_expression_opt_1(t):
-    'constant_expression_opt : empty'
-    pass
-
-def p_constant_expression_opt_2(t):
-    'constant_expression_opt : constant_expression'
-    pass
-
-def p_parameter_type_list_opt_1(t):
-    'parameter_type_list_opt : empty'
-    pass
-
-def p_parameter_type_list_opt_2(t):
-    'parameter_type_list_opt : parameter_type_list'
-    pass
 
 # statement:
 
