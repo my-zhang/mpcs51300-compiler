@@ -262,28 +262,13 @@ def p_parameter_type_list_opt_2(t):
 
 def p_statement(t):
     '''
-    statement : labeled_statement
-              | expression_statement
+    statement : expression_statement
               | compound_statement
               | selection_statement
               | iteration_statement
               | jump_statement
               '''
     t[0] = 'STAT', t[1]
-
-# labeled-statement:
-
-def p_labeled_statement_1(t):
-    'labeled_statement : ID COLON statement'
-    pass
-
-def p_labeled_statement_2(t):
-    'labeled_statement : CASE constant_expression COLON statement'
-    pass
-
-def p_labeled_statement_3(t):
-    'labeled_statement : DEFAULT COLON statement'
-    pass
 
 # expression-statement:
 def p_expression_statement(t):
@@ -491,11 +476,11 @@ def p_postfix_expression_4(t):
 
 def p_postfix_expression_5(t):
     'postfix_expression : postfix_expression PLUSPLUS'
-    t[0] = 'POST_INC', t[1], t[2]
+    t[0] = 'POST_INC', t[1]
 
 def p_postfix_expression_6(t):
     'postfix_expression : postfix_expression MINUSMINUS'
-    t[0] = 'POST_DEC', t[1], t[2]
+    t[0] = 'POST_DEC', t[1]
 
 # primary-expression:
 def p_primary_expression_1(t):
