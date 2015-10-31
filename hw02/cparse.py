@@ -327,11 +327,11 @@ def p_equality_expression_1(t):
 
 def p_equality_expression_2(t):
     'equality_expression : equality_expression EQ relational_expression'
-    pass
+    t[0] = 'EQ', t[1], t[3]
 
 def p_equality_expression_3(t):
     'equality_expression : equality_expression NE relational_expression'
-    pass
+    t[0] = 'NE', t[1], t[3]
 
 
 # relational-expression:
@@ -341,19 +341,19 @@ def p_relational_expression_1(t):
 
 def p_relational_expression_2(t):
     'relational_expression : relational_expression LT additive_expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'LT', t[1], t[3]
 
 def p_relational_expression_3(t):
     'relational_expression : relational_expression GT additive_expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'GT', t[1], t[3]
 
 def p_relational_expression_4(t):
     'relational_expression : relational_expression LE additive_expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'LE', t[1], t[3]
 
 def p_relational_expression_5(t):
     'relational_expression : relational_expression GE additive_expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'GE', t[1], t[3]
 
 
 # additive-expression
@@ -405,22 +405,18 @@ def p_postfix_expression_1(t):
     t[0] = t[1]
 
 def p_postfix_expression_2(t):
-    'postfix_expression : postfix_expression LBRACKET expression RBRACKET'
-    pass
-
-def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN'
     t[0] = 'POST_FUNC_CALL', t[1], t[3]
 
-def p_postfix_expression_4(t):
+def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN RPAREN'
-    t[0] = 'POST_FUNC_CALL', t[1]
+    t[0] = 'POST_FUNC_CALL', t[1], None
 
-def p_postfix_expression_5(t):
+def p_postfix_expression_4(t):
     'postfix_expression : postfix_expression PLUSPLUS'
     t[0] = 'POST_INC', t[1]
 
-def p_postfix_expression_6(t):
+def p_postfix_expression_5(t):
     'postfix_expression : postfix_expression MINUSMINUS'
     t[0] = 'POST_DEC', t[1]
 
