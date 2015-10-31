@@ -1,21 +1,15 @@
-# -----------------------------------------------------------------------------
-# cparse.py
-#
-# Simple parser for ANSI C.  Based on the grammar in K&R, 2nd Ed.
-# -----------------------------------------------------------------------------
-
 import sys
 import pprint
 
 import clex
 import ply.yacc as yacc
 
-pp = pprint.PrettyPrinter(indent=4)
+pp = pprint.PrettyPrinter(indent=4, width=120)
 
-# Get the token map
+# token map
 tokens = clex.tokens
 
-# Symbol Table
+# symbol table
 ST = {}
 
 # translation-unit:
@@ -109,52 +103,10 @@ def p_storage_class_specifier(t):
 
 # type-specifier:
 def p_type_specifier(t):
-    '''type_specifier : VOID
-                      | CHAR
-                      | SHORT
-                      | INT
-                      | LONG
-                      | FLOAT
-                      | DOUBLE
-                      | SIGNED
-                      | UNSIGNED
-                      | struct_or_union_specifier
-                      | enum_specifier
-                      | TYPEID
+    '''type_specifier : INT
+                      | STRING
                       '''
     t[0] = t[1]
-
-
-# struct-or-union-specifier
-
-def p_struct_or_union_specifier_1(t):
-    'struct_or_union_specifier : struct_or_union ID LBRACE struct_declaration_list RBRACE'
-    pass
-
-def p_struct_or_union_specifier_2(t):
-    'struct_or_union_specifier : struct_or_union LBRACE struct_declaration_list RBRACE'
-    pass
-
-def p_struct_or_union_specifier_3(t):
-    'struct_or_union_specifier : struct_or_union ID'
-    pass
-
-# struct-or-union:
-def p_struct_or_union(t):
-    '''struct_or_union : STRUCT
-                       | UNION
-                       '''
-    pass
-
-# struct-declaration-list:
-
-def p_struct_declaration_list_1(t):
-    'struct_declaration_list : struct_declaration'
-    pass
-
-def p_struct_declaration_list_2(t):
-    'struct_declaration_list : struct_declarator_list struct_declaration'
-    pass
 
 # init-declarator-list:
 
@@ -217,54 +169,17 @@ def p_struct_declarator_3(t):
     'struct_declarator : COLON constant_expression'
     pass
 
-# enum-specifier:
-
-def p_enum_specifier_1(t):
-    'enum_specifier : ENUM ID LBRACE enumerator_list RBRACE'
-    pass
-
-def p_enum_specifier_2(t):
-    'enum_specifier : ENUM LBRACE enumerator_list RBRACE'
-    pass
-
-def p_enum_specifier_3(t):
-    'enum_specifier : ENUM ID'
-    pass
-
-# enumerator_list:
-def p_enumerator_list_1(t):
-    'enumerator_list : enumerator'
-    pass
-
-def p_enumerator_list_2(t):
-    'enumerator_list : enumerator_list COMMA enumerator'
-    pass
-
-# enumerator:
-def p_enumerator_1(t):
-    'enumerator : ID'
-    pass
-
-def p_enumerator_2(t):
-    'enumerator : ID EQUALS constant_expression'
-    pass
-
 # declarator:
 
-def p_declarator_1(t):
-    'declarator : pointer direct_declarator'
-    pass
-
-def p_declarator_2(t):
+def p_declarator(t):
     'declarator : direct_declarator'
     t[0] = t[1]
-    # print t[0]
 
 # direct-declarator:
 
 def p_direct_declarator_1(t):
     'direct_declarator : ID'
-    t[0] = t[1]
+    t[0] = 'ID', t[1]
 
 def p_direct_declarator_2(t):
     'direct_declarator : LPAREN declarator RPAREN'
@@ -454,7 +369,7 @@ def p_labeled_statement_3(t):
 # expression-statement:
 def p_expression_statement(t):
     'expression_statement : expression_opt SEMI'
-    pass
+    t[0] = t[1]
 
 # compound-statement:
 
@@ -488,15 +403,11 @@ def p_statement_list_2(t):
 
 def p_selection_statement_1(t):
     'selection_statement : IF LPAREN expression RPAREN statement'
-    pass
+    t[0] = 'BRANCH_1', t[3], t[5]
 
 def p_selection_statement_2(t):
     'selection_statement : IF LPAREN expression RPAREN statement ELSE statement '
-    pass
-
-def p_selection_statement_3(t):
-    'selection_statement : SWITCH LPAREN expression RPAREN statement '
-    pass
+    t[0] = 'BRANCH_2', t[3], t[5], t[7]
 
 # iteration_statement:
 
@@ -542,11 +453,11 @@ def p_expression_opt_2(t):
 
 def p_expression_1(t):
     'expression : equality_expression'
-    t[0] = t[1]
+    t[0] = 'EXPR_1', t[1]
 
 def p_expression_2(t):
     'expression : unary_expression assignment_operator expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'EXPR_2', t[1], t[2], t[3]
 
 # assignment_operator:
 def p_assignment_operator(t):
@@ -564,12 +475,12 @@ def p_assignment_operator(t):
 # constant-expression
 def p_constant_expression(t):
     'constant_expression : equality_expression'
-    pass
+    t[0] = t[1]
 
 # equality-expression:
 def p_equality_expression_1(t):
     'equality_expression : relational_expression'
-    pass
+    t[0] = t[1]
 
 def p_equality_expression_2(t):
     'equality_expression : equality_expression EQ relational_expression'
@@ -583,34 +494,34 @@ def p_equality_expression_3(t):
 # relational-expression:
 def p_relational_expression_1(t):
     'relational_expression : additive_expression'
-    pass
+    t[0] = t[1]
 
 def p_relational_expression_2(t):
     'relational_expression : relational_expression LT additive_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 def p_relational_expression_3(t):
     'relational_expression : relational_expression GT additive_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 def p_relational_expression_4(t):
     'relational_expression : relational_expression LE additive_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 def p_relational_expression_5(t):
     'relational_expression : relational_expression GE additive_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 
 # additive-expression
 
 def p_additive_expression_1(t):
     'additive_expression : multiplicative_expression'
-    pass
+    t[0] = t[1]
 
 def p_additive_expression_2(t):
     'additive_expression : additive_expression PLUS multiplicative_expression'
-    pass
+    t[0] = t[1], t[2], t[3]
 
 def p_additive_expression_3(t):
     'additive_expression : additive_expression MINUS multiplicative_expression'
@@ -620,7 +531,7 @@ def p_additive_expression_3(t):
 
 def p_multiplicative_expression_1(t):
     'multiplicative_expression : unary_expression'
-    pass
+    t[0] = t[1]
 
 def p_multiplicative_expression_2(t):
     'multiplicative_expression : multiplicative_expression TIMES unary_expression'
@@ -647,14 +558,16 @@ def p_unary_expression_2(t):
 #unary-operator
 def p_unary_operator(t):
     '''unary_operator : AND
-                    | TIMES
-                    | PLUS 
-                    | MINUS
-                    | NOT
-                    | LNOT '''
+                      | TIMES
+                      | PLUS 
+                      | MINUS
+                      | NOT
+                      | LNOT '''
     t[0] = t[1]
 
+
 # postfix-expression:
+
 def p_postfix_expression_1(t):
     'postfix_expression : primary_expression'
     t[0] = t[1]
@@ -665,36 +578,45 @@ def p_postfix_expression_2(t):
 
 def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN'
-    pass
+    t[0] = 'POST_FUNC_CALL', t[1], t[3]
 
 def p_postfix_expression_4(t):
     'postfix_expression : postfix_expression LPAREN RPAREN'
-    pass
+    t[0] = 'POST_FUNC_CALL', t[1]
 
 def p_postfix_expression_5(t):
     'postfix_expression : postfix_expression PLUSPLUS'
-    t[0] = t[1], t[2]
+    t[0] = 'POST_INC', t[1], t[2]
 
 def p_postfix_expression_6(t):
     'postfix_expression : postfix_expression MINUSMINUS'
-    pass
+    t[0] = 'POST_DEC', t[1], t[2]
 
 # primary-expression:
 def p_primary_expression_1(t):
-    '''primary_expression : ID
-                          | constant
-                          | SCONST'''
-    t[0] = t[1]
+    '''primary_expression : ID'''
+    t[0] = 'ID', t[1]
 
 def p_primary_expression_2(t):
+    '''primary_expression : constant'''
+    t[0] = 'ICONST', t[1]
+
+def p_primary_expression_3(t):
+    '''primary_expression : SCONST'''
+    t[0] = 'SCONST', t[1]
+
+def p_primary_expression_4(t):
     '''primary_expression : LPAREN expression RPAREN'''
-    t[0] = t[2]
+    t[0] = 'PRIMARY', t[2]
 
 # argument-expression-list:
-def p_argument_expression_list(t):
-    '''argument_expression_list :  expression
-                              |  argument_expression_list COMMA expression'''
-    pass
+def p_argument_expression_list_1(t):
+    '''argument_expression_list : expression'''
+    t[0] = [t[1]]
+
+def p_argument_expression_list_2(t):
+    '''argument_expression_list : argument_expression_list COMMA expression'''
+    t[0] = t[1] + [t[3]]
 
 # constant:
 def p_constant(t): 
@@ -717,4 +639,3 @@ parser = yacc.yacc(method='LALR')
 if __name__ == '__main__':
     s = sys.stdin.read()
     parser.parse(s)
-
