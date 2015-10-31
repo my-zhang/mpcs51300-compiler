@@ -80,7 +80,7 @@ def p_init_declarator_1(t):
 
 def p_init_declarator_2(t):
     'init_declarator : declarator EQUALS expression'
-    t[0] = t[1], t[3]
+    t[0] = 'INIT_ASSIGN', t[1], t[3]
 
 # declarator:
 
@@ -94,7 +94,7 @@ def p_declarator_2(t):
 
 def p_declarator_3(t):
     'declarator : ID LPAREN identifier_list RPAREN '
-    pass
+    t[0] = ('ID', t[1]), t[3]
 
 def p_declarator_4(t):
     'declarator : ID LPAREN RPAREN '
