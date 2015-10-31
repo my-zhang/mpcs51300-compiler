@@ -37,21 +37,15 @@ def p_external_declaration_2(t):
 
 # function-definition:
 def p_function_definition(t):
-    'function_definition : declaration_specifiers declarator compound_statement'
+    'function_definition : type_specifier declarator compound_statement'
     t[0] = 'FUNC_DEF', t[1], t[2], t[3]
 
 # declaration:
-
-def p_declaration_1(t):
-    'declaration : declaration_specifiers init_declarator_list SEMI'
-    t[0] = 'VAR_DEC', t[0], t[2]
-
-def p_declaration_2(t):
-    'declaration : declaration_specifiers SEMI'
-    t[0] = t[1]
+def p_declaration(t):
+    'declaration : type_specifier init_declarator_list SEMI'
+    t[0] = 'VAR_DEC', t[1], t[2]
 
 # declaration-list:
-
 def p_declaration_list_1(t):
     'declaration_list : declaration'
     t[0] = [t[1]]
@@ -60,10 +54,6 @@ def p_declaration_list_2(t):
     'declaration_list : declaration_list declaration '
     t[0] = t[1] + [t[2]]
 
-# declaration-specifiers
-def p_declaration_specifiers(t):
-    'declaration_specifiers : type_specifier'
-    t[0] = t[1]
 
 # type-specifier:
 def p_type_specifier(t):
@@ -89,7 +79,7 @@ def p_init_declarator_1(t):
     t[0] = 'INIT_DEC_1', t[1]
 
 def p_init_declarator_2(t):
-    'init_declarator : declarator EQUALS initializer'
+    'init_declarator : declarator EQUALS expression'
     t[0] = 'INIT_DEC_2', t[1], t[3]
 
 # struct-declaration:
@@ -198,11 +188,11 @@ def p_parameter_list_2(t):
 
 # parameter-declaration:
 def p_parameter_declaration_1(t):
-    'parameter_declaration : declaration_specifiers declarator'
+    'parameter_declaration : type_specifier declarator'
     t[0] = t[1], t[2]
 
 def p_parameter_declaration_2(t):
-    'parameter_declaration : declaration_specifiers abstract_declarator_opt'
+    'parameter_declaration : type_specifier abstract_declarator_opt'
     pass
 
 # identifier-list:
@@ -212,27 +202,6 @@ def p_identifier_list_1(t):
 
 def p_identifier_list_2(t):
     'identifier_list : identifier_list COMMA ID'
-    pass
-
-# initializer:
-
-def p_initializer_1(t):
-    'initializer : expression'
-    pass
-
-def p_initializer_2(t):
-    '''initializer : LBRACE initializer_list RBRACE
-                   | LBRACE initializer_list COMMA RBRACE'''
-    pass
-
-# initializer-list:
-
-def p_initializer_list_1(t):
-    'initializer_list : initializer'
-    pass
-
-def p_initializer_list_2(t):
-    'initializer_list : initializer_list COMMA initializer'
     pass
 
 # type-name:
@@ -339,19 +308,19 @@ def p_expression_statement(t):
 
 def p_compound_statement_1(t):
     'compound_statement : LBRACE declaration_list statement_list RBRACE'
-    t[0] = 'COMP_STATS_1', t[2] + t[3]
+    t[0] = 'COMP_STATS', t[2] + t[3]
 
 def p_compound_statement_2(t):
     'compound_statement : LBRACE statement_list RBRACE'
-    t[0] = 'COMP_STATS_2', t[2]
+    t[0] = 'COMP_STATS', t[2]
 
 def p_compound_statement_3(t):
     'compound_statement : LBRACE declaration_list RBRACE'
-    t[0] = 'COMP_STATS_3', t[2] 
+    t[0] = 'COMP_STATS', t[2] 
 
 def p_compound_statement_4(t):
     'compound_statement : LBRACE RBRACE'
-    t[0] = 'COMP_STATS_4', []
+    t[0] = 'COMP_STATS', []
 
 # statement-list:
 
