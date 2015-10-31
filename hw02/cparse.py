@@ -76,52 +76,11 @@ def p_init_declarator_list_2(t):
 
 def p_init_declarator_1(t):
     'init_declarator : declarator'
-    t[0] = 'INIT_DEC_1', t[1]
+    t[0] = t[1]
 
 def p_init_declarator_2(t):
     'init_declarator : declarator EQUALS expression'
-    t[0] = 'INIT_DEC_2', t[1], t[3]
-
-# struct-declaration:
-
-def p_struct_declaration(t):
-    'struct_declaration : specifier_qualifier_list struct_declarator_list SEMI'
-    pass
-
-# specifier-qualifier-list:
-
-def p_specifier_qualifier_list_1(t):
-    'specifier_qualifier_list : type_specifier specifier_qualifier_list'
-    pass
-
-def p_specifier_qualifier_list_2(t):
-    'specifier_qualifier_list : type_specifier'
-    pass
-
-
-# struct-declarator-list:
-
-def p_struct_declarator_list_1(t):
-    'struct_declarator_list : struct_declarator'
-    pass
-
-def p_struct_declarator_list_2(t):
-    'struct_declarator_list : struct_declarator_list COMMA struct_declarator'
-    pass
-
-# struct-declarator:
-
-def p_struct_declarator_1(t):
-    'struct_declarator : declarator'
-    pass
-
-def p_struct_declarator_2(t):
-    'struct_declarator : declarator COLON constant_expression'
-    pass
-
-def p_struct_declarator_3(t):
-    'struct_declarator : COLON constant_expression'
-    pass
+    t[0] = t[1], t[3]
 
 # declarator:
 
@@ -131,15 +90,15 @@ def p_declarator_1(t):
 
 def p_declarator_2(t):
     'declarator : ID LPAREN parameter_type_list RPAREN '
-    t[0] = t[1], t[3]
+    t[0] = ('ID', t[1]), t[3]
 
 def p_declarator_3(t):
     'declarator : ID LPAREN identifier_list RPAREN '
-    t[0] = t[1]
+    pass
 
 def p_declarator_4(t):
     'declarator : ID LPAREN RPAREN '
-    t[0] = t[1]
+    t[0] = ('ID', t[1]), None
 
 # pointer:
 
@@ -188,12 +147,6 @@ def p_identifier_list_1(t):
 
 def p_identifier_list_2(t):
     'identifier_list : identifier_list COMMA ID'
-    pass
-
-# type-name:
-
-def p_type_name(t):
-    'type_name : specifier_qualifier_list abstract_declarator_opt'
     pass
 
 def p_abstract_declarator_opt_1(t):
