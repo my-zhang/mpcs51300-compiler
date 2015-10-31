@@ -27,30 +27,18 @@ def p_translation_unit_2(t):
 # external-declaration:
 
 def p_external_declaration_1(t):
-    'external_declaration : function_definition'
-    t[0] = 'FUNC_DEF', t[1]
+    '''external_declaration : function_definition
+                            | declaration'''
+    t[0] = t[1]
 
 def p_external_declaration_2(t):
-    'external_declaration : declaration'
-    t[0] = 'VARS_DEC', t[1]
+    'external_declaration : EXTERN declaration'
+    t[0] = 'EXTERN', t[2]
 
 # function-definition:
-
-def p_function_definition_1(t):
-    'function_definition : declaration_specifiers declarator declaration_list compound_statement'
-    t[0] = 'FUNC_DEF_1', t[1], t[2], t[3], t[4]
-
-def p_function_definition_2(t):
-    'function_definition : declarator declaration_list compound_statement'
-    t[0] = 'FUNC_DEF_2', t[1], t[2], t[3]
-
-def p_function_definition_3(t):
-    'function_definition : declarator compound_statement'
-    t[0] = 'FUNC_DEF_3', t[1], t[2]
-
-def p_function_definition_4(t):
+def p_function_definition(t):
     'function_definition : declaration_specifiers declarator compound_statement'
-    t[0] = 'FUNC_DEF_4', t[1], t[2], t[3]
+    t[0] = 'FUNC_DEF', t[1], t[2], t[3]
 
 # declaration:
 
@@ -73,40 +61,16 @@ def p_declaration_list_2(t):
     t[0] = t[1] + [t[2]]
 
 # declaration-specifiers
-def p_declaration_specifiers_1(t):
-    'declaration_specifiers : storage_class_specifier declaration_specifiers'
-    t[0] = t[1], t[2]
-
-def p_declaration_specifiers_2(t):
-    'declaration_specifiers : type_specifier declaration_specifiers'
-    t[0] = t[1], t[2]
-
-
-def p_declaration_specifiers_3(t):
-    'declaration_specifiers : storage_class_specifier'
-    t[0] = t[1]
-
-def p_declaration_specifiers_4(t):
+def p_declaration_specifiers(t):
     'declaration_specifiers : type_specifier'
     t[0] = t[1]
-
-
-# storage-class-specifier
-def p_storage_class_specifier(t):
-    '''storage_class_specifier : AUTO
-                               | REGISTER
-                               | STATIC
-                               | EXTERN
-                               | TYPEDEF
-                               '''
-    pass
 
 # type-specifier:
 def p_type_specifier(t):
     '''type_specifier : INT
                       | STRING
                       '''
-    t[0] = t[1]
+    t[0] = 'TYPE', t[1]
 
 # init-declarator-list:
 
