@@ -269,15 +269,15 @@ def p_selection_statement_2(t):
 # iteration_statement:
 def p_iteration_statement_1(t):
     'iteration_statement : WHILE LPAREN expression RPAREN statement'
-    pass
+    t[0] = 'WHILE', t[3], t[5]
 
 def p_iteration_statement_2(t):
-    'iteration_statement : FOR LPAREN expression_opt SEMI expression_opt SEMI expression_opt RPAREN statement '
-    t[0] = 'ITER_STAT_2', t[3], t[5], t[7], t[9]
+    'iteration_statement : FOR LPAREN expression_opt SEMI condition SEMI expression_opt RPAREN statement '
+    t[0] = 'FOR', t[3], t[5], t[7], t[9]
 
 def p_iteration_statement_3(t):
     'iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI'
-    pass
+    t[0] = 'DO_WHILE', t[2], t[5]
 
 # jump_statement:
 def p_jump_statement(t):
@@ -295,12 +295,25 @@ def p_expression_opt_2(t):
 # expression:
 
 def p_expression_1(t):
-    'expression : equality_expression'
-    t[0] = 'EXPR_1', t[1]
+    'expression : additive_expression'
+    t[0] = t[1]
 
 def p_expression_2(t):
     'expression : unary_expression assignment_operator expression'
-    t[0] = 'EXPR_2', t[1], t[2], t[3]
+    t[0] = 'ASSIGN', t[1], t[3]
+
+def p_condition(t):
+    'condition : expression comparison_operator expression'
+    t[0] = t[2], t[1], t[3]
+
+def p_comparison_operator(t):
+    '''comparison_operator : EQ
+                           | NE
+                           | LT
+                           | GT
+                           | LE
+                           | GE'''
+    t[0] = t[1]
 
 # assignment_operator:
 def p_assignment_operator(t):
