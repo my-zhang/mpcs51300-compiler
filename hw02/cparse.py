@@ -4,6 +4,10 @@ import pprint
 import clex
 import ply.yacc as yacc
 
+import preprocess
+from preprocess import remove_blank
+from preprocess import remove_comment
+
 pp = pprint.PrettyPrinter(indent=4, width=120)
 
 # token map
@@ -27,23 +31,38 @@ def p_program_2(t):
 # external-declaration:
 
 def p_external_declaration_1(t):
-    '''external_declaration : function_definition
-                            | declaration'''
+    '''external_declaration : function_definition'''
     t[0] = t[1]
+    # print 'function_definition',t[0]
+
+def p_external_declaration_3(t):
+    '''external_declaration : declaration'''
+    t[0] = t[1]
+    print 'Predefined Function with name',t[1][2][0][0][1]
 
 def p_external_declaration_2(t):
     'external_declaration : EXTERN declaration'
     t[0] = 'EXTERN', t[2]
+    print 'Define extern function with name', t[2][2][0][0][1]
 
 # function-definition:
 def p_function_definition(t):
     'function_definition : type_specifier declarator compound_statement'
     t[0] = 'FUNC_DEF', t[1], t[2], t[3]
+    print 'Define function with name', t[2][0][1]
 
 # declaration:
 def p_declaration(t):
     'declaration : type_specifier init_declarator_list SEMI'
     t[0] = 'VAR_DEC', t[1], t[2]
+    if(t[2][0][0]=='ID'):
+        for i in range(len(t[2])):
+            print 'Define variable with type',t[1][1],'and name',
+            print t[2][i][1]
+    elif(t[2][0][1][0]=='ID'):
+        print 'Define variable with type',t[1][1],'and name',
+        print t[2][0][1][1]
+    
 
 # declaration-list:
 def p_declaration_list_1(t):
@@ -67,6 +86,7 @@ def p_type_specifier(t):
 def p_init_declarator_list_1(t):
     'init_declarator_list : init_declarator'
     t[0] = [t[1]]
+    # print 'init_declarator_list',t[1]
 
 def p_init_declarator_list_2(t):
     'init_declarator_list : init_declarator_list COMMA init_declarator'
@@ -77,6 +97,8 @@ def p_init_declarator_list_2(t):
 def p_init_declarator_1(t):
     'init_declarator : declarator'
     t[0] = t[1]
+    # if(t[0][0]=='ID'):
+        # print 'with name',t[0][1]
 
 def p_init_declarator_2(t):
     'init_declarator : declarator EQUALS expression'
@@ -87,14 +109,17 @@ def p_init_declarator_2(t):
 def p_declarator_1(t):
     'declarator : ID'
     t[0] = 'ID', t[1]
+    # print 'With name', t[1]
 
 def p_declarator_2(t):
     'declarator : ID LPAREN parameter_type_list RPAREN '
     t[0] = ('ID', t[1]), t[3]
+    # print 'parameter_type_list', t[3]
 
 def p_declarator_3(t):
     'declarator : ID LPAREN identifier_list RPAREN '
     t[0] = ('ID', t[1]), t[3]
+    # print 'identifier_list', t[3]
 
 def p_declarator_4(t):
     'declarator : ID LPAREN RPAREN '
@@ -116,12 +141,6 @@ def p_pointer_2(t):
 def p_parameter_type_list_1(t):
     'parameter_type_list : parameter_list'
     t[0] = t[1]
-
-# def p_parameter_type_list_2(t):
-#     'parameter_type_list : parameter_list COMMA ELLIPSIS'
-#     pass
-
-# parameter-list:
 
 def p_parameter_list_1(t):
     'parameter_list : parameter_declaration'
@@ -194,30 +213,40 @@ def p_statement_list_2(t):
 # selection-statement
 
 def p_selection_statement_1(t):
-    'selection_statement : IF LPAREN expression RPAREN statement'
+    # 'selection_statement : IF LPAREN expression RPAREN statement'
+    'selection_statement : IF LPAREN condition RPAREN statement'
     t[0] = 'IF', t[3], t[5]
+    print 'If Selection on operator',t[3][0]
 
 def p_selection_statement_2(t):
-    'selection_statement : IF LPAREN expression RPAREN statement ELSE statement '
+    # 'selection_statement : IF LPAREN expression RPAREN statement ELSE statement '
+    'selection_statement : IF LPAREN condition RPAREN statement ELSE statement '
     t[0] = 'IF_ELSE', t[3], t[5], t[7]
+    print 'If_Else Selection on operator', t[3][0]
 
 # iteration_statement:
 def p_iteration_statement_1(t):
-    'iteration_statement : WHILE LPAREN expression RPAREN statement'
+    'iteration_statement : WHILE LPAREN condition RPAREN statement'
     t[0] = 'WHILE', t[3], t[5]
+    if(t[3][1][0]=='ID'):
+        print 'Define While iteration with variable', t[3][1][1]
 
 def p_iteration_statement_2(t):
     'iteration_statement : FOR LPAREN expression_opt SEMI condition SEMI expression_opt RPAREN statement '
     t[0] = 'FOR', t[3], t[5], t[7], t[9]
+    print 'Define Iteration with variable',t[3][1][1]
 
 def p_iteration_statement_3(t):
-    'iteration_statement : DO statement WHILE LPAREN expression RPAREN SEMI'
+    'iteration_statement : DO statement WHILE LPAREN condition RPAREN SEMI'
     t[0] = 'DO_WHILE', t[2], t[5]
+    if(t[5][1][0]=='ID'):
+        print 'Define DO_WHILE iteration with variable', t[5][1][1]
 
 # jump_statement:
 def p_jump_statement(t):
     'jump_statement : RETURN expression_opt SEMI'
     t[0] = 'RET', t[2]
+    print 'Return ',t[2][1]
 
 def p_expression_opt_1(t):
     'expression_opt : empty'
@@ -232,10 +261,12 @@ def p_expression_opt_2(t):
 def p_expression_1(t):
     'expression : additive_expression'
     t[0] = t[1]
+    # print 'expression',t[0]
 
 def p_expression_2(t):
     'expression : unary_expression assignment_operator expression'
     t[0] = 'ASSIGN', t[1], t[3]
+    print 'Assign', t[1][1]
 
 def p_expression_3(t):
     'expression : expression LSHIFT additive_expression'
@@ -249,6 +280,7 @@ def p_expression_4(t):
 def p_condition(t):
     'condition : expression comparison_operator expression'
     t[0] = t[2], t[1], t[3]
+    # print t[0]
 
 def p_comparison_operator(t):
     '''comparison_operator : EQ
@@ -281,6 +313,7 @@ def p_additive_expression_1(t):
 def p_additive_expression_2(t):
     'additive_expression : additive_expression PLUS multiplicative_expression'
     t[0] = 'ADD', t[1], t[3]
+    # print 'Addition', t[1][1], 'and', t[3][1][1]
 
 def p_additive_expression_3(t):
     'additive_expression : additive_expression MINUS multiplicative_expression'
@@ -323,6 +356,7 @@ def p_postfix_expression_1(t):
 def p_postfix_expression_2(t):
     'postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN'
     t[0] = 'FUNC_CALL', t[1], t[3]
+    print 'Call Function',t[1][1]
 
 def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN RPAREN'
@@ -381,4 +415,6 @@ def p_error(t):
 parser = yacc.yacc(method='LALR')
 
 if __name__ == '__main__':
-    pp.pprint(parser.parse(sys.stdin.read()))
+    s = sys.stdin.read()
+    s = remove_blank(remove_comment(s))
+    pp.pprint(parser.parse(s))
