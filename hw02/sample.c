@@ -1,4 +1,6 @@
 
+extern int bar(int x);
+
 int foo(int count) {
     int sum = 2;
     int i;

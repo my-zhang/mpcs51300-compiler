@@ -237,6 +237,15 @@ def p_expression_2(t):
     'expression : unary_expression assignment_operator expression'
     t[0] = 'ASSIGN', t[1], t[3]
 
+def p_expression_3(t):
+    'expression : expression LSHIFT additive_expression'
+    t[0] = 'LSHIFT', t[1], t[3]
+
+def p_expression_4(t):
+    'expression : expression RSHIFT additive_expression'
+    t[0] = 'RSHIFT', t[1], t[3]
+
+# condition
 def p_condition(t):
     'condition : expression comparison_operator expression'
     t[0] = t[2], t[1], t[3]
@@ -261,47 +270,6 @@ def p_assignment_operator(t):
                         | MINUSEQUAL
                         '''
     t[0] = t[1]
-
-
-# constant-expression
-def p_constant_expression(t):
-    'constant_expression : equality_expression'
-    t[0] = t[1]
-
-# equality-expression:
-def p_equality_expression_1(t):
-    'equality_expression : relational_expression'
-    t[0] = t[1]
-
-def p_equality_expression_2(t):
-    'equality_expression : equality_expression EQ relational_expression'
-    t[0] = 'EQ', t[1], t[3]
-
-def p_equality_expression_3(t):
-    'equality_expression : equality_expression NE relational_expression'
-    t[0] = 'NE', t[1], t[3]
-
-
-# relational-expression:
-def p_relational_expression_1(t):
-    'relational_expression : additive_expression'
-    t[0] = t[1]
-
-def p_relational_expression_2(t):
-    'relational_expression : relational_expression LT additive_expression'
-    t[0] = 'LT', t[1], t[3]
-
-def p_relational_expression_3(t):
-    'relational_expression : relational_expression GT additive_expression'
-    t[0] = 'GT', t[1], t[3]
-
-def p_relational_expression_4(t):
-    'relational_expression : relational_expression LE additive_expression'
-    t[0] = 'LE', t[1], t[3]
-
-def p_relational_expression_5(t):
-    'relational_expression : relational_expression GE additive_expression'
-    t[0] = 'GE', t[1], t[3]
 
 
 # additive-expression
@@ -354,11 +322,11 @@ def p_postfix_expression_1(t):
 
 def p_postfix_expression_2(t):
     'postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN'
-    t[0] = 'POST_FUNC_CALL', t[1], t[3]
+    t[0] = 'FUNC_CALL', t[1], t[3]
 
 def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN RPAREN'
-    t[0] = 'POST_FUNC_CALL', t[1], None
+    t[0] = 'FUNC_CALL', t[1], None
 
 def p_postfix_expression_4(t):
     'postfix_expression : postfix_expression PLUSPLUS'
