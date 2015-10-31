@@ -12,17 +12,17 @@ tokens = clex.tokens
 # symbol table
 ST = {}
 
-# translation-unit:
+# program:
 
-def p_translation_unit_1(t):
-    'translation_unit : external_declaration'
+def p_program_1(t):
+    'program : external_declaration'
     t[0] = [t[1]]
-    pp.pprint(t[0])
+    return t[0]
 
-def p_translation_unit_2(t):
-    'translation_unit : translation_unit external_declaration'
+def p_program_2(t):
+    'program : program external_declaration'
     t[0] = t[1] + [t[2]]
-    pp.pprint(t[0])
+    return t[0]
 
 # external-declaration:
 
@@ -364,11 +364,11 @@ def p_additive_expression_1(t):
 
 def p_additive_expression_2(t):
     'additive_expression : additive_expression PLUS multiplicative_expression'
-    t[0] = t[1], t[2], t[3]
+    t[0] = 'ADD', t[1], t[3]
 
 def p_additive_expression_3(t):
     'additive_expression : additive_expression MINUS multiplicative_expression'
-    pass
+    t[0] = 'SUB', t[1], t[3]
 
 # multiplicative-expression
 
@@ -378,15 +378,15 @@ def p_multiplicative_expression_1(t):
 
 def p_multiplicative_expression_2(t):
     'multiplicative_expression : multiplicative_expression TIMES unary_expression'
-    pass
+    t[0] = 'MUL', t[1], t[3]
 
 def p_multiplicative_expression_3(t):
     'multiplicative_expression : multiplicative_expression DIVIDE unary_expression'
-    pass
+    t[0] = 'DIV', t[1], t[3]
 
 def p_multiplicative_expression_4(t):
     'multiplicative_expression : multiplicative_expression MOD unary_expression'
-    pass
+    t[0] = 'MOD', t[1], t[3]
 
 
 # unary-expression:
@@ -469,5 +469,4 @@ def p_error(t):
 parser = yacc.yacc(method='LALR')
 
 if __name__ == '__main__':
-    s = sys.stdin.read()
-    parser.parse(s)
+    pp.pprint(parser.parse(sys.stdin.read()))
