@@ -63,8 +63,9 @@ def parse_param_list(root, st, syms):
         (_, t), (_, d) = param
         insert_sym(syms, st, d, t)
 
-    for p in root:
-        parse_param(p, st, syms)
+    if root:
+        for p in root:
+            parse_param(p, st, syms)
 
 def parse_compound_statement(root, st, syms):
     cons, comp_list = root
