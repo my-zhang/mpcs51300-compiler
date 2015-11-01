@@ -11,22 +11,21 @@ import ply.lex as lex
 
 # Reserved words
 reserved = (
-    'BREAK', 'CHAR', 'CONTINUE', 'DO',
-    'ELSE', 'EXTERN', 'FOR', 'IF', 'INT',
+    'DO', 'ELSE', 'EXTERN', 'FOR', 'IF', 'INT',
     'RETURN', 'WHILE', 'STRING'
     )
 
 tokens = reserved + (
-    # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+    # Literals (identifier, integer constant, float constant, string constant)
+    'ID', 'ICONST', 'FCONST', 'SCONST',
 
-    # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
+    # Operators (+,-,*,/,%,<<,>>, <, <=, >, >=, ==, !=)
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
-    'NOT', 'LSHIFT', 'RSHIFT',
+    'LSHIFT', 'RSHIFT',
     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
     
-    # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
+    # Assignment (=, *=, /=, %=, +=, -=)
+    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL',
 
     # Increment/decrement (++,--)
     'PLUSPLUS', 'MINUSMINUS',
@@ -52,7 +51,6 @@ t_MINUS            = r'-'
 t_TIMES            = r'\*'
 t_DIVIDE           = r'/'
 t_MOD              = r'%'
-t_NOT              = r'~'
 t_LSHIFT           = r'<<'
 t_RSHIFT           = r'>>'
 t_LT               = r'<'
@@ -70,19 +68,10 @@ t_DIVEQUAL         = r'/='
 t_MODEQUAL         = r'%='
 t_PLUSEQUAL        = r'\+='
 t_MINUSEQUAL       = r'-='
-t_ANDEQUAL         = r'&='
-t_OREQUAL          = r'\|='
-t_XOREQUAL         = r'^='
 
 # Increment/decrement
 t_PLUSPLUS         = r'\+\+'
 t_MINUSMINUS       = r'--'
-
-# ->
-t_ARROW            = r'->'
-
-# ?
-t_CONDOP           = r'\?'
 
 # Delimeters
 t_LPAREN           = r'\('
@@ -91,7 +80,6 @@ t_LBRACE           = r'\{'
 t_RBRACE           = r'\}'
 t_COMMA            = r','
 t_SEMI             = r';'
-t_ELLIPSIS         = r'\.\.\.'
 
 # Identifiers and reserved words
 
@@ -112,9 +100,6 @@ t_FCONST = r'((\d+)(\.\d+)(e(\+|-)?(\d+))? | (\d+)e(\+|-)?(\d+))([lL]|[fF])?'
 
 # String literal
 t_SCONST = r'\"([^\\\n]|(\\.))*?\"'
-
-# Character constant 'c' or L'c'
-t_CCONST = r'(L)?\'([^\\\n]|(\\.))*?\''
 
 # Comments
 def t_comment(t):
