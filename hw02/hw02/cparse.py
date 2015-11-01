@@ -61,7 +61,7 @@ def p_declaration(t):
     elif(t[2][0][1][0]=='ID'):
         print 'Define variable with type',t[1][1],'and name',
         print t[2][0][1][1]
-        if((len(t[2][0][2])==2) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='ICONST'))) & (not((t[1][1]=='string') & (t[2][0][2][0]=='SCONST')))):
+        if((len(t[2][0][2])==2) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='ICONST'))) & (not((t[1][1]=='string') & (t[2][0][2][0]=='SCONST'))) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='NEG') & (t[2][0][2][1][0]=='ICONST')))):
             p_error(t)
 
 
@@ -125,17 +125,6 @@ def p_declarator_3(t):
 def p_declarator_4(t):
     'declarator : ID LPAREN RPAREN '
     t[0] = ('ID', t[1]), None
-
-# pointer:
-
-def p_pointer_1(t):
-    'pointer : TIMES'
-    pass
-
-def p_pointer_2(t):
-    'pointer : TIMES pointer'
-    pass
-
 
 # parameter-type-list:
 
@@ -402,8 +391,7 @@ def p_argument_expression_list_2(t):
 # constant:
 def p_constant(t): 
    '''constant : ICONST
-               | FCONST
-               | CCONST'''
+               | FCONST'''
    t[0] = t[1]
 
 
