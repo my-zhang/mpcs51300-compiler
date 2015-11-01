@@ -119,4 +119,5 @@ if __name__ == '__main__':
         else:
             pass
 
+    print '============ SYMBOL TABLE ============'
     print_syms(syms)
