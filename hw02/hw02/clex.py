@@ -11,7 +11,7 @@ import ply.lex as lex
 
 # Reserved words
 reserved = (
-    'DO', 'ELSE', 'EXTERN', 'FOR', 'IF', 'INT',
+    'DO', 'ELSE', 'EXTERN', 'FOR', 'IF', 'INT', 'FLOAT',
     'RETURN', 'WHILE', 'STRING'
     )
 

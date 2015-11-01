@@ -45,13 +45,13 @@ def p_external_declaration_2(t):
 
 # function-definition:
 def p_function_definition(t):
-    'function_definition : type_specifier declarator compound_instruction'
+    'function_definition : type function_declarator compound_instruction'
     t[0] = 'FUNC_DEF', t[1], t[2], t[3]
     print 'Define function with name', t[2][0][1]
 
 # declaration:
 def p_declaration(t):
-    'declaration : type_specifier init_declarator_list SEMI'
+    'declaration : type declarator_list SEMI'
     t[0] = 'VAR_DEC', t[1], t[2]
     # print t[0]
     if(t[2][0][0]=='ID'):
@@ -61,7 +61,12 @@ def p_declaration(t):
     elif(t[2][0][1][0]=='ID'):
         print 'Define variable with type',t[1][1],'and name',
         print t[2][0][1][1]
-        if((len(t[2][0][2])==2) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='ICONST'))) & (not((t[1][1]=='string') & (t[2][0][2][0]=='SCONST'))) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='NEG') & (t[2][0][2][1][0]=='ICONST')))):
+        if((len(t[2][0][2])==2) 
+            & (not ((t[1][1]=='int') & (t[2][0][2][0]=='ICONST'))) 
+            & (not ((t[1][1]=='float') & (t[2][0][2][0]=='FCONST')))
+            & (not((t[1][1]=='string') & (t[2][0][2][0]=='SCONST'))) 
+            & (not ((t[1][1]=='int') & (t[2][0][2][0]=='NEG') & (t[2][0][2][1][0]=='ICONST')))
+            & (not ((t[1][1]=='float') & (t[2][0][2][0]=='NEG') & (t[2][0][2][1][0]=='FCONST')))):
             p_error(t)
 
 
@@ -76,61 +81,51 @@ def p_declaration_list_2(t):
 
 
 # type-specifier:
-def p_type_specifier(t):
-    '''type_specifier : INT
-                      | STRING
+def p_type(t):
+    '''type : INT
+            | FLOAT
+            | STRING
                       '''
     t[0] = 'TYPE', t[1]
 
 # init-declarator-list:
 
-def p_init_declarator_list_1(t):
-    'init_declarator_list : init_declarator'
+def p_declarator_list_1(t):
+    'declarator_list : declarator'
     t[0] = [t[1]]
-    # print 'init_declarator_list',t[1]
+    # print 'declarator_list',t[1]
 
-def p_init_declarator_list_2(t):
-    'init_declarator_list : init_declarator_list COMMA init_declarator'
+def p_declarator_list_2(t):
+    'declarator_list : declarator_list COMMA declarator'
     t[0] = t[1] + [t[3]]
 
 # init-declarator
 
-def p_init_declarator_1(t):
-    'init_declarator : declarator'
+def p_declarator_1(t):
+    'declarator : function_declarator'
     t[0] = t[1]
     # if(t[0][0]=='ID'):
         # print 'with name',t[0][1]
 
-def p_init_declarator_2(t):
-    'init_declarator : declarator EQUALS expression'
+def p_declarator_2(t):
+    'declarator : function_declarator EQUALS expression'
     t[0] = 'INIT_ASSIGN', t[1], t[3]
 
 # declarator:
 
-def p_declarator_1(t):
-    'declarator : ID'
+def p_function_declarator_1(t):
+    'function_declarator : ID'
     t[0] = 'ID', t[1]
     # print 'With name', t[1]
 
-def p_declarator_2(t):
-    'declarator : ID LPAREN parameter_type_list RPAREN '
+def p_function_declarator_2(t):
+    'function_declarator : ID LPAREN parameter_list RPAREN '
     t[0] = ('ID', t[1]), t[3]
     # print 'parameter_type_list', t[3]
 
-def p_declarator_3(t):
-    'declarator : ID LPAREN identifier_list RPAREN '
-    t[0] = ('ID', t[1]), t[3]
-    # print 'identifier_list', t[3]
-
-def p_declarator_4(t):
-    'declarator : ID LPAREN RPAREN '
+def p_function_declarator_4(t):
+    'function_declarator : ID LPAREN RPAREN '
     t[0] = ('ID', t[1]), None
-
-# parameter-type-list:
-
-def p_parameter_type_list_1(t):
-    'parameter_type_list : parameter_list'
-    t[0] = t[1]
 
 def p_parameter_list_1(t):
     'parameter_list : parameter_declaration'
@@ -142,18 +137,8 @@ def p_parameter_list_2(t):
 
 # parameter-declaration:
 def p_parameter_declaration(t):
-    'parameter_declaration : type_specifier declarator'
+    'parameter_declaration : type function_declarator'
     t[0] = t[1], t[2]
-
-# identifier-list:
-def p_identifier_list_1(t):
-    'identifier_list : ID'
-    pass
-
-def p_identifier_list_2(t):
-    'identifier_list : identifier_list COMMA ID'
-    pass
-
 
 # instruction:
 
@@ -161,7 +146,7 @@ def p_instruction(t):
     '''
     instruction : expression_instruction
               | compound_instruction
-              | selection_instruction
+              | select_instruction
               | iteration_instruction
               | jump_instruction
               '''
@@ -169,7 +154,7 @@ def p_instruction(t):
 
 # expression-instruction:
 def p_expression_instruction(t):
-    'expression_instruction : expression_opt SEMI'
+    'expression_instruction : expression SEMI'
     t[0] = t[1]
 
 # compound-instruction:
@@ -202,15 +187,15 @@ def p_instruction_list_2(t):
 
 # selection-instruction
 
-def p_selection_instruction_1(t):
-    # 'selection_instruction : IF LPAREN expression RPAREN instruction'
-    'selection_instruction : IF LPAREN condition RPAREN instruction'
+def p_select_instruction_1(t):
+    # 'select_instruction : IF LPAREN expression RPAREN instruction'
+    'select_instruction : IF LPAREN condition RPAREN instruction'
     t[0] = 'IF', t[3], t[5]
     print 'If Selection on operator',t[3][0]
 
-def p_selection_instruction_2(t):
-    # 'selection_instruction : IF LPAREN expression RPAREN instruction ELSE instruction '
-    'selection_instruction : IF LPAREN condition RPAREN instruction ELSE instruction '
+def p_select_instruction_2(t):
+    # 'select_instruction : IF LPAREN expression RPAREN instruction ELSE instruction '
+    'select_instruction : IF LPAREN condition RPAREN instruction ELSE instruction '
     t[0] = 'IF_ELSE', t[3], t[5], t[7]
     print 'If_Else Selection on operator', t[3][0]
 
@@ -222,7 +207,7 @@ def p_iteration_instruction_1(t):
         print 'Define While iteration with variable', t[3][1][1]
 
 def p_iteration_instruction_2(t):
-    'iteration_instruction : FOR LPAREN expression_opt SEMI condition SEMI expression_opt RPAREN instruction '
+    'iteration_instruction : FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction '
     t[0] = 'FOR', t[3], t[5], t[7], t[9]
     print 'Define Iteration with variable',t[3][1][1]
 
@@ -234,17 +219,9 @@ def p_iteration_instruction_3(t):
 
 # jump_instruction:
 def p_jump_instruction(t):
-    'jump_instruction : RETURN expression_opt SEMI'
+    'jump_instruction : RETURN expression SEMI'
     t[0] = 'RET', t[2]
     print 'Return ',t[2][1]
-
-def p_expression_opt_1(t):
-    'expression_opt : empty'
-    t[0] = t[1]
-
-def p_expression_opt_2(t):
-    'expression_opt : expression'
-    t[0] = t[1]
 
 # expression:
 
@@ -367,7 +344,7 @@ def p_primary_expression_1(t):
 
 def p_primary_expression_2(t):
     '''primary_expression : constant'''
-    t[0] = 'ICONST', t[1]
+    t[0] = t[1]
 
 def p_primary_expression_3(t):
     '''primary_expression : SCONST'''
@@ -390,14 +367,17 @@ def p_argument_expression_list_2(t):
 
 # constant:
 def p_constant(t): 
-   '''constant : ICONST
-               | FCONST'''
-   t[0] = t[1]
+   '''constant : ICONST'''
+   t[0] = 'ICONST',t[1]
+
+def p_constant_1(t):
+    '''constant : FCONST'''
+    t[0] = 'FCONST',t[1]
 
 
-def p_empty(t):
-    'empty : '
-    t[0] = None
+# def p_empty(t):
+#     'empty : '
+#     t[0] = None
 
 def p_error(t):
     # print "Whoa, We're hosed"
