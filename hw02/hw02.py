@@ -103,7 +103,6 @@ def parse_statement(root, st, syms):
     
 if __name__ == '__main__':
     ast = parser.parse(sys.stdin.read())
-    pp.pprint(ast)
 
     st = []
     syms = {}
