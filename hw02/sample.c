@@ -2,7 +2,8 @@
 extern int bar(int x);
 
 int foo(int count) {
-    int sum = 2;
+    float sum = -2.2;
+    string test = "haha";
     int i;
     int a;
     for(i = 1; i <= count; i++)
