@@ -84,6 +84,16 @@ def parse_statement(root, st, syms):
         st.append('for_%s' %str(uuid4()))
         parse_statement(statement, st, syms)
         st.pop()
+    elif stat[0] == 'WHILE':
+        _, condition, statement = stat
+        st.append('while_%s' %str(uuid4()))
+        parse_statement(statement, st, syms)
+        st.pop()
+    elif stat[0] == 'DO_WHILE':
+        _, statement, condition = stat
+        st.append('do_while_%s' %str(uuid4()))
+        parse_statement(statement, st, syms)
+        st.pop()
     elif stat[0] == 'COMP_STATS':
         parse_compound_statement(stat, st, syms)
     elif stat[0] == 'ASSIGN':
