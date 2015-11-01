@@ -45,7 +45,7 @@ def p_external_declaration_2(t):
 
 # function-definition:
 def p_function_definition(t):
-    'function_definition : type_specifier declarator compound_statement'
+    'function_definition : type_specifier declarator compound_instruction'
     t[0] = 'FUNC_DEF', t[1], t[2], t[3]
     print 'Define function with name', t[2][0][1]
 
@@ -155,86 +155,86 @@ def p_identifier_list_2(t):
     pass
 
 
-# statement:
+# instruction:
 
-def p_statement(t):
+def p_instruction(t):
     '''
-    statement : expression_statement
-              | compound_statement
-              | selection_statement
-              | iteration_statement
-              | jump_statement
+    instruction : expression_instruction
+              | compound_instruction
+              | selection_instruction
+              | iteration_instruction
+              | jump_instruction
               '''
     t[0] = 'STAT', t[1]
 
-# expression-statement:
-def p_expression_statement(t):
-    'expression_statement : expression_opt SEMI'
+# expression-instruction:
+def p_expression_instruction(t):
+    'expression_instruction : expression_opt SEMI'
     t[0] = t[1]
 
-# compound-statement:
+# compound-instruction:
 
-def p_compound_statement_1(t):
-    'compound_statement : LBRACE declaration_list statement_list RBRACE'
+def p_compound_instruction_1(t):
+    'compound_instruction : LBRACE declaration_list instruction_list RBRACE'
     t[0] = 'COMP_STATS', t[2] + t[3]
 
-def p_compound_statement_2(t):
-    'compound_statement : LBRACE statement_list RBRACE'
+def p_compound_instruction_2(t):
+    'compound_instruction : LBRACE instruction_list RBRACE'
     t[0] = 'COMP_STATS', t[2]
 
-def p_compound_statement_3(t):
-    'compound_statement : LBRACE declaration_list RBRACE'
+def p_compound_instruction_3(t):
+    'compound_instruction : LBRACE declaration_list RBRACE'
     t[0] = 'COMP_STATS', t[2] 
 
-def p_compound_statement_4(t):
-    'compound_statement : LBRACE RBRACE'
+def p_compound_instruction_4(t):
+    'compound_instruction : LBRACE RBRACE'
     t[0] = 'COMP_STATS', []
 
-# statement-list:
+# instruction-list:
 
-def p_statement_list_1(t):
-    'statement_list : statement'
+def p_instruction_list_1(t):
+    'instruction_list : instruction'
     t[0] = [t[1]]
 
-def p_statement_list_2(t):
-    'statement_list : statement_list statement'
+def p_instruction_list_2(t):
+    'instruction_list : instruction_list instruction'
     t[0] = t[1] + [t[2]]
 
-# selection-statement
+# selection-instruction
 
-def p_selection_statement_1(t):
-    # 'selection_statement : IF LPAREN expression RPAREN statement'
-    'selection_statement : IF LPAREN condition RPAREN statement'
+def p_selection_instruction_1(t):
+    # 'selection_instruction : IF LPAREN expression RPAREN instruction'
+    'selection_instruction : IF LPAREN condition RPAREN instruction'
     t[0] = 'IF', t[3], t[5]
     print 'If Selection on operator',t[3][0]
 
-def p_selection_statement_2(t):
-    # 'selection_statement : IF LPAREN expression RPAREN statement ELSE statement '
-    'selection_statement : IF LPAREN condition RPAREN statement ELSE statement '
+def p_selection_instruction_2(t):
+    # 'selection_instruction : IF LPAREN expression RPAREN instruction ELSE instruction '
+    'selection_instruction : IF LPAREN condition RPAREN instruction ELSE instruction '
     t[0] = 'IF_ELSE', t[3], t[5], t[7]
     print 'If_Else Selection on operator', t[3][0]
 
-# iteration_statement:
-def p_iteration_statement_1(t):
-    'iteration_statement : WHILE LPAREN condition RPAREN statement'
+# iteration_instruction:
+def p_iteration_instruction_1(t):
+    'iteration_instruction : WHILE LPAREN condition RPAREN instruction'
     t[0] = 'WHILE', t[3], t[5]
     if(t[3][1][0]=='ID'):
         print 'Define While iteration with variable', t[3][1][1]
 
-def p_iteration_statement_2(t):
-    'iteration_statement : FOR LPAREN expression_opt SEMI condition SEMI expression_opt RPAREN statement '
+def p_iteration_instruction_2(t):
+    'iteration_instruction : FOR LPAREN expression_opt SEMI condition SEMI expression_opt RPAREN instruction '
     t[0] = 'FOR', t[3], t[5], t[7], t[9]
     print 'Define Iteration with variable',t[3][1][1]
 
-def p_iteration_statement_3(t):
-    'iteration_statement : DO statement WHILE LPAREN condition RPAREN SEMI'
+def p_iteration_instruction_3(t):
+    'iteration_instruction : DO instruction WHILE LPAREN condition RPAREN SEMI'
     t[0] = 'DO_WHILE', t[2], t[5]
     if(t[5][1][0]=='ID'):
         print 'Define DO_WHILE iteration with variable', t[5][1][1]
 
-# jump_statement:
-def p_jump_statement(t):
-    'jump_statement : RETURN expression_opt SEMI'
+# jump_instruction:
+def p_jump_instruction(t):
+    'jump_instruction : RETURN expression_opt SEMI'
     t[0] = 'RET', t[2]
     print 'Return ',t[2][1]
 
