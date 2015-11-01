@@ -17,7 +17,7 @@ def insert_sym(syms, st, s, val):
     key = '$'.join(map(str, st)) if st else 'global'
 
     if key in syms[s]:
-        raise ValueError('symbols conflit. %s %s' %(key, str(sym[s][key])))
+        raise ValueError('symbols conflit. %s %s' %(key, str(syms[s][key])))
 
     syms[s][key] = val
 
