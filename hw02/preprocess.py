@@ -5,7 +5,7 @@ def remove_comment(source_code):
     """
     Remove C-sytle comments.
     """
-    pattern = re.compile(r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"', re.DOTALL | re.MULTILINE)
+    pattern = re.compile(r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'', re.DOTALL | re.MULTILINE)
 
     return re.sub(pattern, '', source_code)
 
