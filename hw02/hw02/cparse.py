@@ -13,9 +13,6 @@ pp = pprint.PrettyPrinter(indent=4, width=120)
 # token map
 tokens = clex.tokens
 
-# symbol table
-ST = {}
-
 # program:
 
 def p_program_1(t):
@@ -38,7 +35,8 @@ def p_external_declaration_1(t):
 def p_external_declaration_3(t):
     '''external_declaration : declaration'''
     t[0] = t[1]
-    print 'Predefined Function with name',t[1][2][0][0][1]
+    if(len(t[1][2][0])==2):
+        print 'Predefined Function with name',t[1][2][0][0][1]
 
 def p_external_declaration_2(t):
     'external_declaration : EXTERN declaration'
@@ -55,6 +53,7 @@ def p_function_definition(t):
 def p_declaration(t):
     'declaration : type_specifier init_declarator_list SEMI'
     t[0] = 'VAR_DEC', t[1], t[2]
+    # print t[0]
     if(t[2][0][0]=='ID'):
         for i in range(len(t[2])):
             print 'Define variable with type',t[1][1],'and name',
@@ -62,7 +61,9 @@ def p_declaration(t):
     elif(t[2][0][1][0]=='ID'):
         print 'Define variable with type',t[1][1],'and name',
         print t[2][0][1][1]
-    
+        if((len(t[2][0][2])==2) & (not ((t[1][1]=='int') & (t[2][0][2][0]=='ICONST'))) & (not((t[1][1]=='string') & (t[2][0][2][0]=='SCONST')))):
+            p_error(t)
+
 
 # declaration-list:
 def p_declaration_list_1(t):
@@ -382,6 +383,8 @@ def p_primary_expression_2(t):
 def p_primary_expression_3(t):
     '''primary_expression : SCONST'''
     t[0] = 'SCONST', t[1]
+    # print 'STRING',t[0]
+    # print t[1]
 
 def p_primary_expression_4(t):
     '''primary_expression : LPAREN expression RPAREN'''
@@ -409,7 +412,14 @@ def p_empty(t):
     t[0] = None
 
 def p_error(t):
-    print "Whoa. We're hosed"
+    # print "Whoa, We're hosed"
+    if t:
+         print("Syntax error at token", t[0])
+         # Just discard the token and tell the parser it's okay.
+         parser.errok()
+    else:
+         print("Syntax error at EOF")
+
 
 
 parser = yacc.yacc(method='LALR')

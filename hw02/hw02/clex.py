@@ -11,43 +11,31 @@ import ply.lex as lex
 
 # Reserved words
 reserved = (
-    'AUTO', 'BREAK', 'CASE', 'CHAR', 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE',
-    'ELSE', 'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER',
-    'RETURN', 'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF',
-    'UNION', 'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'STRING'
+    'BREAK', 'CHAR', 'CONTINUE', 'DO',
+    'ELSE', 'EXTERN', 'FOR', 'IF', 'INT',
+    'RETURN', 'WHILE', 'STRING'
     )
 
 tokens = reserved + (
     # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'TYPEID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+    'ID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
 
     # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
-    'OR', 'AND', 'NOT', 'XOR', 'LSHIFT', 'RSHIFT',
-    'LOR', 'LAND', 'LNOT',
+    'NOT', 'LSHIFT', 'RSHIFT',
     'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
     
     # Assignment (=, *=, /=, %=, +=, -=, <<=, >>=, &=, ^=, |=)
-    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL',
-    'LSHIFTEQUAL','RSHIFTEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
+    'EQUALS', 'TIMESEQUAL', 'DIVEQUAL', 'MODEQUAL', 'PLUSEQUAL', 'MINUSEQUAL', 'ANDEQUAL', 'XOREQUAL', 'OREQUAL',
 
     # Increment/decrement (++,--)
     'PLUSPLUS', 'MINUSMINUS',
-
-    # Structure dereference (->)
-    'ARROW',
-
-    # Conditional operator (?)
-    'CONDOP',
     
-    # Delimeters ( ) [ ] { } , . ; :
+    # Delimeters ( ) { } , ;
     'LPAREN', 'RPAREN',
-    'LBRACKET', 'RBRACKET',
     'LBRACE', 'RBRACE',
-    'COMMA', 'PERIOD', 'SEMI', 'COLON',
+    'COMMA','SEMI',
 
-    # Ellipsis (...)
-    'ELLIPSIS',
     )
 
 # Completely ignored characters
@@ -64,15 +52,9 @@ t_MINUS            = r'-'
 t_TIMES            = r'\*'
 t_DIVIDE           = r'/'
 t_MOD              = r'%'
-t_OR               = r'\|'
-t_AND              = r'&'
 t_NOT              = r'~'
-t_XOR              = r'\^'
 t_LSHIFT           = r'<<'
 t_RSHIFT           = r'>>'
-t_LOR              = r'\|\|'
-t_LAND             = r'&&'
-t_LNOT             = r'!'
 t_LT               = r'<'
 t_GT               = r'>'
 t_LE               = r'<='
@@ -88,8 +70,6 @@ t_DIVEQUAL         = r'/='
 t_MODEQUAL         = r'%='
 t_PLUSEQUAL        = r'\+='
 t_MINUSEQUAL       = r'-='
-t_LSHIFTEQUAL      = r'<<='
-t_RSHIFTEQUAL      = r'>>='
 t_ANDEQUAL         = r'&='
 t_OREQUAL          = r'\|='
 t_XOREQUAL         = r'^='
@@ -107,14 +87,10 @@ t_CONDOP           = r'\?'
 # Delimeters
 t_LPAREN           = r'\('
 t_RPAREN           = r'\)'
-t_LBRACKET         = r'\['
-t_RBRACKET         = r'\]'
 t_LBRACE           = r'\{'
 t_RBRACE           = r'\}'
 t_COMMA            = r','
-t_PERIOD           = r'\.'
 t_SEMI             = r';'
-t_COLON            = r':'
 t_ELLIPSIS         = r'\.\.\.'
 
 # Identifiers and reserved words
