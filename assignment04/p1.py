@@ -8,11 +8,13 @@ import ply.yacc as yacc
 __author__ = 'mengyu zhang'
 __date__ = '11/01/2015'
 
-tokens = ('NUMBER','ADD','MUL','LPAREN','RPAREN', 
-            'SEMI', 'ASSIGN', 'NAME')
+tokens = ('NUMBER', 'ADD', 'MUL', 'SUB', 'DIV', 
+            'LPAREN', 'RPAREN', 'SEMI', 'ASSIGN', 'NAME')
 
 t_ADD       = r'\+'
+t_SUB       = r'-'
 t_MUL       = r'\*'
+t_DIV       = r'/'
 t_LPAREN    = r'\('
 t_RPAREN    = r'\)'
 t_SEMI      = r';'
@@ -56,7 +58,7 @@ def p_instruction_1(t):
     '''
     instruction : NAME ASSIGN expression
     '''
-    D[t[0]] = t[3]
+    D[t[1]] = t[3]
     t[0] = None
 
 def p_instruction_2(t):
@@ -71,27 +73,41 @@ def p_instruction_3(t):
     '''
     t[0] = None
 
-def p_expression(t):
+def p_expression_1(t):
     '''
     expression : expression ADD term
-               | term
     '''
-    if(len(t) > 2):
-      t[0] = t[1] + t[3]
-    else:
-      t[0] = t[1]
+    t[0] = t[1] + t[3]
 
+def p_expression_2(t):
+    '''
+    expression : expression SUB term
+    '''
+    t[0] = t[1] - t[3]
 
-def p_term_factor(t):
+def p_expression_3(t):
+    '''
+    expression : term
+    '''
+    t[0] = t[1]
+
+def p_term_1(t):
     '''
     term : term MUL factor
-         | factor
     '''
-    if(len(t)>2):
-      t[0] = t[1] * t[3]
-    else:
-      t[0] = t[1]
+    t[0] = t[1] * t[3]
 
+def p_term_2(t):
+    '''
+    term : term DIV factor
+    '''
+    t[0] = t[1] / t[3]
+
+def p_term_3(t):
+    '''
+    term : factor
+    '''
+    t[0] = t[1]
 
 def p_factor_1(t):
     '''
@@ -106,6 +122,13 @@ def p_factor_2(t):
     '''
     t[0] = t[1]
 
+def p_factor_3(t):
+    '''
+    factor : NAME
+    '''
+    if t[1] not in D:
+        raise ValueError("symbol %s is not defined." %(t[1]))
+    t[0] = D[t[1]]
 
 def p_epsilon(t):
     'epsilon : '
