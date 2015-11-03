@@ -76,6 +76,8 @@ While this is working.
 
 ```
 $ echo "int foo(int a); int foo(int b, int c);" | python p2.py
-[('int', 'foo', [('int', 'a')]), ('int', 'foo', [('int', 'b'), ('int', 'c')])]
+[
+    ('int', 'foo', [('int', 'a')]), 
+    ('int', 'foo', [('int', 'b'), ('int', 'c')])
+    ]
 ```
-
