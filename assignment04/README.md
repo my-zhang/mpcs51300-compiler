@@ -49,5 +49,33 @@ Exercise 2
 
 ### Question 1
 
+Implemented in `p2.py`.
+
+The output of the program is a list of nested tuple.
+
+```
+$ echo "int foo(); int bar(string a, int b);" | python p2.py
+[
+    ('int', 'foo', []), 
+    ('int', 'bar', [('string', 'a'), ('int', 'b')])
+    ]
+```
+
 ### Question 2
+
+This feature is added. For example, following declarations are duplicated.
+
+```
+$ echo "int foo(int a); int foo(int b);" | python p2.py
+Traceback (most recent call last):
+       ...
+       ValueError: func define conflit "foo$int".
+```
+
+While this is working.
+
+```
+$ echo "int foo(int a); int foo(int b, int c);" | python p2.py
+[('int', 'foo', [('int', 'a')]), ('int', 'foo', [('int', 'b'), ('int', 'c')])]
+```
 
