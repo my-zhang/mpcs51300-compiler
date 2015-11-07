@@ -60,12 +60,14 @@ def p_instruction_1(t):
     '''
     D[t[1]] = t[3]
     t[0] = None
+    print 'pop', t[1]
 
 def p_instruction_2(t):
     '''
     instruction : expression
     '''
     t[0] = t[1]
+    print 'pop', 'output'
 
 def p_instruction_3(t):
     '''
@@ -78,12 +80,14 @@ def p_expression_1(t):
     expression : expression ADD term
     '''
     t[0] = t[1] + t[3]
+    print 'add'
 
 def p_expression_2(t):
     '''
     expression : expression SUB term
     '''
     t[0] = t[1] - t[3]
+    print 'sub'
 
 def p_expression_3(t):
     '''
@@ -96,12 +100,14 @@ def p_term_1(t):
     term : term MUL factor
     '''
     t[0] = t[1] * t[3]
+    print 'mul'
 
 def p_term_2(t):
     '''
     term : term DIV factor
     '''
     t[0] = t[1] / t[3]
+    print 'div'
 
 def p_term_3(t):
     '''
@@ -121,6 +127,7 @@ def p_factor_2(t):
     factor : NUMBER
     '''
     t[0] = t[1]
+    print 'push', t[1]
 
 def p_factor_3(t):
     '''
@@ -129,6 +136,7 @@ def p_factor_3(t):
     if t[1] not in D:
         raise ValueError("symbol %s is not defined." %(t[1]))
     t[0] = D[t[1]]
+    print 'push', t[1]
 
 def p_epsilon(t):
     'epsilon : '
