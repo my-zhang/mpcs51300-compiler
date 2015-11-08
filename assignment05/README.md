@@ -17,8 +17,9 @@ F -> ident | const | (E)
 
 ### Question 1
 
-Propose a simple data structure to allow the compiler to represent and handle internally an assembly code
+Propose a simple data structure to allow the compiler to represent and handle internally an assembly code.
 
+Tree. We can negerate assembly code through traversing the parse tree. In detail, doing a post-order traversal on the parse tree. When visiting leaf node, print its value(number or variable). On the other hand, print the operation when visiting internal node that represents a arthematical operation.
 
 ### Question 2
 
