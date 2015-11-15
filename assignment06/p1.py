@@ -46,7 +46,7 @@ env = {'sp': 0, 'syms': {}, 'var_cnt': 0}
 
 
 def calc_addr(offset):
-    return '-%d(%%rbp)' %(4 * offset)
+    return '-%d(%%rbp)' %(8 * offset)
 
 
 def do_assign(x, v):
@@ -72,6 +72,7 @@ def do_var(x):
 def do_op(op):
     instructions.append(('popq', '%rbx'))
     instructions.append(('popq', '%rax'))
+    instructions.append(('cltd',))
     instructions.append((op, '%rbx, %rax'))
     instructions.append(('pushq', '%rax'))
     env['sp'] -= 1
@@ -172,7 +173,7 @@ def p_term_1(t):
     term : term MUL factor
     '''
     t[0] = t[1] * t[3]
-    do_op('imull')
+    do_op('imulq')
 
 
 def p_term_2(t):
@@ -180,7 +181,7 @@ def p_term_2(t):
     term : term DIV factor
     '''
     t[0] = t[1] / t[3]
-    do_op('idivl')
+    do_op('idivq')
 
 
 def p_term_3(t):
