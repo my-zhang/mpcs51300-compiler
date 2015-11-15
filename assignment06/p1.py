@@ -39,13 +39,14 @@ lexer = lex.lex()
 
 precedence = ('left','ADD'), ('left','MUL')
 
+ST_SIZE = 256
 instructions  = []
 D = {}
 env = {'sp': 0, 'syms': {}, 'var_cnt': 0}
 
 
 def calc_addr(offset):
-    return '-%d(%%ebp)' %(4 * offset)
+    return '-%d(%%rbp)' %(4 * offset)
 
 
 def do_assign(x, v):
@@ -53,47 +54,57 @@ def do_assign(x, v):
         env['var_cnt'] += 1
         env['syms'][x] = env['var_cnt']
 
-    instructions.append(('pop', calc_addr(env['syms'][x])))
+    instructions.append(('popq', calc_addr(env['syms'][x])))
     env['sp'] -= 1
 
 
 def do_num(n):
-    instructions.append(('pushl', '$%d' %n))
+    instructions.append(('pushq', '$%d' %n))
     env['sp'] += 1
 
 
 def do_var(x):
     addr = calc_addr(env['syms'][x])
-    instructions.append(('pushl', addr))
+    instructions.append(('pushq', addr))
     env['sp'] += 1
 
 
 def do_op(op):
-    instructions.append(('popl', '%ebx'))
-    instructions.append(('popl', '%eax'))
-    instructions.append((op, '%ebx, %eax'))
-    instructions.append(('pushl', '%eax'))
+    instructions.append(('popq', '%rbx'))
+    instructions.append(('popq', '%rax'))
+    instructions.append((op, '%rbx, %rax'))
+    instructions.append(('pushq', '%rax'))
     env['sp'] -= 1
     
 
 def do_finish():
-    instructions.append(('popl', '%eax'))
+    instructions.append(('popq', '%rax'))
+    instructions.append(('leaq', 'L_.str(%rip), %rdi'))
+    instructions.append(('movl', '%eax, %esi'))
+    instructions.append(('movb', '$0, %al'))
+    instructions.append(('callq', '_printf'))
+
     env['sp'] -= 1
 
 
 def do_preamble(var_cnt):
     for l in [('.globl', '_main'),
               ('_main:',),
-              ('pushl', '%ebp'), 
-              ('movl', '%esp, %ebp'), 
-              ('subl', '$%d, %%esp' %(var_cnt * 4))][::-1]:
+              ('pushq', '%rbp'), 
+              ('movq', '%rsp, %rbp'), 
+              ('subq', '$%d, %%rsp' %(ST_SIZE))][::-1]:
         instructions.insert(0, l)
 
 
 def do_ret():
-    instructions.append(('leave',))
-    instructions.append(('ret',))
+    instructions.append(('addq', '$%d, %%rsp' %(ST_SIZE)))
+    instructions.append(('popq', '%rbp'))
+    instructions.append(('retq',))
 
+def do_str_literal():
+    instructions.append(('.section __TEXT,__cstring,cstring_literals',))
+    instructions.append(('L_.str:',))
+    instructions.append(('.asciz "Ans: %d\\n"',))
 
 def p_statement_1(t):
     '''
@@ -138,7 +149,7 @@ def p_expression_1(t):
     expression : expression ADD term
     '''
     t[0] = t[1] + t[3]
-    do_op('addl')
+    do_op('addq')
 
 
 def p_expression_2(t):
@@ -146,7 +157,7 @@ def p_expression_2(t):
     expression : expression SUB term
     '''
     t[0] = t[1] - t[3]
-    do_op('subl')
+    do_op('subq')
 
 
 def p_expression_3(t):
@@ -221,4 +232,5 @@ if __name__ == '__main__':
     parser.parse(S)
     do_preamble(env['var_cnt']) 
     do_ret()
+    do_str_literal()
     print '\n'.join(map(' '.join, instructions))
