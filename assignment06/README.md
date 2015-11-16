@@ -83,3 +83,18 @@ $ ./a.out
 Ans: -3
 Ans: 1
 ```
+
+### Question 4
+
+> The assembly code is directly executable? Explain how to obtain an executable?
+
+Yes, as illustrated in question #3.
+
+Here're some experiences and efforts I made to make it excutable on my Mac.
+
+Firstly, I was trying to generate X86-32 code which looks more common and familiar. `gcc` have an option `-m32` to generate 32-bits cross-platform code. It worked fine before introducing `printf`.
+
+However when `printf` introduced, the code will raise error during the linking phase on my macbook, since the `ld` doesn't know where to find a 32-bits library that implements `printf`. I thought about copying a 32-bits printf library somewhere and add it to `ld`'s search path. Since this idea may require some tricky hacks, I decided to turn to X86-64 code.
+
+The differences between X86-32 and X86-64 code are like `pushl` and `pushq`, `%eax` and `%rax`, `addl` and `addq` and etc.
+
