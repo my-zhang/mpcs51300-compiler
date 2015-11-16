@@ -33,7 +33,7 @@ For exmaple, if `"a:=6; b:=9; a+b;"`, then the hashmap will be like `{a: -4, b: 
 
 Implemented in `p3.py`, with lib files in dir `ply`. 
 
-**X86-64 Mac** platform required.
+**X86-64 Mac** and **gcc** platform required.
 
 Simple example:
 
@@ -46,7 +46,7 @@ Ans: 3
 
 The content of generated assembly file.
 
-```assembly_x86
+```asm
 .globl _main
 _main:
 pushq %rbp
