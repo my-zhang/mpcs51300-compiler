@@ -1,5 +1,5 @@
 
-Assignment 5
+Assignment 6
 ============
 
 Exercise
@@ -17,64 +17,69 @@ F -> ident | const | (E)
 
 ### Question 1
 
-Propose a simple data structure to allow the compiler to represent and handle internally an assembly code.
+> Propose a simple data structure to allow the compiler to represent and handle internally an assembly code.
 
-Tree. We can negerate assembly code through traversing the parse tree. In detail, doing a post-order traversal on the parse tree. When visiting leaf node, print its value(number or variable). On the other hand, print the operation when visiting internal node that represents a arthematical operation.
+I make assembly code stored in a list, which each assembly instruction is a tuple of the format (opcode, oprand1, oprand2).
 
 ### Question 2
 
-Create an assembly code for stack machine from this grammar.
+> Where can you store the variables?
 
-Implemented in `p1.py`, with lib files in dir `ply`.
+I used a hashmap to track the position of each variable that will be placed on the stack. 
+
+For exmaple, if `"a:=6; b:=9; a+b;"`, then the hashmap will be like `{a: -4, b: -8}`, and thus `a` and `b` will locate at `-4(%ebp)` and `-8(%ebp)`.
+
+### Question 3
+
+Implemented in `p3.py`, with lib files in dir `ply`. 
+
+**X86-64 Mac** platform required.
 
 Simple example:
 
 ```
-$ echo "1+2;" | python p1.py
-push 1
-push 2
-add
-pop output
-[3]
+$ echo "a:=1; a+2;" | python p3.py > a.s
+$ gcc a.s
+$ ./a.out
+Ans: 3
+```
+
+The content of generated assembly file.
+
+```assembly_x86
+.globl _main
+_main:
+pushq %rbp
+movq %rsp, %rbp
+subq $256, %rsp
+pushq $1
+popq -8(%rbp)
+pushq -8(%rbp)
+pushq $2
+popq %rbx
+popq %rax
+cltd
+addq %rbx, %rax
+pushq %rax
+popq %rax
+leaq L_.str(%rip), %rdi
+movl %eax, %esi
+movb $0, %al
+callq _printf
+addq $256, %rsp
+popq %rbp
+retq
+.section __TEXT,__cstring,cstring_literals
+L_.str:
+.asciz "Ans: %d\n"
 ```
 
 A complicated case:
 
 ```
-$ echo "(1+2)*(3-4); 1+6/3-2;" | python p1.py
-push 1
-push 2
-add
-push 3
-push 4
-sub
-mul
-pop output
-push 1
-push 6
-push 3
-div
-add
-push 2
-sub
-pop output
-[-3, 1]
+$ echo "a:=1; b:=2; (a+b)*(3-4); a+6/3-b;" | python p3.py > a.s
+$ gcc a.s
+$ ./a.out
+Ans: -3
+Ans: 1
 ```
-
-With variable:
-
-```
-$ echo "a:=1;(a+3)+(2-1);" | python p1.py
-push 1
-pop a
-push a
-push 3
-add
-push 2
-push 1
-sub
-add
-pop output
-[None, 5]
-```
-
