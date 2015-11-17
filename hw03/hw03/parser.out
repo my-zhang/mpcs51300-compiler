@@ -1,0 +1,3537 @@
+Created by PLY version 3.7 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> external_declaration
+Rule 2     program -> program external_declaration
+Rule 3     external_declaration -> function_definition
+Rule 4     external_declaration -> declaration
+Rule 5     external_declaration -> EXTERN declaration
+Rule 6     function_definition -> type function_declarator compound_instruction
+Rule 7     declaration -> type declarator_list SEMI
+Rule 8     declaration_list -> declaration
+Rule 9     declaration_list -> declaration_list declaration
+Rule 10    type -> INT
+Rule 11    type -> FLOAT
+Rule 12    type -> STRING
+Rule 13    declarator_list -> declarator
+Rule 14    declarator_list -> declarator_list COMMA declarator
+Rule 15    declarator -> function_declarator
+Rule 16    declarator -> function_declarator EQUALS expression
+Rule 17    function_declarator -> ID
+Rule 18    function_declarator -> ID LPAREN parameter_list RPAREN
+Rule 19    function_declarator -> ID LPAREN RPAREN
+Rule 20    parameter_list -> parameter_declaration
+Rule 21    parameter_list -> parameter_list COMMA parameter_declaration
+Rule 22    parameter_declaration -> type function_declarator
+Rule 23    instruction -> expression_instruction
+Rule 24    instruction -> compound_instruction
+Rule 25    instruction -> select_instruction
+Rule 26    instruction -> iteration_instruction
+Rule 27    instruction -> jump_instruction
+Rule 28    expression_instruction -> expression SEMI
+Rule 29    compound_instruction -> LBRACE declaration_list instruction_list RBRACE
+Rule 30    compound_instruction -> LBRACE instruction_list RBRACE
+Rule 31    compound_instruction -> LBRACE declaration_list RBRACE
+Rule 32    compound_instruction -> LBRACE RBRACE
+Rule 33    instruction_list -> instruction
+Rule 34    instruction_list -> instruction_list instruction
+Rule 35    select_instruction -> IF LPAREN condition RPAREN instruction
+Rule 36    select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction
+Rule 37    iteration_instruction -> WHILE LPAREN condition RPAREN instruction
+Rule 38    iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+Rule 39    iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI
+Rule 40    jump_instruction -> RETURN expression SEMI
+Rule 41    expression -> additive_expression
+Rule 42    expression -> unary_expression assignment_operator expression
+Rule 43    expression -> expression LSHIFT additive_expression
+Rule 44    expression -> expression RSHIFT additive_expression
+Rule 45    condition -> expression comparison_operator expression
+Rule 46    comparison_operator -> EQ
+Rule 47    comparison_operator -> NE
+Rule 48    comparison_operator -> LT
+Rule 49    comparison_operator -> GT
+Rule 50    comparison_operator -> LE
+Rule 51    comparison_operator -> GE
+Rule 52    assignment_operator -> EQUALS
+Rule 53    assignment_operator -> TIMESEQUAL
+Rule 54    assignment_operator -> DIVEQUAL
+Rule 55    assignment_operator -> MODEQUAL
+Rule 56    assignment_operator -> PLUSEQUAL
+Rule 57    assignment_operator -> MINUSEQUAL
+Rule 58    additive_expression -> multiplicative_expression
+Rule 59    additive_expression -> additive_expression PLUS multiplicative_expression
+Rule 60    additive_expression -> additive_expression MINUS multiplicative_expression
+Rule 61    multiplicative_expression -> unary_expression
+Rule 62    multiplicative_expression -> multiplicative_expression TIMES unary_expression
+Rule 63    multiplicative_expression -> multiplicative_expression DIVIDE unary_expression
+Rule 64    multiplicative_expression -> multiplicative_expression MOD unary_expression
+Rule 65    unary_expression -> postfix_expression
+Rule 66    unary_expression -> MINUS unary_expression
+Rule 67    postfix_expression -> primary_expression
+Rule 68    postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN
+Rule 69    postfix_expression -> postfix_expression LPAREN RPAREN
+Rule 70    postfix_expression -> postfix_expression PLUSPLUS
+Rule 71    postfix_expression -> postfix_expression MINUSMINUS
+Rule 72    primary_expression -> ID
+Rule 73    primary_expression -> constant
+Rule 74    primary_expression -> SCONST
+Rule 75    primary_expression -> LPAREN expression RPAREN
+Rule 76    argument_expression_list -> expression
+Rule 77    argument_expression_list -> argument_expression_list COMMA expression
+Rule 78    constant -> ICONST
+Rule 79    constant -> FCONST
+
+Terminals, with rules where they appear
+
+COMMA                : 14 21 77
+DIVEQUAL             : 54
+DIVIDE               : 63
+DO                   : 39
+ELSE                 : 36
+EQ                   : 46
+EQUALS               : 16 52
+EXTERN               : 5
+FCONST               : 79
+FLOAT                : 11
+FOR                  : 38
+GE                   : 51
+GT                   : 49
+ICONST               : 78
+ID                   : 17 18 19 72
+IF                   : 35 36
+INT                  : 10
+LBRACE               : 29 30 31 32
+LE                   : 50
+LPAREN               : 18 19 35 36 37 38 39 68 69 75
+LSHIFT               : 43
+LT                   : 48
+MINUS                : 60 66
+MINUSEQUAL           : 57
+MINUSMINUS           : 71
+MOD                  : 64
+MODEQUAL             : 55
+NE                   : 47
+PLUS                 : 59
+PLUSEQUAL            : 56
+PLUSPLUS             : 70
+RBRACE               : 29 30 31 32
+RETURN               : 40
+RPAREN               : 18 19 35 36 37 38 39 68 69 75
+RSHIFT               : 44
+SCONST               : 74
+SEMI                 : 7 28 38 38 39 40
+STRING               : 12
+TIMES                : 62
+TIMESEQUAL           : 53
+WHILE                : 37 39
+error                : 
+
+Nonterminals, with rules where they appear
+
+additive_expression  : 41 43 44 59 60
+argument_expression_list : 68 77
+assignment_operator  : 42
+comparison_operator  : 45
+compound_instruction : 6 24
+condition            : 35 36 37 38 39
+constant             : 73
+declaration          : 4 5 8 9
+declaration_list     : 9 29 31
+declarator           : 13 14
+declarator_list      : 7 14
+expression           : 16 28 38 38 40 42 43 44 45 45 75 76 77
+expression_instruction : 23
+external_declaration : 1 2
+function_declarator  : 6 15 16 22
+function_definition  : 3
+instruction          : 33 34 35 36 36 37 38 39
+instruction_list     : 29 30 34
+iteration_instruction : 26
+jump_instruction     : 27
+multiplicative_expression : 58 59 60 62 63 64
+parameter_declaration : 20 21
+parameter_list       : 18 21
+postfix_expression   : 65 68 69 70 71
+primary_expression   : 67
+program              : 2 0
+select_instruction   : 25
+type                 : 6 7 22
+unary_expression     : 42 61 62 63 64 66
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . external_declaration
+    (2) program -> . program external_declaration
+    (3) external_declaration -> . function_definition
+    (4) external_declaration -> . declaration
+    (5) external_declaration -> . EXTERN declaration
+    (6) function_definition -> . type function_declarator compound_instruction
+    (7) declaration -> . type declarator_list SEMI
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+
+    EXTERN          shift and go to state 8
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+
+    external_declaration           shift and go to state 1
+    function_definition            shift and go to state 2
+    program                        shift and go to state 6
+    declaration                    shift and go to state 7
+    type                           shift and go to state 9
+
+state 1
+
+    (1) program -> external_declaration .
+
+    EXTERN          reduce using rule 1 (program -> external_declaration .)
+    INT             reduce using rule 1 (program -> external_declaration .)
+    FLOAT           reduce using rule 1 (program -> external_declaration .)
+    STRING          reduce using rule 1 (program -> external_declaration .)
+    $end            reduce using rule 1 (program -> external_declaration .)
+
+
+state 2
+
+    (3) external_declaration -> function_definition .
+
+    EXTERN          reduce using rule 3 (external_declaration -> function_definition .)
+    INT             reduce using rule 3 (external_declaration -> function_definition .)
+    FLOAT           reduce using rule 3 (external_declaration -> function_definition .)
+    STRING          reduce using rule 3 (external_declaration -> function_definition .)
+    $end            reduce using rule 3 (external_declaration -> function_definition .)
+
+
+state 3
+
+    (12) type -> STRING .
+
+    ID              reduce using rule 12 (type -> STRING .)
+
+
+state 4
+
+    (10) type -> INT .
+
+    ID              reduce using rule 10 (type -> INT .)
+
+
+state 5
+
+    (11) type -> FLOAT .
+
+    ID              reduce using rule 11 (type -> FLOAT .)
+
+
+state 6
+
+    (0) S' -> program .
+    (2) program -> program . external_declaration
+    (3) external_declaration -> . function_definition
+    (4) external_declaration -> . declaration
+    (5) external_declaration -> . EXTERN declaration
+    (6) function_definition -> . type function_declarator compound_instruction
+    (7) declaration -> . type declarator_list SEMI
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+
+    EXTERN          shift and go to state 8
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+
+    external_declaration           shift and go to state 10
+    function_definition            shift and go to state 2
+    declaration                    shift and go to state 7
+    type                           shift and go to state 9
+
+state 7
+
+    (4) external_declaration -> declaration .
+
+    EXTERN          reduce using rule 4 (external_declaration -> declaration .)
+    INT             reduce using rule 4 (external_declaration -> declaration .)
+    FLOAT           reduce using rule 4 (external_declaration -> declaration .)
+    STRING          reduce using rule 4 (external_declaration -> declaration .)
+    $end            reduce using rule 4 (external_declaration -> declaration .)
+
+
+state 8
+
+    (5) external_declaration -> EXTERN . declaration
+    (7) declaration -> . type declarator_list SEMI
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+
+    type                           shift and go to state 12
+    declaration                    shift and go to state 11
+
+state 9
+
+    (6) function_definition -> type . function_declarator compound_instruction
+    (7) declaration -> type . declarator_list SEMI
+    (17) function_declarator -> . ID
+    (18) function_declarator -> . ID LPAREN parameter_list RPAREN
+    (19) function_declarator -> . ID LPAREN RPAREN
+    (13) declarator_list -> . declarator
+    (14) declarator_list -> . declarator_list COMMA declarator
+    (15) declarator -> . function_declarator
+    (16) declarator -> . function_declarator EQUALS expression
+
+    ID              shift and go to state 15
+
+    function_declarator            shift and go to state 13
+    declarator                     shift and go to state 14
+    declarator_list                shift and go to state 16
+
+state 10
+
+    (2) program -> program external_declaration .
+
+    EXTERN          reduce using rule 2 (program -> program external_declaration .)
+    INT             reduce using rule 2 (program -> program external_declaration .)
+    FLOAT           reduce using rule 2 (program -> program external_declaration .)
+    STRING          reduce using rule 2 (program -> program external_declaration .)
+    $end            reduce using rule 2 (program -> program external_declaration .)
+
+
+state 11
+
+    (5) external_declaration -> EXTERN declaration .
+
+    EXTERN          reduce using rule 5 (external_declaration -> EXTERN declaration .)
+    INT             reduce using rule 5 (external_declaration -> EXTERN declaration .)
+    FLOAT           reduce using rule 5 (external_declaration -> EXTERN declaration .)
+    STRING          reduce using rule 5 (external_declaration -> EXTERN declaration .)
+    $end            reduce using rule 5 (external_declaration -> EXTERN declaration .)
+
+
+state 12
+
+    (7) declaration -> type . declarator_list SEMI
+    (13) declarator_list -> . declarator
+    (14) declarator_list -> . declarator_list COMMA declarator
+    (15) declarator -> . function_declarator
+    (16) declarator -> . function_declarator EQUALS expression
+    (17) function_declarator -> . ID
+    (18) function_declarator -> . ID LPAREN parameter_list RPAREN
+    (19) function_declarator -> . ID LPAREN RPAREN
+
+    ID              shift and go to state 15
+
+    function_declarator            shift and go to state 17
+    declarator                     shift and go to state 14
+    declarator_list                shift and go to state 16
+
+state 13
+
+    (6) function_definition -> type function_declarator . compound_instruction
+    (15) declarator -> function_declarator .
+    (16) declarator -> function_declarator . EQUALS expression
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+
+    SEMI            reduce using rule 15 (declarator -> function_declarator .)
+    COMMA           reduce using rule 15 (declarator -> function_declarator .)
+    EQUALS          shift and go to state 20
+    LBRACE          shift and go to state 18
+
+    compound_instruction           shift and go to state 19
+
+state 14
+
+    (13) declarator_list -> declarator .
+
+    SEMI            reduce using rule 13 (declarator_list -> declarator .)
+    COMMA           reduce using rule 13 (declarator_list -> declarator .)
+
+
+state 15
+
+    (17) function_declarator -> ID .
+    (18) function_declarator -> ID . LPAREN parameter_list RPAREN
+    (19) function_declarator -> ID . LPAREN RPAREN
+
+    RPAREN          reduce using rule 17 (function_declarator -> ID .)
+    COMMA           reduce using rule 17 (function_declarator -> ID .)
+    EQUALS          reduce using rule 17 (function_declarator -> ID .)
+    SEMI            reduce using rule 17 (function_declarator -> ID .)
+    LBRACE          reduce using rule 17 (function_declarator -> ID .)
+    LPAREN          shift and go to state 21
+
+
+state 16
+
+    (7) declaration -> type declarator_list . SEMI
+    (14) declarator_list -> declarator_list . COMMA declarator
+
+    SEMI            shift and go to state 23
+    COMMA           shift and go to state 22
+
+
+state 17
+
+    (15) declarator -> function_declarator .
+    (16) declarator -> function_declarator . EQUALS expression
+
+    SEMI            reduce using rule 15 (declarator -> function_declarator .)
+    COMMA           reduce using rule 15 (declarator -> function_declarator .)
+    EQUALS          shift and go to state 20
+
+
+state 18
+
+    (29) compound_instruction -> LBRACE . declaration_list instruction_list RBRACE
+    (30) compound_instruction -> LBRACE . instruction_list RBRACE
+    (31) compound_instruction -> LBRACE . declaration_list RBRACE
+    (32) compound_instruction -> LBRACE . RBRACE
+    (8) declaration_list -> . declaration
+    (9) declaration_list -> . declaration_list declaration
+    (33) instruction_list -> . instruction
+    (34) instruction_list -> . instruction_list instruction
+    (7) declaration -> . type declarator_list SEMI
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    RBRACE          shift and go to state 38
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    select_instruction             shift and go to state 50
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    expression                     shift and go to state 51
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 25
+    postfix_expression             shift and go to state 34
+    declaration_list               shift and go to state 49
+    instruction_list               shift and go to state 41
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    declaration                    shift and go to state 45
+    jump_instruction               shift and go to state 36
+    type                           shift and go to state 12
+    multiplicative_expression      shift and go to state 40
+
+state 19
+
+    (6) function_definition -> type function_declarator compound_instruction .
+
+    EXTERN          reduce using rule 6 (function_definition -> type function_declarator compound_instruction .)
+    INT             reduce using rule 6 (function_definition -> type function_declarator compound_instruction .)
+    FLOAT           reduce using rule 6 (function_definition -> type function_declarator compound_instruction .)
+    STRING          reduce using rule 6 (function_definition -> type function_declarator compound_instruction .)
+    $end            reduce using rule 6 (function_definition -> type function_declarator compound_instruction .)
+
+
+state 20
+
+    (16) declarator -> function_declarator EQUALS . expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 52
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 21
+
+    (18) function_declarator -> ID LPAREN . parameter_list RPAREN
+    (19) function_declarator -> ID LPAREN . RPAREN
+    (20) parameter_list -> . parameter_declaration
+    (21) parameter_list -> . parameter_list COMMA parameter_declaration
+    (22) parameter_declaration -> . type function_declarator
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+
+    RPAREN          shift and go to state 53
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+
+    parameter_declaration          shift and go to state 55
+    type                           shift and go to state 56
+    parameter_list                 shift and go to state 54
+
+state 22
+
+    (14) declarator_list -> declarator_list COMMA . declarator
+    (15) declarator -> . function_declarator
+    (16) declarator -> . function_declarator EQUALS expression
+    (17) function_declarator -> . ID
+    (18) function_declarator -> . ID LPAREN parameter_list RPAREN
+    (19) function_declarator -> . ID LPAREN RPAREN
+
+    ID              shift and go to state 15
+
+    function_declarator            shift and go to state 17
+    declarator                     shift and go to state 57
+
+state 23
+
+    (7) declaration -> type declarator_list SEMI .
+
+    EXTERN          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    INT             reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    FLOAT           reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    STRING          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    $end            reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    RBRACE          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    LBRACE          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    IF              reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    WHILE           reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    FOR             reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    DO              reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    RETURN          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    MINUS           reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    ID              reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    SCONST          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    LPAREN          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    ICONST          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+    FCONST          reduce using rule 7 (declaration -> type declarator_list SEMI .)
+
+
+state 24
+
+    (39) iteration_instruction -> DO . instruction WHILE LPAREN condition RPAREN SEMI
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 58
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 25
+
+    (33) instruction_list -> instruction .
+
+    RBRACE          reduce using rule 33 (instruction_list -> instruction .)
+    LBRACE          reduce using rule 33 (instruction_list -> instruction .)
+    IF              reduce using rule 33 (instruction_list -> instruction .)
+    WHILE           reduce using rule 33 (instruction_list -> instruction .)
+    FOR             reduce using rule 33 (instruction_list -> instruction .)
+    DO              reduce using rule 33 (instruction_list -> instruction .)
+    RETURN          reduce using rule 33 (instruction_list -> instruction .)
+    MINUS           reduce using rule 33 (instruction_list -> instruction .)
+    ID              reduce using rule 33 (instruction_list -> instruction .)
+    SCONST          reduce using rule 33 (instruction_list -> instruction .)
+    LPAREN          reduce using rule 33 (instruction_list -> instruction .)
+    ICONST          reduce using rule 33 (instruction_list -> instruction .)
+    FCONST          reduce using rule 33 (instruction_list -> instruction .)
+
+
+state 26
+
+    (40) jump_instruction -> RETURN . expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 59
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 27
+
+    (42) expression -> unary_expression . assignment_operator expression
+    (61) multiplicative_expression -> unary_expression .
+    (52) assignment_operator -> . EQUALS
+    (53) assignment_operator -> . TIMESEQUAL
+    (54) assignment_operator -> . DIVEQUAL
+    (55) assignment_operator -> . MODEQUAL
+    (56) assignment_operator -> . PLUSEQUAL
+    (57) assignment_operator -> . MINUSEQUAL
+
+    TIMES           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    DIVIDE          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    MOD             reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    PLUS            reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    MINUS           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    RPAREN          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LSHIFT          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    RSHIFT          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    SEMI            reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    COMMA           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    EQ              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    NE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LT              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    GT              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    GE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    EQUALS          shift and go to state 63
+    TIMESEQUAL      shift and go to state 66
+    DIVEQUAL        shift and go to state 60
+    MODEQUAL        shift and go to state 62
+    PLUSEQUAL       shift and go to state 64
+    MINUSEQUAL      shift and go to state 61
+
+    assignment_operator            shift and go to state 65
+
+state 28
+
+    (37) iteration_instruction -> WHILE . LPAREN condition RPAREN instruction
+
+    LPAREN          shift and go to state 67
+
+
+state 29
+
+    (74) primary_expression -> SCONST .
+
+    LPAREN          reduce using rule 74 (primary_expression -> SCONST .)
+    PLUSPLUS        reduce using rule 74 (primary_expression -> SCONST .)
+    MINUSMINUS      reduce using rule 74 (primary_expression -> SCONST .)
+    EQUALS          reduce using rule 74 (primary_expression -> SCONST .)
+    TIMESEQUAL      reduce using rule 74 (primary_expression -> SCONST .)
+    DIVEQUAL        reduce using rule 74 (primary_expression -> SCONST .)
+    MODEQUAL        reduce using rule 74 (primary_expression -> SCONST .)
+    PLUSEQUAL       reduce using rule 74 (primary_expression -> SCONST .)
+    MINUSEQUAL      reduce using rule 74 (primary_expression -> SCONST .)
+    TIMES           reduce using rule 74 (primary_expression -> SCONST .)
+    DIVIDE          reduce using rule 74 (primary_expression -> SCONST .)
+    MOD             reduce using rule 74 (primary_expression -> SCONST .)
+    PLUS            reduce using rule 74 (primary_expression -> SCONST .)
+    MINUS           reduce using rule 74 (primary_expression -> SCONST .)
+    SEMI            reduce using rule 74 (primary_expression -> SCONST .)
+    LSHIFT          reduce using rule 74 (primary_expression -> SCONST .)
+    RSHIFT          reduce using rule 74 (primary_expression -> SCONST .)
+    RPAREN          reduce using rule 74 (primary_expression -> SCONST .)
+    COMMA           reduce using rule 74 (primary_expression -> SCONST .)
+    EQ              reduce using rule 74 (primary_expression -> SCONST .)
+    NE              reduce using rule 74 (primary_expression -> SCONST .)
+    LT              reduce using rule 74 (primary_expression -> SCONST .)
+    GT              reduce using rule 74 (primary_expression -> SCONST .)
+    LE              reduce using rule 74 (primary_expression -> SCONST .)
+    GE              reduce using rule 74 (primary_expression -> SCONST .)
+
+
+state 30
+
+    (66) unary_expression -> MINUS . unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 68
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 31
+
+    (41) expression -> additive_expression .
+    (59) additive_expression -> additive_expression . PLUS multiplicative_expression
+    (60) additive_expression -> additive_expression . MINUS multiplicative_expression
+
+    LSHIFT          reduce using rule 41 (expression -> additive_expression .)
+    RSHIFT          reduce using rule 41 (expression -> additive_expression .)
+    EQ              reduce using rule 41 (expression -> additive_expression .)
+    NE              reduce using rule 41 (expression -> additive_expression .)
+    LT              reduce using rule 41 (expression -> additive_expression .)
+    GT              reduce using rule 41 (expression -> additive_expression .)
+    LE              reduce using rule 41 (expression -> additive_expression .)
+    GE              reduce using rule 41 (expression -> additive_expression .)
+    SEMI            reduce using rule 41 (expression -> additive_expression .)
+    RPAREN          reduce using rule 41 (expression -> additive_expression .)
+    COMMA           reduce using rule 41 (expression -> additive_expression .)
+    PLUS            shift and go to state 69
+    MINUS           shift and go to state 70
+
+
+state 32
+
+    (26) instruction -> iteration_instruction .
+
+    RBRACE          reduce using rule 26 (instruction -> iteration_instruction .)
+    LBRACE          reduce using rule 26 (instruction -> iteration_instruction .)
+    IF              reduce using rule 26 (instruction -> iteration_instruction .)
+    WHILE           reduce using rule 26 (instruction -> iteration_instruction .)
+    FOR             reduce using rule 26 (instruction -> iteration_instruction .)
+    DO              reduce using rule 26 (instruction -> iteration_instruction .)
+    RETURN          reduce using rule 26 (instruction -> iteration_instruction .)
+    MINUS           reduce using rule 26 (instruction -> iteration_instruction .)
+    ID              reduce using rule 26 (instruction -> iteration_instruction .)
+    SCONST          reduce using rule 26 (instruction -> iteration_instruction .)
+    LPAREN          reduce using rule 26 (instruction -> iteration_instruction .)
+    ICONST          reduce using rule 26 (instruction -> iteration_instruction .)
+    FCONST          reduce using rule 26 (instruction -> iteration_instruction .)
+    ELSE            reduce using rule 26 (instruction -> iteration_instruction .)
+
+
+state 33
+
+    (79) constant -> FCONST .
+
+    LPAREN          reduce using rule 79 (constant -> FCONST .)
+    PLUSPLUS        reduce using rule 79 (constant -> FCONST .)
+    MINUSMINUS      reduce using rule 79 (constant -> FCONST .)
+    EQUALS          reduce using rule 79 (constant -> FCONST .)
+    TIMESEQUAL      reduce using rule 79 (constant -> FCONST .)
+    DIVEQUAL        reduce using rule 79 (constant -> FCONST .)
+    MODEQUAL        reduce using rule 79 (constant -> FCONST .)
+    PLUSEQUAL       reduce using rule 79 (constant -> FCONST .)
+    MINUSEQUAL      reduce using rule 79 (constant -> FCONST .)
+    TIMES           reduce using rule 79 (constant -> FCONST .)
+    DIVIDE          reduce using rule 79 (constant -> FCONST .)
+    MOD             reduce using rule 79 (constant -> FCONST .)
+    PLUS            reduce using rule 79 (constant -> FCONST .)
+    MINUS           reduce using rule 79 (constant -> FCONST .)
+    SEMI            reduce using rule 79 (constant -> FCONST .)
+    LSHIFT          reduce using rule 79 (constant -> FCONST .)
+    RSHIFT          reduce using rule 79 (constant -> FCONST .)
+    COMMA           reduce using rule 79 (constant -> FCONST .)
+    RPAREN          reduce using rule 79 (constant -> FCONST .)
+    EQ              reduce using rule 79 (constant -> FCONST .)
+    NE              reduce using rule 79 (constant -> FCONST .)
+    LT              reduce using rule 79 (constant -> FCONST .)
+    GT              reduce using rule 79 (constant -> FCONST .)
+    LE              reduce using rule 79 (constant -> FCONST .)
+    GE              reduce using rule 79 (constant -> FCONST .)
+
+
+state 34
+
+    (65) unary_expression -> postfix_expression .
+    (68) postfix_expression -> postfix_expression . LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> postfix_expression . LPAREN RPAREN
+    (70) postfix_expression -> postfix_expression . PLUSPLUS
+    (71) postfix_expression -> postfix_expression . MINUSMINUS
+
+    EQUALS          reduce using rule 65 (unary_expression -> postfix_expression .)
+    TIMESEQUAL      reduce using rule 65 (unary_expression -> postfix_expression .)
+    DIVEQUAL        reduce using rule 65 (unary_expression -> postfix_expression .)
+    MODEQUAL        reduce using rule 65 (unary_expression -> postfix_expression .)
+    PLUSEQUAL       reduce using rule 65 (unary_expression -> postfix_expression .)
+    MINUSEQUAL      reduce using rule 65 (unary_expression -> postfix_expression .)
+    TIMES           reduce using rule 65 (unary_expression -> postfix_expression .)
+    DIVIDE          reduce using rule 65 (unary_expression -> postfix_expression .)
+    MOD             reduce using rule 65 (unary_expression -> postfix_expression .)
+    PLUS            reduce using rule 65 (unary_expression -> postfix_expression .)
+    MINUS           reduce using rule 65 (unary_expression -> postfix_expression .)
+    SEMI            reduce using rule 65 (unary_expression -> postfix_expression .)
+    LSHIFT          reduce using rule 65 (unary_expression -> postfix_expression .)
+    RSHIFT          reduce using rule 65 (unary_expression -> postfix_expression .)
+    COMMA           reduce using rule 65 (unary_expression -> postfix_expression .)
+    RPAREN          reduce using rule 65 (unary_expression -> postfix_expression .)
+    EQ              reduce using rule 65 (unary_expression -> postfix_expression .)
+    NE              reduce using rule 65 (unary_expression -> postfix_expression .)
+    LT              reduce using rule 65 (unary_expression -> postfix_expression .)
+    GT              reduce using rule 65 (unary_expression -> postfix_expression .)
+    LE              reduce using rule 65 (unary_expression -> postfix_expression .)
+    GE              reduce using rule 65 (unary_expression -> postfix_expression .)
+    LPAREN          shift and go to state 72
+    PLUSPLUS        shift and go to state 71
+    MINUSMINUS      shift and go to state 73
+
+
+state 35
+
+    (73) primary_expression -> constant .
+
+    LPAREN          reduce using rule 73 (primary_expression -> constant .)
+    PLUSPLUS        reduce using rule 73 (primary_expression -> constant .)
+    MINUSMINUS      reduce using rule 73 (primary_expression -> constant .)
+    EQUALS          reduce using rule 73 (primary_expression -> constant .)
+    TIMESEQUAL      reduce using rule 73 (primary_expression -> constant .)
+    DIVEQUAL        reduce using rule 73 (primary_expression -> constant .)
+    MODEQUAL        reduce using rule 73 (primary_expression -> constant .)
+    PLUSEQUAL       reduce using rule 73 (primary_expression -> constant .)
+    MINUSEQUAL      reduce using rule 73 (primary_expression -> constant .)
+    TIMES           reduce using rule 73 (primary_expression -> constant .)
+    DIVIDE          reduce using rule 73 (primary_expression -> constant .)
+    MOD             reduce using rule 73 (primary_expression -> constant .)
+    PLUS            reduce using rule 73 (primary_expression -> constant .)
+    MINUS           reduce using rule 73 (primary_expression -> constant .)
+    SEMI            reduce using rule 73 (primary_expression -> constant .)
+    LSHIFT          reduce using rule 73 (primary_expression -> constant .)
+    RSHIFT          reduce using rule 73 (primary_expression -> constant .)
+    RPAREN          reduce using rule 73 (primary_expression -> constant .)
+    COMMA           reduce using rule 73 (primary_expression -> constant .)
+    EQ              reduce using rule 73 (primary_expression -> constant .)
+    NE              reduce using rule 73 (primary_expression -> constant .)
+    LT              reduce using rule 73 (primary_expression -> constant .)
+    GT              reduce using rule 73 (primary_expression -> constant .)
+    LE              reduce using rule 73 (primary_expression -> constant .)
+    GE              reduce using rule 73 (primary_expression -> constant .)
+
+
+state 36
+
+    (27) instruction -> jump_instruction .
+
+    RBRACE          reduce using rule 27 (instruction -> jump_instruction .)
+    LBRACE          reduce using rule 27 (instruction -> jump_instruction .)
+    IF              reduce using rule 27 (instruction -> jump_instruction .)
+    WHILE           reduce using rule 27 (instruction -> jump_instruction .)
+    FOR             reduce using rule 27 (instruction -> jump_instruction .)
+    DO              reduce using rule 27 (instruction -> jump_instruction .)
+    RETURN          reduce using rule 27 (instruction -> jump_instruction .)
+    MINUS           reduce using rule 27 (instruction -> jump_instruction .)
+    ID              reduce using rule 27 (instruction -> jump_instruction .)
+    SCONST          reduce using rule 27 (instruction -> jump_instruction .)
+    LPAREN          reduce using rule 27 (instruction -> jump_instruction .)
+    ICONST          reduce using rule 27 (instruction -> jump_instruction .)
+    FCONST          reduce using rule 27 (instruction -> jump_instruction .)
+    ELSE            reduce using rule 27 (instruction -> jump_instruction .)
+
+
+state 37
+
+    (23) instruction -> expression_instruction .
+
+    RBRACE          reduce using rule 23 (instruction -> expression_instruction .)
+    LBRACE          reduce using rule 23 (instruction -> expression_instruction .)
+    IF              reduce using rule 23 (instruction -> expression_instruction .)
+    WHILE           reduce using rule 23 (instruction -> expression_instruction .)
+    FOR             reduce using rule 23 (instruction -> expression_instruction .)
+    DO              reduce using rule 23 (instruction -> expression_instruction .)
+    RETURN          reduce using rule 23 (instruction -> expression_instruction .)
+    MINUS           reduce using rule 23 (instruction -> expression_instruction .)
+    ID              reduce using rule 23 (instruction -> expression_instruction .)
+    SCONST          reduce using rule 23 (instruction -> expression_instruction .)
+    LPAREN          reduce using rule 23 (instruction -> expression_instruction .)
+    ICONST          reduce using rule 23 (instruction -> expression_instruction .)
+    FCONST          reduce using rule 23 (instruction -> expression_instruction .)
+    ELSE            reduce using rule 23 (instruction -> expression_instruction .)
+
+
+state 38
+
+    (32) compound_instruction -> LBRACE RBRACE .
+
+    RBRACE          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    LBRACE          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    IF              reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    WHILE           reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    FOR             reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    DO              reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    RETURN          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    MINUS           reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    ID              reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    SCONST          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    LPAREN          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    ICONST          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    FCONST          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    ELSE            reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    EXTERN          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    INT             reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    FLOAT           reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    STRING          reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+    $end            reduce using rule 32 (compound_instruction -> LBRACE RBRACE .)
+
+
+state 39
+
+    (38) iteration_instruction -> FOR . LPAREN expression SEMI condition SEMI expression RPAREN instruction
+
+    LPAREN          shift and go to state 74
+
+
+state 40
+
+    (58) additive_expression -> multiplicative_expression .
+    (62) multiplicative_expression -> multiplicative_expression . TIMES unary_expression
+    (63) multiplicative_expression -> multiplicative_expression . DIVIDE unary_expression
+    (64) multiplicative_expression -> multiplicative_expression . MOD unary_expression
+
+    PLUS            reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    MINUS           reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    SEMI            reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    LSHIFT          reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    RSHIFT          reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    COMMA           reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    RPAREN          reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    EQ              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    NE              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    LT              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    GT              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    LE              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    GE              reduce using rule 58 (additive_expression -> multiplicative_expression .)
+    TIMES           shift and go to state 77
+    DIVIDE          shift and go to state 76
+    MOD             shift and go to state 75
+
+
+state 41
+
+    (30) compound_instruction -> LBRACE instruction_list . RBRACE
+    (34) instruction_list -> instruction_list . instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    RBRACE          shift and go to state 78
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 79
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 42
+
+    (78) constant -> ICONST .
+
+    LPAREN          reduce using rule 78 (constant -> ICONST .)
+    PLUSPLUS        reduce using rule 78 (constant -> ICONST .)
+    MINUSMINUS      reduce using rule 78 (constant -> ICONST .)
+    EQUALS          reduce using rule 78 (constant -> ICONST .)
+    TIMESEQUAL      reduce using rule 78 (constant -> ICONST .)
+    DIVEQUAL        reduce using rule 78 (constant -> ICONST .)
+    MODEQUAL        reduce using rule 78 (constant -> ICONST .)
+    PLUSEQUAL       reduce using rule 78 (constant -> ICONST .)
+    MINUSEQUAL      reduce using rule 78 (constant -> ICONST .)
+    TIMES           reduce using rule 78 (constant -> ICONST .)
+    DIVIDE          reduce using rule 78 (constant -> ICONST .)
+    MOD             reduce using rule 78 (constant -> ICONST .)
+    PLUS            reduce using rule 78 (constant -> ICONST .)
+    MINUS           reduce using rule 78 (constant -> ICONST .)
+    SEMI            reduce using rule 78 (constant -> ICONST .)
+    LSHIFT          reduce using rule 78 (constant -> ICONST .)
+    RSHIFT          reduce using rule 78 (constant -> ICONST .)
+    COMMA           reduce using rule 78 (constant -> ICONST .)
+    RPAREN          reduce using rule 78 (constant -> ICONST .)
+    EQ              reduce using rule 78 (constant -> ICONST .)
+    NE              reduce using rule 78 (constant -> ICONST .)
+    LT              reduce using rule 78 (constant -> ICONST .)
+    GT              reduce using rule 78 (constant -> ICONST .)
+    LE              reduce using rule 78 (constant -> ICONST .)
+    GE              reduce using rule 78 (constant -> ICONST .)
+
+
+state 43
+
+    (67) postfix_expression -> primary_expression .
+
+    LPAREN          reduce using rule 67 (postfix_expression -> primary_expression .)
+    PLUSPLUS        reduce using rule 67 (postfix_expression -> primary_expression .)
+    MINUSMINUS      reduce using rule 67 (postfix_expression -> primary_expression .)
+    EQUALS          reduce using rule 67 (postfix_expression -> primary_expression .)
+    TIMESEQUAL      reduce using rule 67 (postfix_expression -> primary_expression .)
+    DIVEQUAL        reduce using rule 67 (postfix_expression -> primary_expression .)
+    MODEQUAL        reduce using rule 67 (postfix_expression -> primary_expression .)
+    PLUSEQUAL       reduce using rule 67 (postfix_expression -> primary_expression .)
+    MINUSEQUAL      reduce using rule 67 (postfix_expression -> primary_expression .)
+    TIMES           reduce using rule 67 (postfix_expression -> primary_expression .)
+    DIVIDE          reduce using rule 67 (postfix_expression -> primary_expression .)
+    MOD             reduce using rule 67 (postfix_expression -> primary_expression .)
+    PLUS            reduce using rule 67 (postfix_expression -> primary_expression .)
+    MINUS           reduce using rule 67 (postfix_expression -> primary_expression .)
+    LSHIFT          reduce using rule 67 (postfix_expression -> primary_expression .)
+    RSHIFT          reduce using rule 67 (postfix_expression -> primary_expression .)
+    RPAREN          reduce using rule 67 (postfix_expression -> primary_expression .)
+    COMMA           reduce using rule 67 (postfix_expression -> primary_expression .)
+    SEMI            reduce using rule 67 (postfix_expression -> primary_expression .)
+    EQ              reduce using rule 67 (postfix_expression -> primary_expression .)
+    NE              reduce using rule 67 (postfix_expression -> primary_expression .)
+    LT              reduce using rule 67 (postfix_expression -> primary_expression .)
+    GT              reduce using rule 67 (postfix_expression -> primary_expression .)
+    LE              reduce using rule 67 (postfix_expression -> primary_expression .)
+    GE              reduce using rule 67 (postfix_expression -> primary_expression .)
+
+
+state 44
+
+    (75) primary_expression -> LPAREN . expression RPAREN
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 80
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 45
+
+    (8) declaration_list -> declaration .
+
+    RBRACE          reduce using rule 8 (declaration_list -> declaration .)
+    INT             reduce using rule 8 (declaration_list -> declaration .)
+    FLOAT           reduce using rule 8 (declaration_list -> declaration .)
+    STRING          reduce using rule 8 (declaration_list -> declaration .)
+    LBRACE          reduce using rule 8 (declaration_list -> declaration .)
+    IF              reduce using rule 8 (declaration_list -> declaration .)
+    WHILE           reduce using rule 8 (declaration_list -> declaration .)
+    FOR             reduce using rule 8 (declaration_list -> declaration .)
+    DO              reduce using rule 8 (declaration_list -> declaration .)
+    RETURN          reduce using rule 8 (declaration_list -> declaration .)
+    MINUS           reduce using rule 8 (declaration_list -> declaration .)
+    ID              reduce using rule 8 (declaration_list -> declaration .)
+    SCONST          reduce using rule 8 (declaration_list -> declaration .)
+    LPAREN          reduce using rule 8 (declaration_list -> declaration .)
+    ICONST          reduce using rule 8 (declaration_list -> declaration .)
+    FCONST          reduce using rule 8 (declaration_list -> declaration .)
+
+
+state 46
+
+    (72) primary_expression -> ID .
+
+    LPAREN          reduce using rule 72 (primary_expression -> ID .)
+    PLUSPLUS        reduce using rule 72 (primary_expression -> ID .)
+    MINUSMINUS      reduce using rule 72 (primary_expression -> ID .)
+    EQUALS          reduce using rule 72 (primary_expression -> ID .)
+    TIMESEQUAL      reduce using rule 72 (primary_expression -> ID .)
+    DIVEQUAL        reduce using rule 72 (primary_expression -> ID .)
+    MODEQUAL        reduce using rule 72 (primary_expression -> ID .)
+    PLUSEQUAL       reduce using rule 72 (primary_expression -> ID .)
+    MINUSEQUAL      reduce using rule 72 (primary_expression -> ID .)
+    TIMES           reduce using rule 72 (primary_expression -> ID .)
+    DIVIDE          reduce using rule 72 (primary_expression -> ID .)
+    MOD             reduce using rule 72 (primary_expression -> ID .)
+    PLUS            reduce using rule 72 (primary_expression -> ID .)
+    MINUS           reduce using rule 72 (primary_expression -> ID .)
+    SEMI            reduce using rule 72 (primary_expression -> ID .)
+    LSHIFT          reduce using rule 72 (primary_expression -> ID .)
+    RSHIFT          reduce using rule 72 (primary_expression -> ID .)
+    RPAREN          reduce using rule 72 (primary_expression -> ID .)
+    COMMA           reduce using rule 72 (primary_expression -> ID .)
+    EQ              reduce using rule 72 (primary_expression -> ID .)
+    NE              reduce using rule 72 (primary_expression -> ID .)
+    LT              reduce using rule 72 (primary_expression -> ID .)
+    GT              reduce using rule 72 (primary_expression -> ID .)
+    LE              reduce using rule 72 (primary_expression -> ID .)
+    GE              reduce using rule 72 (primary_expression -> ID .)
+
+
+state 47
+
+    (35) select_instruction -> IF . LPAREN condition RPAREN instruction
+    (36) select_instruction -> IF . LPAREN condition RPAREN instruction ELSE instruction
+
+    LPAREN          shift and go to state 81
+
+
+state 48
+
+    (24) instruction -> compound_instruction .
+
+    RBRACE          reduce using rule 24 (instruction -> compound_instruction .)
+    LBRACE          reduce using rule 24 (instruction -> compound_instruction .)
+    IF              reduce using rule 24 (instruction -> compound_instruction .)
+    WHILE           reduce using rule 24 (instruction -> compound_instruction .)
+    FOR             reduce using rule 24 (instruction -> compound_instruction .)
+    DO              reduce using rule 24 (instruction -> compound_instruction .)
+    RETURN          reduce using rule 24 (instruction -> compound_instruction .)
+    MINUS           reduce using rule 24 (instruction -> compound_instruction .)
+    ID              reduce using rule 24 (instruction -> compound_instruction .)
+    SCONST          reduce using rule 24 (instruction -> compound_instruction .)
+    LPAREN          reduce using rule 24 (instruction -> compound_instruction .)
+    ICONST          reduce using rule 24 (instruction -> compound_instruction .)
+    FCONST          reduce using rule 24 (instruction -> compound_instruction .)
+    ELSE            reduce using rule 24 (instruction -> compound_instruction .)
+
+
+state 49
+
+    (29) compound_instruction -> LBRACE declaration_list . instruction_list RBRACE
+    (31) compound_instruction -> LBRACE declaration_list . RBRACE
+    (9) declaration_list -> declaration_list . declaration
+    (33) instruction_list -> . instruction
+    (34) instruction_list -> . instruction_list instruction
+    (7) declaration -> . type declarator_list SEMI
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    RBRACE          shift and go to state 82
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    select_instruction             shift and go to state 50
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    expression                     shift and go to state 51
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 25
+    postfix_expression             shift and go to state 34
+    instruction_list               shift and go to state 83
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    declaration                    shift and go to state 84
+    jump_instruction               shift and go to state 36
+    type                           shift and go to state 12
+    multiplicative_expression      shift and go to state 40
+
+state 50
+
+    (25) instruction -> select_instruction .
+
+    RBRACE          reduce using rule 25 (instruction -> select_instruction .)
+    LBRACE          reduce using rule 25 (instruction -> select_instruction .)
+    IF              reduce using rule 25 (instruction -> select_instruction .)
+    WHILE           reduce using rule 25 (instruction -> select_instruction .)
+    FOR             reduce using rule 25 (instruction -> select_instruction .)
+    DO              reduce using rule 25 (instruction -> select_instruction .)
+    RETURN          reduce using rule 25 (instruction -> select_instruction .)
+    MINUS           reduce using rule 25 (instruction -> select_instruction .)
+    ID              reduce using rule 25 (instruction -> select_instruction .)
+    SCONST          reduce using rule 25 (instruction -> select_instruction .)
+    LPAREN          reduce using rule 25 (instruction -> select_instruction .)
+    ICONST          reduce using rule 25 (instruction -> select_instruction .)
+    FCONST          reduce using rule 25 (instruction -> select_instruction .)
+    ELSE            reduce using rule 25 (instruction -> select_instruction .)
+
+
+state 51
+
+    (28) expression_instruction -> expression . SEMI
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    SEMI            shift and go to state 87
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 52
+
+    (16) declarator -> function_declarator EQUALS expression .
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    SEMI            reduce using rule 16 (declarator -> function_declarator EQUALS expression .)
+    COMMA           reduce using rule 16 (declarator -> function_declarator EQUALS expression .)
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 53
+
+    (19) function_declarator -> ID LPAREN RPAREN .
+
+    RPAREN          reduce using rule 19 (function_declarator -> ID LPAREN RPAREN .)
+    COMMA           reduce using rule 19 (function_declarator -> ID LPAREN RPAREN .)
+    EQUALS          reduce using rule 19 (function_declarator -> ID LPAREN RPAREN .)
+    SEMI            reduce using rule 19 (function_declarator -> ID LPAREN RPAREN .)
+    LBRACE          reduce using rule 19 (function_declarator -> ID LPAREN RPAREN .)
+
+
+state 54
+
+    (18) function_declarator -> ID LPAREN parameter_list . RPAREN
+    (21) parameter_list -> parameter_list . COMMA parameter_declaration
+
+    RPAREN          shift and go to state 88
+    COMMA           shift and go to state 89
+
+
+state 55
+
+    (20) parameter_list -> parameter_declaration .
+
+    RPAREN          reduce using rule 20 (parameter_list -> parameter_declaration .)
+    COMMA           reduce using rule 20 (parameter_list -> parameter_declaration .)
+
+
+state 56
+
+    (22) parameter_declaration -> type . function_declarator
+    (17) function_declarator -> . ID
+    (18) function_declarator -> . ID LPAREN parameter_list RPAREN
+    (19) function_declarator -> . ID LPAREN RPAREN
+
+    ID              shift and go to state 15
+
+    function_declarator            shift and go to state 90
+
+state 57
+
+    (14) declarator_list -> declarator_list COMMA declarator .
+
+    SEMI            reduce using rule 14 (declarator_list -> declarator_list COMMA declarator .)
+    COMMA           reduce using rule 14 (declarator_list -> declarator_list COMMA declarator .)
+
+
+state 58
+
+    (39) iteration_instruction -> DO instruction . WHILE LPAREN condition RPAREN SEMI
+
+    WHILE           shift and go to state 91
+
+
+state 59
+
+    (40) jump_instruction -> RETURN expression . SEMI
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    SEMI            shift and go to state 92
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 60
+
+    (54) assignment_operator -> DIVEQUAL .
+
+    MINUS           reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+    ID              reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+    SCONST          reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+    LPAREN          reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+    ICONST          reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+    FCONST          reduce using rule 54 (assignment_operator -> DIVEQUAL .)
+
+
+state 61
+
+    (57) assignment_operator -> MINUSEQUAL .
+
+    MINUS           reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+    ID              reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+    SCONST          reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+    LPAREN          reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+    ICONST          reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+    FCONST          reduce using rule 57 (assignment_operator -> MINUSEQUAL .)
+
+
+state 62
+
+    (55) assignment_operator -> MODEQUAL .
+
+    MINUS           reduce using rule 55 (assignment_operator -> MODEQUAL .)
+    ID              reduce using rule 55 (assignment_operator -> MODEQUAL .)
+    SCONST          reduce using rule 55 (assignment_operator -> MODEQUAL .)
+    LPAREN          reduce using rule 55 (assignment_operator -> MODEQUAL .)
+    ICONST          reduce using rule 55 (assignment_operator -> MODEQUAL .)
+    FCONST          reduce using rule 55 (assignment_operator -> MODEQUAL .)
+
+
+state 63
+
+    (52) assignment_operator -> EQUALS .
+
+    MINUS           reduce using rule 52 (assignment_operator -> EQUALS .)
+    ID              reduce using rule 52 (assignment_operator -> EQUALS .)
+    SCONST          reduce using rule 52 (assignment_operator -> EQUALS .)
+    LPAREN          reduce using rule 52 (assignment_operator -> EQUALS .)
+    ICONST          reduce using rule 52 (assignment_operator -> EQUALS .)
+    FCONST          reduce using rule 52 (assignment_operator -> EQUALS .)
+
+
+state 64
+
+    (56) assignment_operator -> PLUSEQUAL .
+
+    MINUS           reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+    ID              reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+    SCONST          reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+    LPAREN          reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+    ICONST          reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+    FCONST          reduce using rule 56 (assignment_operator -> PLUSEQUAL .)
+
+
+state 65
+
+    (42) expression -> unary_expression assignment_operator . expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 93
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 66
+
+    (53) assignment_operator -> TIMESEQUAL .
+
+    MINUS           reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+    ID              reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+    SCONST          reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+    LPAREN          reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+    ICONST          reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+    FCONST          reduce using rule 53 (assignment_operator -> TIMESEQUAL .)
+
+
+state 67
+
+    (37) iteration_instruction -> WHILE LPAREN . condition RPAREN instruction
+    (45) condition -> . expression comparison_operator expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    condition                      shift and go to state 94
+    primary_expression             shift and go to state 43
+    expression                     shift and go to state 95
+    additive_expression            shift and go to state 31
+
+state 68
+
+    (66) unary_expression -> MINUS unary_expression .
+
+    EQUALS          reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    TIMESEQUAL      reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    DIVEQUAL        reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    MODEQUAL        reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    PLUSEQUAL       reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    MINUSEQUAL      reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    TIMES           reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    DIVIDE          reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    MOD             reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    PLUS            reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    MINUS           reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    SEMI            reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    LSHIFT          reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    RSHIFT          reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    COMMA           reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    RPAREN          reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    EQ              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    NE              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    LT              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    GT              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    LE              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+    GE              reduce using rule 66 (unary_expression -> MINUS unary_expression .)
+
+
+state 69
+
+    (59) additive_expression -> additive_expression PLUS . multiplicative_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 96
+    multiplicative_expression      shift and go to state 97
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 70
+
+    (60) additive_expression -> additive_expression MINUS . multiplicative_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 96
+    multiplicative_expression      shift and go to state 98
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 71
+
+    (70) postfix_expression -> postfix_expression PLUSPLUS .
+
+    LPAREN          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    PLUSPLUS        reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    MINUSMINUS      reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    EQUALS          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    TIMESEQUAL      reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    DIVEQUAL        reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    MODEQUAL        reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    PLUSEQUAL       reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    MINUSEQUAL      reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    TIMES           reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    DIVIDE          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    MOD             reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    PLUS            reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    MINUS           reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    LSHIFT          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    RSHIFT          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    RPAREN          reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    COMMA           reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    SEMI            reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    EQ              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    NE              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    LT              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    GT              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    LE              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+    GE              reduce using rule 70 (postfix_expression -> postfix_expression PLUSPLUS .)
+
+
+state 72
+
+    (68) postfix_expression -> postfix_expression LPAREN . argument_expression_list RPAREN
+    (69) postfix_expression -> postfix_expression LPAREN . RPAREN
+    (76) argument_expression_list -> . expression
+    (77) argument_expression_list -> . argument_expression_list COMMA expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    RPAREN          shift and go to state 99
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    argument_expression_list       shift and go to state 100
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 101
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 73
+
+    (71) postfix_expression -> postfix_expression MINUSMINUS .
+
+    LPAREN          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    PLUSPLUS        reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    MINUSMINUS      reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    EQUALS          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    TIMESEQUAL      reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    DIVEQUAL        reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    MODEQUAL        reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    PLUSEQUAL       reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    MINUSEQUAL      reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    TIMES           reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    DIVIDE          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    MOD             reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    PLUS            reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    MINUS           reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    LSHIFT          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    RSHIFT          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    RPAREN          reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    COMMA           reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    SEMI            reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    EQ              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    NE              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    LT              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    GT              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    LE              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+    GE              reduce using rule 71 (postfix_expression -> postfix_expression MINUSMINUS .)
+
+
+state 74
+
+    (38) iteration_instruction -> FOR LPAREN . expression SEMI condition SEMI expression RPAREN instruction
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 102
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 75
+
+    (64) multiplicative_expression -> multiplicative_expression MOD . unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 103
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 76
+
+    (63) multiplicative_expression -> multiplicative_expression DIVIDE . unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 104
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 77
+
+    (62) multiplicative_expression -> multiplicative_expression TIMES . unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 105
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+
+state 78
+
+    (30) compound_instruction -> LBRACE instruction_list RBRACE .
+
+    RBRACE          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    LBRACE          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    IF              reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    WHILE           reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    FOR             reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    DO              reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    RETURN          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    MINUS           reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    ID              reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    SCONST          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    LPAREN          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    ICONST          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    FCONST          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    ELSE            reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    EXTERN          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    INT             reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    FLOAT           reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    STRING          reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+    $end            reduce using rule 30 (compound_instruction -> LBRACE instruction_list RBRACE .)
+
+
+state 79
+
+    (34) instruction_list -> instruction_list instruction .
+
+    RBRACE          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    LBRACE          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    IF              reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    WHILE           reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    FOR             reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    DO              reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    RETURN          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    MINUS           reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    ID              reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    SCONST          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    LPAREN          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    ICONST          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+    FCONST          reduce using rule 34 (instruction_list -> instruction_list instruction .)
+
+
+state 80
+
+    (75) primary_expression -> LPAREN expression . RPAREN
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    RPAREN          shift and go to state 106
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 81
+
+    (35) select_instruction -> IF LPAREN . condition RPAREN instruction
+    (36) select_instruction -> IF LPAREN . condition RPAREN instruction ELSE instruction
+    (45) condition -> . expression comparison_operator expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    condition                      shift and go to state 107
+    primary_expression             shift and go to state 43
+    expression                     shift and go to state 95
+    additive_expression            shift and go to state 31
+
+state 82
+
+    (31) compound_instruction -> LBRACE declaration_list RBRACE .
+
+    RBRACE          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    LBRACE          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    IF              reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    WHILE           reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    FOR             reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    DO              reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    RETURN          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    MINUS           reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    ID              reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    SCONST          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    LPAREN          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    ICONST          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    FCONST          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    ELSE            reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    EXTERN          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    INT             reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    FLOAT           reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    STRING          reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+    $end            reduce using rule 31 (compound_instruction -> LBRACE declaration_list RBRACE .)
+
+
+state 83
+
+    (29) compound_instruction -> LBRACE declaration_list instruction_list . RBRACE
+    (34) instruction_list -> instruction_list . instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    RBRACE          shift and go to state 108
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 79
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 84
+
+    (9) declaration_list -> declaration_list declaration .
+
+    RBRACE          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    INT             reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    FLOAT           reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    STRING          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    LBRACE          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    IF              reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    WHILE           reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    FOR             reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    DO              reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    RETURN          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    MINUS           reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    ID              reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    SCONST          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    LPAREN          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    ICONST          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+    FCONST          reduce using rule 9 (declaration_list -> declaration_list declaration .)
+
+
+state 85
+
+    (44) expression -> expression RSHIFT . additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 96
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+    additive_expression            shift and go to state 109
+
+state 86
+
+    (43) expression -> expression LSHIFT . additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 96
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    primary_expression             shift and go to state 43
+    additive_expression            shift and go to state 110
+
+state 87
+
+    (28) expression_instruction -> expression SEMI .
+
+    RBRACE          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    LBRACE          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    IF              reduce using rule 28 (expression_instruction -> expression SEMI .)
+    WHILE           reduce using rule 28 (expression_instruction -> expression SEMI .)
+    FOR             reduce using rule 28 (expression_instruction -> expression SEMI .)
+    DO              reduce using rule 28 (expression_instruction -> expression SEMI .)
+    RETURN          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    MINUS           reduce using rule 28 (expression_instruction -> expression SEMI .)
+    ID              reduce using rule 28 (expression_instruction -> expression SEMI .)
+    SCONST          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    LPAREN          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    ICONST          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    FCONST          reduce using rule 28 (expression_instruction -> expression SEMI .)
+    ELSE            reduce using rule 28 (expression_instruction -> expression SEMI .)
+
+
+state 88
+
+    (18) function_declarator -> ID LPAREN parameter_list RPAREN .
+
+    RPAREN          reduce using rule 18 (function_declarator -> ID LPAREN parameter_list RPAREN .)
+    COMMA           reduce using rule 18 (function_declarator -> ID LPAREN parameter_list RPAREN .)
+    EQUALS          reduce using rule 18 (function_declarator -> ID LPAREN parameter_list RPAREN .)
+    SEMI            reduce using rule 18 (function_declarator -> ID LPAREN parameter_list RPAREN .)
+    LBRACE          reduce using rule 18 (function_declarator -> ID LPAREN parameter_list RPAREN .)
+
+
+state 89
+
+    (21) parameter_list -> parameter_list COMMA . parameter_declaration
+    (22) parameter_declaration -> . type function_declarator
+    (10) type -> . INT
+    (11) type -> . FLOAT
+    (12) type -> . STRING
+
+    INT             shift and go to state 4
+    FLOAT           shift and go to state 5
+    STRING          shift and go to state 3
+
+    parameter_declaration          shift and go to state 111
+    type                           shift and go to state 56
+
+state 90
+
+    (22) parameter_declaration -> type function_declarator .
+
+    RPAREN          reduce using rule 22 (parameter_declaration -> type function_declarator .)
+    COMMA           reduce using rule 22 (parameter_declaration -> type function_declarator .)
+
+
+state 91
+
+    (39) iteration_instruction -> DO instruction WHILE . LPAREN condition RPAREN SEMI
+
+    LPAREN          shift and go to state 112
+
+
+state 92
+
+    (40) jump_instruction -> RETURN expression SEMI .
+
+    RBRACE          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    LBRACE          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    IF              reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    WHILE           reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    FOR             reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    DO              reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    RETURN          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    MINUS           reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    ID              reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    SCONST          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    LPAREN          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    ICONST          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    FCONST          reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+    ELSE            reduce using rule 40 (jump_instruction -> RETURN expression SEMI .)
+
+
+state 93
+
+    (42) expression -> unary_expression assignment_operator expression .
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+  ! shift/reduce conflict for LSHIFT resolved as shift
+  ! shift/reduce conflict for RSHIFT resolved as shift
+    EQ              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    NE              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    LT              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    GT              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    LE              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    GE              reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    SEMI            reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    RPAREN          reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    COMMA           reduce using rule 42 (expression -> unary_expression assignment_operator expression .)
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+  ! LSHIFT          [ reduce using rule 42 (expression -> unary_expression assignment_operator expression .) ]
+  ! RSHIFT          [ reduce using rule 42 (expression -> unary_expression assignment_operator expression .) ]
+
+
+state 94
+
+    (37) iteration_instruction -> WHILE LPAREN condition . RPAREN instruction
+
+    RPAREN          shift and go to state 113
+
+
+state 95
+
+    (45) condition -> expression . comparison_operator expression
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+    (46) comparison_operator -> . EQ
+    (47) comparison_operator -> . NE
+    (48) comparison_operator -> . LT
+    (49) comparison_operator -> . GT
+    (50) comparison_operator -> . LE
+    (51) comparison_operator -> . GE
+
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+    EQ              shift and go to state 115
+    NE              shift and go to state 116
+    LT              shift and go to state 118
+    GT              shift and go to state 114
+    LE              shift and go to state 119
+    GE              shift and go to state 117
+
+    comparison_operator            shift and go to state 120
+
+state 96
+
+    (61) multiplicative_expression -> unary_expression .
+
+    TIMES           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    DIVIDE          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    MOD             reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    PLUS            reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    MINUS           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    SEMI            reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LSHIFT          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    RSHIFT          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    COMMA           reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    RPAREN          reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    EQ              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    NE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LT              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    GT              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    LE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+    GE              reduce using rule 61 (multiplicative_expression -> unary_expression .)
+
+
+state 97
+
+    (59) additive_expression -> additive_expression PLUS multiplicative_expression .
+    (62) multiplicative_expression -> multiplicative_expression . TIMES unary_expression
+    (63) multiplicative_expression -> multiplicative_expression . DIVIDE unary_expression
+    (64) multiplicative_expression -> multiplicative_expression . MOD unary_expression
+
+    PLUS            reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    MINUS           reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    SEMI            reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    LSHIFT          reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    RSHIFT          reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    COMMA           reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    RPAREN          reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    EQ              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    NE              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    LT              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    GT              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    LE              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    GE              reduce using rule 59 (additive_expression -> additive_expression PLUS multiplicative_expression .)
+    TIMES           shift and go to state 77
+    DIVIDE          shift and go to state 76
+    MOD             shift and go to state 75
+
+
+state 98
+
+    (60) additive_expression -> additive_expression MINUS multiplicative_expression .
+    (62) multiplicative_expression -> multiplicative_expression . TIMES unary_expression
+    (63) multiplicative_expression -> multiplicative_expression . DIVIDE unary_expression
+    (64) multiplicative_expression -> multiplicative_expression . MOD unary_expression
+
+    PLUS            reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    MINUS           reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    SEMI            reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    LSHIFT          reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    RSHIFT          reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    COMMA           reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    RPAREN          reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    EQ              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    NE              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    LT              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    GT              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    LE              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    GE              reduce using rule 60 (additive_expression -> additive_expression MINUS multiplicative_expression .)
+    TIMES           shift and go to state 77
+    DIVIDE          shift and go to state 76
+    MOD             shift and go to state 75
+
+
+state 99
+
+    (69) postfix_expression -> postfix_expression LPAREN RPAREN .
+
+    LPAREN          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    PLUSPLUS        reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    MINUSMINUS      reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    EQUALS          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    TIMESEQUAL      reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    DIVEQUAL        reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    MODEQUAL        reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    PLUSEQUAL       reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    MINUSEQUAL      reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    TIMES           reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    DIVIDE          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    MOD             reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    PLUS            reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    MINUS           reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    LSHIFT          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    RSHIFT          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    RPAREN          reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    COMMA           reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    SEMI            reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    EQ              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    NE              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    LT              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    GT              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    LE              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+    GE              reduce using rule 69 (postfix_expression -> postfix_expression LPAREN RPAREN .)
+
+
+state 100
+
+    (68) postfix_expression -> postfix_expression LPAREN argument_expression_list . RPAREN
+    (77) argument_expression_list -> argument_expression_list . COMMA expression
+
+    RPAREN          shift and go to state 121
+    COMMA           shift and go to state 122
+
+
+state 101
+
+    (76) argument_expression_list -> expression .
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    RPAREN          reduce using rule 76 (argument_expression_list -> expression .)
+    COMMA           reduce using rule 76 (argument_expression_list -> expression .)
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 102
+
+    (38) iteration_instruction -> FOR LPAREN expression . SEMI condition SEMI expression RPAREN instruction
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    SEMI            shift and go to state 123
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 103
+
+    (64) multiplicative_expression -> multiplicative_expression MOD unary_expression .
+
+    TIMES           reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    DIVIDE          reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    MOD             reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    PLUS            reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    MINUS           reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    RPAREN          reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    LSHIFT          reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    RSHIFT          reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    SEMI            reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    COMMA           reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    EQ              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    NE              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    LT              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    GT              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    LE              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+    GE              reduce using rule 64 (multiplicative_expression -> multiplicative_expression MOD unary_expression .)
+
+
+state 104
+
+    (63) multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .
+
+    TIMES           reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    DIVIDE          reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    MOD             reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    PLUS            reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    MINUS           reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    RPAREN          reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    LSHIFT          reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    RSHIFT          reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    SEMI            reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    COMMA           reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    EQ              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    NE              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    LT              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    GT              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    LE              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+    GE              reduce using rule 63 (multiplicative_expression -> multiplicative_expression DIVIDE unary_expression .)
+
+
+state 105
+
+    (62) multiplicative_expression -> multiplicative_expression TIMES unary_expression .
+
+    TIMES           reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    DIVIDE          reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    MOD             reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    PLUS            reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    MINUS           reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    RPAREN          reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    LSHIFT          reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    RSHIFT          reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    SEMI            reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    COMMA           reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    EQ              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    NE              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    LT              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    GT              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    LE              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+    GE              reduce using rule 62 (multiplicative_expression -> multiplicative_expression TIMES unary_expression .)
+
+
+state 106
+
+    (75) primary_expression -> LPAREN expression RPAREN .
+
+    LPAREN          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    PLUSPLUS        reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    MINUSMINUS      reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    TIMESEQUAL      reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    DIVEQUAL        reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    MODEQUAL        reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    PLUSEQUAL       reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    MINUSEQUAL      reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    TIMES           reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    MOD             reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    SEMI            reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    LSHIFT          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    RSHIFT          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    EQ              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    NE              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    LE              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+    GE              reduce using rule 75 (primary_expression -> LPAREN expression RPAREN .)
+
+
+state 107
+
+    (35) select_instruction -> IF LPAREN condition . RPAREN instruction
+    (36) select_instruction -> IF LPAREN condition . RPAREN instruction ELSE instruction
+
+    RPAREN          shift and go to state 124
+
+
+state 108
+
+    (29) compound_instruction -> LBRACE declaration_list instruction_list RBRACE .
+
+    RBRACE          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    LBRACE          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    IF              reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    WHILE           reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    FOR             reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    DO              reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    RETURN          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    MINUS           reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    ID              reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    SCONST          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    LPAREN          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    ICONST          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    FCONST          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    ELSE            reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    EXTERN          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    INT             reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    FLOAT           reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    STRING          reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+    $end            reduce using rule 29 (compound_instruction -> LBRACE declaration_list instruction_list RBRACE .)
+
+
+state 109
+
+    (44) expression -> expression RSHIFT additive_expression .
+    (59) additive_expression -> additive_expression . PLUS multiplicative_expression
+    (60) additive_expression -> additive_expression . MINUS multiplicative_expression
+
+    LSHIFT          reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    RSHIFT          reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    EQ              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    NE              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    LT              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    GT              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    LE              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    GE              reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    SEMI            reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    RPAREN          reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    COMMA           reduce using rule 44 (expression -> expression RSHIFT additive_expression .)
+    PLUS            shift and go to state 69
+    MINUS           shift and go to state 70
+
+
+state 110
+
+    (43) expression -> expression LSHIFT additive_expression .
+    (59) additive_expression -> additive_expression . PLUS multiplicative_expression
+    (60) additive_expression -> additive_expression . MINUS multiplicative_expression
+
+    LSHIFT          reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    RSHIFT          reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    EQ              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    NE              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    LT              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    GT              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    LE              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    GE              reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    SEMI            reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    RPAREN          reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    COMMA           reduce using rule 43 (expression -> expression LSHIFT additive_expression .)
+    PLUS            shift and go to state 69
+    MINUS           shift and go to state 70
+
+
+state 111
+
+    (21) parameter_list -> parameter_list COMMA parameter_declaration .
+
+    RPAREN          reduce using rule 21 (parameter_list -> parameter_list COMMA parameter_declaration .)
+    COMMA           reduce using rule 21 (parameter_list -> parameter_list COMMA parameter_declaration .)
+
+
+state 112
+
+    (39) iteration_instruction -> DO instruction WHILE LPAREN . condition RPAREN SEMI
+    (45) condition -> . expression comparison_operator expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    condition                      shift and go to state 125
+    primary_expression             shift and go to state 43
+    expression                     shift and go to state 95
+    additive_expression            shift and go to state 31
+
+state 113
+
+    (37) iteration_instruction -> WHILE LPAREN condition RPAREN . instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 126
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 114
+
+    (49) comparison_operator -> GT .
+
+    MINUS           reduce using rule 49 (comparison_operator -> GT .)
+    ID              reduce using rule 49 (comparison_operator -> GT .)
+    SCONST          reduce using rule 49 (comparison_operator -> GT .)
+    LPAREN          reduce using rule 49 (comparison_operator -> GT .)
+    ICONST          reduce using rule 49 (comparison_operator -> GT .)
+    FCONST          reduce using rule 49 (comparison_operator -> GT .)
+
+
+state 115
+
+    (46) comparison_operator -> EQ .
+
+    MINUS           reduce using rule 46 (comparison_operator -> EQ .)
+    ID              reduce using rule 46 (comparison_operator -> EQ .)
+    SCONST          reduce using rule 46 (comparison_operator -> EQ .)
+    LPAREN          reduce using rule 46 (comparison_operator -> EQ .)
+    ICONST          reduce using rule 46 (comparison_operator -> EQ .)
+    FCONST          reduce using rule 46 (comparison_operator -> EQ .)
+
+
+state 116
+
+    (47) comparison_operator -> NE .
+
+    MINUS           reduce using rule 47 (comparison_operator -> NE .)
+    ID              reduce using rule 47 (comparison_operator -> NE .)
+    SCONST          reduce using rule 47 (comparison_operator -> NE .)
+    LPAREN          reduce using rule 47 (comparison_operator -> NE .)
+    ICONST          reduce using rule 47 (comparison_operator -> NE .)
+    FCONST          reduce using rule 47 (comparison_operator -> NE .)
+
+
+state 117
+
+    (51) comparison_operator -> GE .
+
+    MINUS           reduce using rule 51 (comparison_operator -> GE .)
+    ID              reduce using rule 51 (comparison_operator -> GE .)
+    SCONST          reduce using rule 51 (comparison_operator -> GE .)
+    LPAREN          reduce using rule 51 (comparison_operator -> GE .)
+    ICONST          reduce using rule 51 (comparison_operator -> GE .)
+    FCONST          reduce using rule 51 (comparison_operator -> GE .)
+
+
+state 118
+
+    (48) comparison_operator -> LT .
+
+    MINUS           reduce using rule 48 (comparison_operator -> LT .)
+    ID              reduce using rule 48 (comparison_operator -> LT .)
+    SCONST          reduce using rule 48 (comparison_operator -> LT .)
+    LPAREN          reduce using rule 48 (comparison_operator -> LT .)
+    ICONST          reduce using rule 48 (comparison_operator -> LT .)
+    FCONST          reduce using rule 48 (comparison_operator -> LT .)
+
+
+state 119
+
+    (50) comparison_operator -> LE .
+
+    MINUS           reduce using rule 50 (comparison_operator -> LE .)
+    ID              reduce using rule 50 (comparison_operator -> LE .)
+    SCONST          reduce using rule 50 (comparison_operator -> LE .)
+    LPAREN          reduce using rule 50 (comparison_operator -> LE .)
+    ICONST          reduce using rule 50 (comparison_operator -> LE .)
+    FCONST          reduce using rule 50 (comparison_operator -> LE .)
+
+
+state 120
+
+    (45) condition -> expression comparison_operator . expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 127
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 121
+
+    (68) postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .
+
+    LPAREN          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    PLUSPLUS        reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    MINUSMINUS      reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    EQUALS          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    TIMESEQUAL      reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    DIVEQUAL        reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    MODEQUAL        reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    PLUSEQUAL       reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    MINUSEQUAL      reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    TIMES           reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    DIVIDE          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    MOD             reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    PLUS            reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    MINUS           reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    LSHIFT          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    RSHIFT          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    RPAREN          reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    COMMA           reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    SEMI            reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    EQ              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    NE              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    LT              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    GT              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    LE              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+    GE              reduce using rule 68 (postfix_expression -> postfix_expression LPAREN argument_expression_list RPAREN .)
+
+
+state 122
+
+    (77) argument_expression_list -> argument_expression_list COMMA . expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 128
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 123
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI . condition SEMI expression RPAREN instruction
+    (45) condition -> . expression comparison_operator expression
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    condition                      shift and go to state 129
+    primary_expression             shift and go to state 43
+    expression                     shift and go to state 95
+    additive_expression            shift and go to state 31
+
+state 124
+
+    (35) select_instruction -> IF LPAREN condition RPAREN . instruction
+    (36) select_instruction -> IF LPAREN condition RPAREN . instruction ELSE instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 130
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 125
+
+    (39) iteration_instruction -> DO instruction WHILE LPAREN condition . RPAREN SEMI
+
+    RPAREN          shift and go to state 131
+
+
+state 126
+
+    (37) iteration_instruction -> WHILE LPAREN condition RPAREN instruction .
+
+    RBRACE          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    LBRACE          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    IF              reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    WHILE           reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    FOR             reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    DO              reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    RETURN          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    MINUS           reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    ID              reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    SCONST          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    LPAREN          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    ICONST          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    FCONST          reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+    ELSE            reduce using rule 37 (iteration_instruction -> WHILE LPAREN condition RPAREN instruction .)
+
+
+state 127
+
+    (45) condition -> expression comparison_operator expression .
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    RPAREN          reduce using rule 45 (condition -> expression comparison_operator expression .)
+    SEMI            reduce using rule 45 (condition -> expression comparison_operator expression .)
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 128
+
+    (77) argument_expression_list -> argument_expression_list COMMA expression .
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    RPAREN          reduce using rule 77 (argument_expression_list -> argument_expression_list COMMA expression .)
+    COMMA           reduce using rule 77 (argument_expression_list -> argument_expression_list COMMA expression .)
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 129
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI condition . SEMI expression RPAREN instruction
+
+    SEMI            shift and go to state 132
+
+
+state 130
+
+    (35) select_instruction -> IF LPAREN condition RPAREN instruction .
+    (36) select_instruction -> IF LPAREN condition RPAREN instruction . ELSE instruction
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    RBRACE          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    LBRACE          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    IF              reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    WHILE           reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    FOR             reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    DO              reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    RETURN          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    MINUS           reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    ID              reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    SCONST          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    LPAREN          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    ICONST          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    FCONST          reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .)
+    ELSE            shift and go to state 133
+
+  ! ELSE            [ reduce using rule 35 (select_instruction -> IF LPAREN condition RPAREN instruction .) ]
+
+
+state 131
+
+    (39) iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN . SEMI
+
+    SEMI            shift and go to state 134
+
+
+state 132
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI condition SEMI . expression RPAREN instruction
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    constant                       shift and go to state 35
+    unary_expression               shift and go to state 27
+    multiplicative_expression      shift and go to state 40
+    postfix_expression             shift and go to state 34
+    expression                     shift and go to state 135
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+
+state 133
+
+    (36) select_instruction -> IF LPAREN condition RPAREN instruction ELSE . instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 136
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 134
+
+    (39) iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .
+
+    RBRACE          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    LBRACE          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    IF              reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    WHILE           reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    FOR             reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    DO              reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    RETURN          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    MINUS           reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    ID              reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    SCONST          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    LPAREN          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    ICONST          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    FCONST          reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+    ELSE            reduce using rule 39 (iteration_instruction -> DO instruction WHILE LPAREN condition RPAREN SEMI .)
+
+
+state 135
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression . RPAREN instruction
+    (43) expression -> expression . LSHIFT additive_expression
+    (44) expression -> expression . RSHIFT additive_expression
+
+    RPAREN          shift and go to state 137
+    LSHIFT          shift and go to state 86
+    RSHIFT          shift and go to state 85
+
+
+state 136
+
+    (36) select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .
+
+    RBRACE          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    LBRACE          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    IF              reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    WHILE           reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    FOR             reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    DO              reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    RETURN          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    MINUS           reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    ID              reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    SCONST          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    LPAREN          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    ICONST          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    FCONST          reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+    ELSE            reduce using rule 36 (select_instruction -> IF LPAREN condition RPAREN instruction ELSE instruction .)
+
+
+state 137
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN . instruction
+    (23) instruction -> . expression_instruction
+    (24) instruction -> . compound_instruction
+    (25) instruction -> . select_instruction
+    (26) instruction -> . iteration_instruction
+    (27) instruction -> . jump_instruction
+    (28) expression_instruction -> . expression SEMI
+    (29) compound_instruction -> . LBRACE declaration_list instruction_list RBRACE
+    (30) compound_instruction -> . LBRACE instruction_list RBRACE
+    (31) compound_instruction -> . LBRACE declaration_list RBRACE
+    (32) compound_instruction -> . LBRACE RBRACE
+    (35) select_instruction -> . IF LPAREN condition RPAREN instruction
+    (36) select_instruction -> . IF LPAREN condition RPAREN instruction ELSE instruction
+    (37) iteration_instruction -> . WHILE LPAREN condition RPAREN instruction
+    (38) iteration_instruction -> . FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction
+    (39) iteration_instruction -> . DO instruction WHILE LPAREN condition RPAREN SEMI
+    (40) jump_instruction -> . RETURN expression SEMI
+    (41) expression -> . additive_expression
+    (42) expression -> . unary_expression assignment_operator expression
+    (43) expression -> . expression LSHIFT additive_expression
+    (44) expression -> . expression RSHIFT additive_expression
+    (58) additive_expression -> . multiplicative_expression
+    (59) additive_expression -> . additive_expression PLUS multiplicative_expression
+    (60) additive_expression -> . additive_expression MINUS multiplicative_expression
+    (65) unary_expression -> . postfix_expression
+    (66) unary_expression -> . MINUS unary_expression
+    (61) multiplicative_expression -> . unary_expression
+    (62) multiplicative_expression -> . multiplicative_expression TIMES unary_expression
+    (63) multiplicative_expression -> . multiplicative_expression DIVIDE unary_expression
+    (64) multiplicative_expression -> . multiplicative_expression MOD unary_expression
+    (67) postfix_expression -> . primary_expression
+    (68) postfix_expression -> . postfix_expression LPAREN argument_expression_list RPAREN
+    (69) postfix_expression -> . postfix_expression LPAREN RPAREN
+    (70) postfix_expression -> . postfix_expression PLUSPLUS
+    (71) postfix_expression -> . postfix_expression MINUSMINUS
+    (72) primary_expression -> . ID
+    (73) primary_expression -> . constant
+    (74) primary_expression -> . SCONST
+    (75) primary_expression -> . LPAREN expression RPAREN
+    (78) constant -> . ICONST
+    (79) constant -> . FCONST
+
+    LBRACE          shift and go to state 18
+    IF              shift and go to state 47
+    WHILE           shift and go to state 28
+    FOR             shift and go to state 39
+    DO              shift and go to state 24
+    RETURN          shift and go to state 26
+    MINUS           shift and go to state 30
+    ID              shift and go to state 46
+    SCONST          shift and go to state 29
+    LPAREN          shift and go to state 44
+    ICONST          shift and go to state 42
+    FCONST          shift and go to state 33
+
+    expression_instruction         shift and go to state 37
+    constant                       shift and go to state 35
+    iteration_instruction          shift and go to state 32
+    unary_expression               shift and go to state 27
+    compound_instruction           shift and go to state 48
+    instruction                    shift and go to state 138
+    postfix_expression             shift and go to state 34
+    additive_expression            shift and go to state 31
+    primary_expression             shift and go to state 43
+    select_instruction             shift and go to state 50
+    jump_instruction               shift and go to state 36
+    expression                     shift and go to state 51
+    multiplicative_expression      shift and go to state 40
+
+state 138
+
+    (38) iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .
+
+    RBRACE          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    LBRACE          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    IF              reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    WHILE           reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    FOR             reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    DO              reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    RETURN          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    MINUS           reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    ID              reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    SCONST          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    LPAREN          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    ICONST          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    FCONST          reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+    ELSE            reduce using rule 38 (iteration_instruction -> FOR LPAREN expression SEMI condition SEMI expression RPAREN instruction .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for LSHIFT in state 93 resolved as shift
+WARNING: shift/reduce conflict for RSHIFT in state 93 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 130 resolved as shift
