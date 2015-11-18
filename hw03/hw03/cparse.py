@@ -97,7 +97,7 @@ def p_function_declarator_2(t):
     'function_declarator : ID LPAREN parameter_list RPAREN '
     t[0] = ('ID', t[1]), t[3]
 
-def p_function_declarator_4(t):
+def p_function_declarator_3(t):
     'function_declarator : ID LPAREN RPAREN '
     t[0] = ('ID', t[1]), None
 
@@ -162,12 +162,10 @@ def p_instruction_list_2(t):
 # selection-instruction
 
 def p_select_instruction_1(t):
-    # 'select_instruction : IF LPAREN expression RPAREN instruction'
     'select_instruction : IF LPAREN condition RPAREN instruction'
     t[0] = 'IF', t[3], t[5]
 
 def p_select_instruction_2(t):
-    # 'select_instruction : IF LPAREN expression RPAREN instruction ELSE instruction '
     'select_instruction : IF LPAREN condition RPAREN instruction ELSE instruction '
     t[0] = 'IF_ELSE', t[3], t[5], t[7]
 
@@ -286,7 +284,6 @@ def p_postfix_expression_1(t):
 def p_postfix_expression_2(t):
     'postfix_expression : postfix_expression LPAREN argument_expression_list RPAREN'
     t[0] = 'FUNC_CALL', t[1], t[3]
-    print 'Call Function',t[1][1]
 
 def p_postfix_expression_3(t):
     'postfix_expression : postfix_expression LPAREN RPAREN'
