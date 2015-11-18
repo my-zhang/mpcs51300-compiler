@@ -19,6 +19,7 @@ is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV'])
 is_iconst               = partial(is_sth, t=['ICONST'])
 is_id                   = partial(is_sth, t=['ID'])
 is_ret_instruction      = partial(is_sth, t=['RET'])
+is_expr_instruction     = partial(is_sth, t=['ASSIGN', 'FUNC_CALL'])
 is_assign_instruction   = partial(is_sth, t=['ASSIGN'])
 is_func_call            = partial(is_sth, t=['FUNC_CALL'])
 
@@ -63,15 +64,19 @@ def insert_sym(s):
         raise ValueError("%s conflict in block %s." %(s, table['name']))
     table['syms'][s] = len(table['syms'])
 
-def reg_of_sym(x):
+def addr_of_sym(x):
     idx = find_sym(x)
     return '-%d(%%rbp)' %(8 * (idx+1))
+
+def reg_of_arg(idx):
+    return 'r%d' %(idx + 8)
 
 def traverse_ast(root):
     if is_func_def(root):
         _, t, f, insts = root
         traverse_func_declarator(f)
         traverse_compound_instruction(insts)
+        leave_block()
 
 def traverse_compound_instruction(insts):
     _, lst = insts
@@ -91,14 +96,16 @@ def traverse_instruction(inst):
         _, v = inst[1]
         traverse_expression(v)
         add_ret_asm()
+
     elif is_assign_instruction(inst[1]):
         _, (_, x), v = inst[1]
         traverse_expression(v)
-        add_asm('popq %s' %(reg_of_sym(x)))
+        add_asm('popq %s' %(addr_of_sym(x)))
 
-    elif is_func_call(inst[1]):
-        _, f, args = inst[1]
+    elif is_expr_instruction(inst[1]):
+        traverse_expression(inst[1])
 
+    
 def traverse_var_declarator(declarator):
     if is_init_assign(declarator):
         # _, (_, x), v = declarator
@@ -109,11 +116,13 @@ def traverse_var_declarator(declarator):
         insert_sym(x)
 
 def traverse_func_declarator(declarator):
-    (_, fn), param_lst = declarator
+    (_, fn), params = declarator
+    enter_block(fn)
     add_func_dec_asm(fn)
-    if param_lst:
-        for t, d in param_list:
-            pass
+    if params:
+        for i, (t, (_, x)) in enumerate(params):
+            insert_sym(x)
+            add_asm('movq %%%s, %s' %(reg_of_arg(i), addr_of_sym(x)))
 
 def traverse_expression(expr):
     if is_iconst(expr):
@@ -122,7 +131,17 @@ def traverse_expression(expr):
 
     if is_id(expr):
         _, x = expr
-        add_asm('pushq %s' %(reg_of_sym(x)))
+        add_asm('pushq %s' %(addr_of_sym(x)))
+
+    elif is_func_call(expr):
+        _, (_, f), args = expr
+
+        for i, expr in enumerate(args):
+            traverse_expression(expr)
+            add_asm('popq %%%s' %(reg_of_arg(i)))
+
+        add_asm('call _%s' %(f))
+        add_asm('pushq %rax')
 
     elif is_additive_expr(expr):
         op, a, b = expr
