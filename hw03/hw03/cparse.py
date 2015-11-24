@@ -334,7 +334,7 @@ def p_constant_1(t):
 
 def p_error(t):
     if t:
-         print("Syntax error at token", t[0])
+         print("Syntax error at token", t)
          # Just discard the token and tell the parser it's okay.
          parser.errok()
     else:

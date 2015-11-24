@@ -1,4 +1,5 @@
 import sys
+from uuid import uuid4
 from functools import partial
 
 import ply.yacc as yacc
@@ -6,6 +7,9 @@ import cparse
 
 instructions = []
 st = []
+
+def gen_id():
+    return '_'.join(str(uuid4()).split('-'))
 
 def is_sth(root, t):
     return root[0] in t
@@ -21,6 +25,8 @@ is_id                   = partial(is_sth, t=['ID'])
 is_ret_instruction      = partial(is_sth, t=['RET'])
 is_expr_instruction     = partial(is_sth, t=['ASSIGN', 'FUNC_CALL'])
 is_assign_instruction   = partial(is_sth, t=['ASSIGN'])
+is_select_instruction   = partial(is_sth, t=['IF', 'IF_ELSE'])
+is_compound_instruction = partial(is_sth, t=['COMP_STATS'])
 is_func_call            = partial(is_sth, t=['FUNC_CALL'])
 
 def add_asm(s):
@@ -32,6 +38,11 @@ def add_op_asm(op):
     add_asm('cltd') 
     add_asm('%s %%rbx, %%rax' %(op)) 
     add_asm('pushq %rax') 
+
+def add_cmp_asm(op):
+    add_asm('popq %rbx') 
+    add_asm('popq %rax') 
+    add_asm('cmpq %rbx, %rax') 
 
 def add_func_dec_asm(fn):
     add_asm('.globl _%s' %(fn))
@@ -46,8 +57,13 @@ def add_ret_asm():
     add_asm('popq %rbp')
     add_asm('retq')
 
-def enter_block(blk_name):
-    st.append({'syms':{}, 'name': blk_name})
+def enter_block(blk_name, t='func'):
+    if t == 'func':
+        st.append({'syms': {}, 'name': blk_name, 'env': {'count': 0}})
+    elif t == 'local':
+        st.append({'syms': {}, 'name': blk_name, 'env': st[-1]['env']})
+    else:
+        raise ValueError('Unknown scope name %s.' %t)
 
 def leave_block():
     st.pop()
@@ -62,7 +78,8 @@ def insert_sym(s):
     table = st[-1]
     if s in table:
         raise ValueError("%s conflict in block %s." %(s, table['name']))
-    table['syms'][s] = len(table['syms'])
+    table['syms'][s] = table['env']['count']
+    table['env']['count'] += 1
 
 def addr_of_sym(x):
     idx = find_sym(x)
@@ -105,6 +122,11 @@ def traverse_instruction(inst):
     elif is_expr_instruction(inst[1]):
         traverse_expression(inst[1])
 
+    elif is_select_instruction(inst[1]):
+        taverse_select_instruction(inst[1])
+
+    elif is_compound_instruction(inst[1]):
+        traverse_compound_instruction(inst[1])
     
 def traverse_var_declarator(declarator):
     if is_init_assign(declarator):
@@ -154,6 +176,43 @@ def traverse_expression(expr):
         traverse_expression(a)
         traverse_expression(b)
         add_op_asm('imulq' if op == 'MUL' else 'idivq')
+
+def taverse_select_instruction(inst):
+    inst_id = 'BRANCH_%s' %(gen_id())
+
+    if inst[0] == 'IF':
+        _, pred, branch = inst
+        cmp_op = traverse_condition(pred)
+        add_asm('jge %s_END' %inst_id)
+
+        enter_block('%s_IF' %inst_id, 'local')
+        traverse_instruction(branch)
+        leave_block()
+
+        add_asm('%s_END:' %inst_id)
+    else:
+        _, pred, branch_a, branch_b = inst
+        cmp_op = traverse_condition(pred)
+        add_asm('jge %s_ELSE' %inst_id)
+
+        enter_block('%s_IF' %inst_id, 'local')
+        traverse_instruction(branch_a)
+        leave_block()
+        add_asm('jmp %s_END' %inst_id)
+
+        add_asm('%s_ELSE:' %inst_id)
+        enter_block('%s_ELSE' %inst_id, 'local')
+        traverse_instruction(branch_b)
+        leave_block()
+
+        add_asm('%s_END:' %inst_id)
+
+def traverse_condition(pred):
+    cmp_op, e1, e2 = pred
+    traverse_expression(e1)
+    traverse_expression(e2)
+    add_cmp_asm('cmpq')
+    return cmp_op
 
 if __name__ == '__main__':
     parser = cparse.parser
