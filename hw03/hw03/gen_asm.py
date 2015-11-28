@@ -20,6 +20,8 @@ is_instruction          = partial(is_sth, t=['STAT'])
 is_init_assign          = partial(is_sth, t=['INIT_ASSIGN'])
 is_additive_expr        = partial(is_sth, t=['ADD', 'SUB'])
 is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV'])
+is_neg_expr             = partial(is_sth, t=['NEG'])
+is_primary_expr         = partial(is_sth, t=['PRIMARY'])
 is_iconst               = partial(is_sth, t=['ICONST'])
 is_id                   = partial(is_sth, t=['ID'])
 is_ret_instruction      = partial(is_sth, t=['RET'])
@@ -56,6 +58,11 @@ def add_ret_asm():
     add_asm('addq $256, %rsp')
     add_asm('popq %rbp')
     add_asm('retq')
+
+def add_str_literal_asm():
+    add_asm('.section __TEXT,__cstring,cstring_literals')
+    add_asm('L_.str:')
+    add_asm('.asciz "%d\\n"')
 
 def enter_block(blk_name, t='func'):
     if t == 'func':
@@ -158,12 +165,22 @@ def traverse_expression(expr):
     elif is_func_call(expr):
         _, (_, f), args = expr
 
-        for i, expr in enumerate(args):
-            traverse_expression(expr)
-            add_asm('popq %%%s' %(reg_of_arg(i)))
+        if f != 'printd':
+            for i, expr in enumerate(args):
+                traverse_expression(expr)
+                add_asm('popq %%%s' %(reg_of_arg(i)))
 
-        add_asm('call _%s' %(f))
-        add_asm('pushq %rax')
+            add_asm('call _%s' %(f))
+            add_asm('pushq %rax')
+        else:
+            assert len(args) == 1
+            expr = args[0]
+            traverse_expression(expr) 
+            add_asm('popq %rax')
+            add_asm('leaq L_.str(%rip), %rdi')
+            add_asm('movl %eax, %esi')
+            add_asm('movb $0, %al') 
+            add_asm('callq _printf')
 
     elif is_additive_expr(expr):
         op, a, b = expr
@@ -176,6 +193,17 @@ def traverse_expression(expr):
         traverse_expression(a)
         traverse_expression(b)
         add_op_asm('imulq' if op == 'MUL' else 'idivq')
+
+    elif is_neg_expr(expr):
+        _, e = expr
+        traverse_expression(e)
+        add_asm('popq %rax')
+        add_asm('negq %rax')
+        add_asm('pushq %rax')
+
+    elif is_primary_expr(expr):
+        _, e = expr
+        traverse_expression(e)
 
 def taverse_select_instruction(inst):
     inst_id = 'BRANCH_%s' %(gen_id())
@@ -220,6 +248,7 @@ if __name__ == '__main__':
 
     enter_block('global')
     map(traverse_ast, asts)
+    add_str_literal_asm()
     leave_block()
 
     print '\n'.join(instructions)
