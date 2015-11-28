@@ -347,4 +347,5 @@ parser = yacc.yacc(method='LALR')
 if __name__ == '__main__':
     s = sys.stdin.read()
     s = remove_blank(remove_comment(s))
+    print s
     pp.pprint(parser.parse(s))

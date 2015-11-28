@@ -5,6 +5,9 @@ from functools import partial
 import ply.yacc as yacc
 import cparse
 
+from preprocess import remove_blank
+from preprocess import remove_comment
+
 instructions = []
 st = []
 
@@ -176,14 +179,7 @@ def traverse_expression(expr):
     elif is_func_call(expr):
         _, (_, f), args = expr
 
-        if f != 'printd':
-            for i, expr in enumerate(args):
-                traverse_expression(expr)
-                add_asm('popq %%%s' %(reg_of_arg(i)))
-
-            add_asm('call _%s' %(f))
-            add_asm('pushq %rax')
-        else:
+        if f == 'printd':
             assert len(args) == 1
             expr = args[0]
             traverse_expression(expr) 
@@ -192,6 +188,23 @@ def traverse_expression(expr):
             add_asm('movl %eax, %esi')
             add_asm('movb $0, %al') 
             add_asm('callq _printf')
+
+        elif f == 'sleep':
+            assert len(args) == 1
+            expr = args[0]
+            traverse_expression(expr) 
+            add_asm('popq %rdi') 
+            add_asm('movb $0, %al')
+            add_asm('callq _sleep')
+
+        else:
+            for i, expr in enumerate(args):
+                traverse_expression(expr)
+                add_asm('popq %%%s' %(reg_of_arg(i)))
+
+            add_asm('call _%s' %(f))
+            add_asm('pushq %rax')
+
 
     elif is_additive_expr(expr):
         op, a, b = expr
@@ -297,7 +310,8 @@ def traverse_condition(pred):
 
 if __name__ == '__main__':
     parser = cparse.parser
-    asts = parser.parse(sys.stdin.read())
+    s = remove_blank(remove_comment(sys.stdin.read()))
+    asts = parser.parse(s)
 
     enter_block('global')
     map(traverse_ast, asts)
