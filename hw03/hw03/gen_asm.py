@@ -22,7 +22,7 @@ is_declaration          = partial(is_sth, t=['VAR_DEC'])
 is_instruction          = partial(is_sth, t=['STAT'])
 is_init_assign          = partial(is_sth, t=['INIT_ASSIGN'])
 is_additive_expr        = partial(is_sth, t=['ADD', 'SUB'])
-is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV'])
+is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV', 'MOD'])
 is_neg_expr             = partial(is_sth, t=['NEG'])
 is_primary_expr         = partial(is_sth, t=['PRIMARY'])
 is_iconst               = partial(is_sth, t=['ICONST'])
@@ -217,6 +217,10 @@ def traverse_expression(expr):
         traverse_expression(a)
         traverse_expression(b)
         add_op_asm('imulq' if op == 'MUL' else 'idivq')
+        
+        if op == 'MOD':
+            add_asm('popq %rax')
+            add_asm('pushq %rdx')
 
     elif is_neg_expr(expr):
         _, e = expr
