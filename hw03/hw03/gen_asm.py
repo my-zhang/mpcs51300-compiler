@@ -206,12 +206,19 @@ def traverse_expression(expr):
         traverse_expression(e)
 
 def taverse_select_instruction(inst):
+    op_to_cmd = {'<':   'jge',
+                 '<=':  'jg',
+                 '>':   'jle',
+                 '>=':  'jl',
+                 '==':  'jne',
+                 '!=':  'je'}
+
     inst_id = 'BRANCH_%s' %(gen_id())
 
     if inst[0] == 'IF':
         _, pred, branch = inst
         cmp_op = traverse_condition(pred)
-        add_asm('jge %s_END' %inst_id)
+        add_asm('%s %s_END' %(op_to_cmd[cmp_op], inst_id))
 
         enter_block('%s_IF' %inst_id, 'local')
         traverse_instruction(branch)
@@ -221,7 +228,7 @@ def taverse_select_instruction(inst):
     else:
         _, pred, branch_a, branch_b = inst
         cmp_op = traverse_condition(pred)
-        add_asm('jge %s_ELSE' %inst_id)
+        add_asm('%s %s_ELSE' %(op_to_cmd[cmp_op], inst_id))
 
         enter_block('%s_IF' %inst_id, 'local')
         traverse_instruction(branch_a)
