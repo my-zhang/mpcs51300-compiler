@@ -29,7 +29,15 @@ is_expr_instruction     = partial(is_sth, t=['ASSIGN', 'FUNC_CALL'])
 is_assign_instruction   = partial(is_sth, t=['ASSIGN'])
 is_select_instruction   = partial(is_sth, t=['IF', 'IF_ELSE'])
 is_compound_instruction = partial(is_sth, t=['COMP_STATS'])
+is_iter_instruction     = partial(is_sth, t=['WHILE', 'FOR', 'DO_WHILE'])
 is_func_call            = partial(is_sth, t=['FUNC_CALL'])
+
+op_to_cmd = {'<':   'jge',
+             '<=':  'jg',
+             '>':   'jle',
+             '>=':  'jl',
+             '==':  'jne',
+             '!=':  'je'}
 
 def add_asm(s):
     instructions.append(s)
@@ -132,6 +140,9 @@ def traverse_instruction(inst):
     elif is_select_instruction(inst[1]):
         taverse_select_instruction(inst[1])
 
+    elif is_iter_instruction(inst[1]):
+        traverse_iter_instruction(inst[1])
+
     elif is_compound_instruction(inst[1]):
         traverse_compound_instruction(inst[1])
     
@@ -206,13 +217,6 @@ def traverse_expression(expr):
         traverse_expression(e)
 
 def taverse_select_instruction(inst):
-    op_to_cmd = {'<':   'jge',
-                 '<=':  'jg',
-                 '>':   'jle',
-                 '>=':  'jl',
-                 '==':  'jne',
-                 '!=':  'je'}
-
     inst_id = 'BRANCH_%s' %(gen_id())
 
     if inst[0] == 'IF':
@@ -241,6 +245,48 @@ def taverse_select_instruction(inst):
         leave_block()
 
         add_asm('%s_END:' %inst_id)
+
+def traverse_iter_instruction(inst):
+    inst_id = 'ITER_%s' %(gen_id())
+    enter_block(inst_id, 'local')
+
+    if inst[0] == 'WHILE':
+        add_asm('%s_START:' %inst_id)
+
+        _, pred, block = inst
+        cmp_op = traverse_condition(pred)
+        add_asm('%s %s_END' %(op_to_cmd[cmp_op], inst_id))
+
+        traverse_instruction(block)
+
+        add_asm('jmp %s_START' %inst_id)
+        add_asm('%s_END:' %inst_id)
+
+    elif inst[0] == 'FOR':
+        _, init, pred, incr, block = inst
+        traverse_instruction(('STAT', init))
+        add_asm('%s_START:' %inst_id)
+
+        cmp_op = traverse_condition(pred)
+        add_asm('%s %s_END' %(op_to_cmd[cmp_op], inst_id))
+
+        traverse_instruction(block)
+        traverse_instruction(('STAT', incr))
+
+        add_asm('jmp %s_START' %inst_id)
+        add_asm('%s_END:' %inst_id)
+
+    elif inst[0] == 'DO_WHILE':
+        _, block, pred = inst
+        add_asm('%s_START:' %inst_id)
+        traverse_instruction(block)
+
+        cmp_op = traverse_condition(pred)
+        add_asm('%s %s_END' %(op_to_cmd[cmp_op], inst_id))
+        add_asm('jmp %s_START' %inst_id)
+        add_asm('%s_END:' %inst_id)
+
+    leave_block()
 
 def traverse_condition(pred):
     cmp_op, e1, e2 = pred
