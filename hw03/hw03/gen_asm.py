@@ -50,6 +50,7 @@ def add_op_asm(op):
     add_asm('popq %rbx') 
     add_asm('popq %rax') 
     add_asm('cltd') 
+    add_asm('cqo') 
     add_asm('%s %%rbx, %%rax' %(op)) 
     add_asm('pushq %rax') 
 
