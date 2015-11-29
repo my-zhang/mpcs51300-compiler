@@ -21,6 +21,7 @@ is_func_def             = partial(is_sth, t=['FUNC_DEF'])
 is_declaration          = partial(is_sth, t=['VAR_DEC'])
 is_instruction          = partial(is_sth, t=['STAT'])
 is_init_assign          = partial(is_sth, t=['INIT_ASSIGN'])
+is_shift_expr           = partial(is_sth, t=['LSHIFT', 'RSHIFT'])
 is_additive_expr        = partial(is_sth, t=['ADD', 'SUB'])
 is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV', 'MOD'])
 is_neg_expr             = partial(is_sth, t=['NEG'])
@@ -232,6 +233,16 @@ def traverse_expression(expr):
     elif is_primary_expr(expr):
         _, e = expr
         traverse_expression(e)
+
+    elif is_shift_expr(expr):
+        op, a, b = expr
+        traverse_expression(a)
+        traverse_expression(b)
+        add_asm('popq %rcx')
+        add_asm('popq %rax')
+        add_asm('cltd') 
+        add_asm('%s %%cl, %%eax' %('shll' if op == 'LSHIFT' else 'shrl'))
+        add_asm('pushq %rax')
 
 def taverse_select_instruction(inst):
     inst_id = 'BRANCH_%s' %(gen_id())
