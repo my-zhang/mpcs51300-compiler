@@ -13,7 +13,9 @@ Xiang Li lix1@uchicago.edu
 Completeness
 ------------
 
-Have passed all the testcases in dir `tests/` which doesn't include *string* and *array*.
+Have passed all the testcases in dir `tests/` which doesn't include erato.c opti.c string2.c string3.c
+
+For string operation, we can do cantatination of strings, print out strings, and global decleration of strings.
 
 Run
 ---
@@ -71,4 +73,6 @@ Project Structure
     ├── rsh.c
     ├── sub.c
     └── toto.c
+    └── string.c
+
 ```

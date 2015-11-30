@@ -78,7 +78,6 @@ def add_ret_asm():
     add_asm('retq')
 
 def add_str_literal_asm():
-    # add_asm('.section __TEXT,__cstring,cstring_literals')
     add_asm('L_.str:')
     add_asm('.asciz "%d\\n"')
 
@@ -109,6 +108,7 @@ def if_call_cat():
         add_asm('movq    %rcx, %rdi')
         add_asm('callq   _malloc')
         add_asm('movl    $127, %edx')
+                                        ## kill: RDX<def> EDX<kill>
         add_asm('movq    $-1, %rcx')
         add_asm('movq    %rax, -24(%rbp)')
         add_asm('movq    -24(%rbp), %rdi')
@@ -148,8 +148,11 @@ def leave_block():
 
 def find_sym(s):
     for table in st[::-1]:
+        if(table['name'] == 'global'):
+            glo_num = table['env']['count']
+    for table in st[::-1]:
         if s in table['syms']:
-            return table['syms'][s]
+            return table['syms'][s], table['name'], glo_num
     raise ValueError("Can't find symbol %s." %(s))
 
 def insert_sym(s):
@@ -160,8 +163,11 @@ def insert_sym(s):
     table['env']['count'] += 1
 
 def addr_of_sym(x):
-    idx = find_sym(x)
-    return '-%d(%%rbp)' %(8 * (idx+1))
+    idx, env, glo_num = find_sym(x)
+    if(env == 'global'):
+        return '-%d(%%rbp)' %(8 * (idx+1))
+    else:
+        return '-%d(%%rbp)' %((8 * (idx+1))+ 8 * glo_num)
 
 def reg_of_arg(idx):
     return 'r%d' %(idx + 8)
@@ -172,6 +178,12 @@ def traverse_ast(root):
         traverse_func_declarator(f)
         traverse_compound_instruction(insts)
         leave_block()
+    if is_declaration(root):
+        if (len(root[2][0][0][0]) == 1):
+            declaration_list = []
+            declaration_list.append(root)
+            map(traverse_delaration, declaration_list)
+
 
 def traverse_compound_instruction(insts):
     _, lst = insts
