@@ -10,6 +10,10 @@ from preprocess import remove_comment
 
 instructions = []
 st = []
+num_string = 0
+call_cat = False
+exist_str = False
+string_ins = []
 
 def gen_id():
     return '_'.join(str(uuid4()).split('-'))
@@ -27,6 +31,7 @@ is_multiplicative_expr  = partial(is_sth, t=['MUL', 'DIV', 'MOD'])
 is_neg_expr             = partial(is_sth, t=['NEG'])
 is_primary_expr         = partial(is_sth, t=['PRIMARY'])
 is_iconst               = partial(is_sth, t=['ICONST'])
+is_sconst               = partial(is_sth, t=['SCONST'])
 is_id                   = partial(is_sth, t=['ID'])
 is_ret_instruction      = partial(is_sth, t=['RET'])
 is_expr_instruction     = partial(is_sth, t=['ASSIGN', 'FUNC_CALL'])
@@ -73,7 +78,7 @@ def add_ret_asm():
     add_asm('retq')
 
 def add_str_literal_asm():
-    add_asm('.section __TEXT,__cstring,cstring_literals')
+    # add_asm('.section __TEXT,__cstring,cstring_literals')
     add_asm('L_.str:')
     add_asm('.asciz "%d\\n"')
 
@@ -84,6 +89,55 @@ def enter_block(blk_name, t='func'):
         st.append({'syms': {}, 'name': blk_name, 'env': st[-1]['env']})
     else:
         raise ValueError('Unknown scope name %s.' %t)
+
+def if_exist_string():
+    global exist_str
+    if(exist_str):
+        for single_ins in string_ins:
+            add_asm(single_ins)
+def if_call_cat():
+    global call_cat
+    if(call_cat):
+        add_asm('_cat:')        
+        add_asm('pushq %rbp')
+        add_asm('movq    %rsp, %rbp')
+        add_asm('subq    $64, %rsp')
+        add_asm('movl    $128, %eax')
+        add_asm('movl    %eax, %ecx')
+        add_asm('movq    %rdi, -8(%rbp)')
+        add_asm('movq    %rsi, -16(%rbp)')
+        add_asm('movq    %rcx, %rdi')
+        add_asm('callq   _malloc')
+        add_asm('movl    $127, %edx')
+        add_asm('movq    %rax, -24(%rbp)')
+        add_asm('movq    -24(%rbp), %rdi')
+        add_asm('movq    -8(%rbp), %rsi')
+        add_asm('callq   _strncpy')
+        add_asm('movl    $127, %r8d')
+        add_asm('movl    %r8d, %ecx')
+        add_asm('movq    -24(%rbp), %rdi')
+        add_asm('movq    -16(%rbp), %rsi')
+        add_asm('movq    -24(%rbp), %rdx')
+        add_asm('movq    %rdi, -32(%rbp)')       
+        add_asm('movq    %rdx, %rdi')
+        add_asm('movq    %rax, -40(%rbp)')         
+        add_asm('movq    %rcx, -48(%rbp)')         
+        add_asm('movq    %rsi, -56(%rbp)')        
+        add_asm('callq   _strlen')
+        add_asm('movq    -48(%rbp), %rcx')         
+        add_asm('subq    %rax, %rcx')
+        add_asm('movq    -32(%rbp), %rdi')         
+        add_asm('movq    -56(%rbp), %rsi')         
+        add_asm('movq    %rcx, %rdx')
+        add_asm('callq   _strncat')
+        add_asm('movq    -24(%rbp), %rcx')
+        add_asm('movq    %rax, -64(%rbp)')        
+        add_asm('movq    %rcx, %rax')
+        add_asm('addq    $64, %rsp')
+        add_asm('popq    %rbp')
+        add_asm('retq')
+        add_asm('.globl  _main')
+
 
 def leave_block():
     st.pop()
@@ -170,9 +224,21 @@ def traverse_func_declarator(declarator):
             add_asm('movq %%%s, %s' %(reg_of_arg(i), addr_of_sym(x)))
 
 def traverse_expression(expr):
+    global num_string
+    global call_cat
+    global exist_str
     if is_iconst(expr):
         _, n = expr
         add_asm('pushq $%s' %(n))
+
+    if is_sconst(expr):
+        _, string = expr
+        num_string = num_string + 1
+        add_asm('leaq L_.str'+str(num_string)+'(%rip), %rcx')
+        add_asm('pushq %rcx')
+        string_ins.append(('L_.str'+str(num_string)+':'))
+        string_ins.append('.asciz '+str(string))
+        exist_str = True
 
     if is_id(expr):
         _, x = expr
@@ -198,6 +264,29 @@ def traverse_expression(expr):
             add_asm('popq %rdi') 
             add_asm('movb $0, %al')
             add_asm('callq _sleep')
+        
+        elif f == 'cat':
+            assert len(args) == 2
+            expr = args[0]
+            traverse_expression(expr)
+            add_asm('popq %rdi')
+            expr2 = args[1]
+            traverse_expression(expr2)
+            add_asm('popq %rsi')
+            # add_asm('movl $0, -4(%rbp)')
+            add_asm('callq _cat')
+            add_asm('pushq %rax')
+            call_cat = True
+        
+        elif f == 'printf':
+            assert len(args) == 1
+            expr = args[0]
+            traverse_expression(expr)
+            add_asm('popq %rdi')
+            add_asm('callq _printf')
+            # add_asm('xorl %ecx, %ecx')
+            # add_asm('movl %eax, -8(%rbp)')         
+            # add_asm('movl %ecx, %eax')
 
         else:
             for i, expr in enumerate(args):
@@ -331,6 +420,8 @@ if __name__ == '__main__':
 
     enter_block('global')
     map(traverse_ast, asts)
+    if_call_cat()
+    if_exist_string()
     add_str_literal_asm()
     leave_block()
 
