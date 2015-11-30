@@ -284,9 +284,6 @@ def traverse_expression(expr):
             traverse_expression(expr)
             add_asm('popq %rdi')
             add_asm('callq _printf')
-            # add_asm('xorl %ecx, %ecx')
-            # add_asm('movl %eax, -8(%rbp)')         
-            # add_asm('movl %ecx, %eax')
 
         else:
             for i, expr in enumerate(args):
