@@ -99,9 +99,9 @@ def if_call_cat():
     global call_cat
     if(call_cat):
         add_asm('_cat:')        
-        add_asm('pushq %rbp')
+        add_asm('pushq   %rbp')
         add_asm('movq    %rsp, %rbp')
-        add_asm('subq    $64, %rsp')
+        add_asm('subq    $80, %rsp')
         add_asm('movl    $128, %eax')
         add_asm('movl    %eax, %ecx')
         add_asm('movq    %rdi, -8(%rbp)')
@@ -109,31 +109,35 @@ def if_call_cat():
         add_asm('movq    %rcx, %rdi')
         add_asm('callq   _malloc')
         add_asm('movl    $127, %edx')
+        add_asm('movq    $-1, %rcx')
         add_asm('movq    %rax, -24(%rbp)')
         add_asm('movq    -24(%rbp), %rdi')
         add_asm('movq    -8(%rbp), %rsi')
-        add_asm('callq   _strncpy')
+        add_asm('callq   ___strncpy_chk')
+        add_asm('movq    $-1, %rcx')
         add_asm('movl    $127, %r8d')
-        add_asm('movl    %r8d, %ecx')
+        add_asm('movl    %r8d, %edx')
         add_asm('movq    -24(%rbp), %rdi')
         add_asm('movq    -16(%rbp), %rsi')
-        add_asm('movq    -24(%rbp), %rdx')
-        add_asm('movq    %rdi, -32(%rbp)')       
-        add_asm('movq    %rdx, %rdi')
-        add_asm('movq    %rax, -40(%rbp)')         
-        add_asm('movq    %rcx, -48(%rbp)')         
-        add_asm('movq    %rsi, -56(%rbp)')        
+        add_asm('movq    -24(%rbp), %r9')
+        add_asm('movq    %rdi, -32(%rbp)')        ## 8-byte Spill
+        add_asm('movq    %r9, %rdi')
+        add_asm('movq    %rax, -40(%rbp)')         ## 8-byte Spill
+        add_asm('movq    %rcx, -48(%rbp)')         ## 8-byte Spill
+        add_asm('movq    %rdx, -56(%rbp)')         ## 8-byte Spill
+        add_asm('movq    %rsi, -64(%rbp)')         ## 8-byte Spill
         add_asm('callq   _strlen')
-        add_asm('movq    -48(%rbp), %rcx')         
+        add_asm('movq    -56(%rbp), %rcx')         ## 8-byte Reload
         add_asm('subq    %rax, %rcx')
-        add_asm('movq    -32(%rbp), %rdi')         
-        add_asm('movq    -56(%rbp), %rsi')         
+        add_asm('movq    -32(%rbp), %rdi')         ## 8-byte Reload
+        add_asm('movq    -64(%rbp), %rsi')         ## 8-byte Reload
         add_asm('movq    %rcx, %rdx')
-        add_asm('callq   _strncat')
+        add_asm('movq    -48(%rbp), %rcx')         ## 8-byte Reload
+        add_asm('callq   ___strncat_chk')
         add_asm('movq    -24(%rbp), %rcx')
-        add_asm('movq    %rax, -64(%rbp)')        
+        add_asm('movq    %rax, -72(%rbp)')         ## 8-byte Spill
         add_asm('movq    %rcx, %rax')
-        add_asm('addq    $64, %rsp')
+        add_asm('addq    $80, %rsp')
         add_asm('popq    %rbp')
         add_asm('retq')
         add_asm('.globl  _main')
@@ -269,11 +273,10 @@ def traverse_expression(expr):
             assert len(args) == 2
             expr = args[0]
             traverse_expression(expr)
-            add_asm('popq %rdi')
             expr2 = args[1]
             traverse_expression(expr2)
             add_asm('popq %rsi')
-            # add_asm('movl $0, -4(%rbp)')
+            add_asm('popq %rdi')
             add_asm('callq _cat')
             add_asm('pushq %rax')
             call_cat = True
